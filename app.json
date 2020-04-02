@@ -6,7 +6,8 @@
     "pages/history/history",
     "pages/cashBook/cashBook",
     "pages/mainPage/mainPage",
-    "pages/diary/diary"
+    "pages/diary/diary",
+    "pages/bottomMenu/bottomMenu"
   ],
   "window": {
     "backgroundTextStyle": "light",
