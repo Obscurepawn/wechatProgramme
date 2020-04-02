@@ -7,14 +7,45 @@ Page({
   data: {
 
   },
-
+  next:function(){
+    wx.navigateTo({
+      url: '/pages/mainPage/mainPage',
+    })
+  },
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function (options) {
-
+  onLoad: function (res) {
+    var that = this;
+    wx.login({
+      success: res => {
+        wx.getSetting({
+          success: res => {
+            if (res.authSetting['scope.userInfo']) {
+              wx.getUserInfo({
+                /* 
+                  if successfully get userinfo
+                  jump to mainPage
+                */
+                success: res => {
+                  getApp().userInfo = res.userInfo
+                  console.log("I get userInfo")
+                  that.next();
+                }
+              })
+            }
+          }
+        })
+      }
+    })
   },
-
+  // 点击“授权登录” 获取用户信息并跳转页面
+  bindUserInfo(res) {
+    if(res.detail.userInfo == undefined)
+      return;
+    getApp().userInfo = res.userInfo
+    this.next();
+  },
   /**
    * 生命周期函数--监听页面初次渲染完成
    */

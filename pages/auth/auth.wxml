@@ -1,2 +1,8 @@
 <!--pages/auth/auth.wxml-->
-<text>pages/auth/auth.wxml</text>
+<view class="logoBox">
+	<image src="https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1857328491,3331274923&fm=26&gp=0.jpg" class="logo"></image>
+	<text class = "logoText">My Time Capsule</text>
+</view>
+<view class='buttonBox'>
+	<button open-type="getUserInfo" bindgetuserinfo="bindUserInfo" class="authButton">授权登录</button>
+</view>
