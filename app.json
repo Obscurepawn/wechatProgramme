@@ -5,7 +5,8 @@
     "pages/auth/auth",
     "pages/history/history",
     "pages/cashBook/cashBook",
-    "pages/mainPage/mainPage"
+    "pages/mainPage/mainPage",
+    "pages/diary/diary"
   ],
   "window": {
     "backgroundTextStyle": "light",
