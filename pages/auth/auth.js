@@ -16,7 +16,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (res) {
-    var that = this;
+    var that = this
     wx.login({
       success: res => {
         wx.getSetting({
@@ -30,7 +30,7 @@ Page({
                 success: res => {
                   getApp().userInfo = res.userInfo
                   console.log("I get userInfo")
-                  that.next();
+                  that.next()
                 }
               })
             }
@@ -42,9 +42,9 @@ Page({
   // 点击“授权登录” 获取用户信息并跳转页面
   bindUserInfo(res) {
     if(res.detail.userInfo == undefined)
-      return;
+      return
     getApp().userInfo = res.userInfo
-    this.next();
+    this.next()
   },
   /**
    * 生命周期函数--监听页面初次渲染完成

@@ -5,14 +5,21 @@ Page({
    * 页面的初始数据
    */
   data: {
-
+    today: "",
+    cashBookWindowHeight:"500rpx",
+    diaryWindowHeight:"500rpx",
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    // get now time in format 'xx年xx月'
+    var date = new Date();
+    var t = date.getFullYear() + '年' + date.getMonth() + '月'
+    this.setData({
+      today: t
+    })
   },
 
   /**

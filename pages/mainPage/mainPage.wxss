@@ -1,1 +1,29 @@
 /* pages/mainPage/mainPage.wxss */
+.mainContainer{
+  top:0%;
+  height: 100%;
+  margin-left:0%;
+  margin-right:0%;
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+}
+.calender{
+  height: 750rpx;
+  display: flex;
+  flex-direction: column;
+}
+.todayContainer{
+  height: 70rpx;
+  margin-left:0%;
+  margin-right:0%;
+  padding-left: 3%;
+}
+.todayText{
+  font-size: 42rpx;
+  font-weight: 700;
+}
+.simpleText{
+  font-size: 38rpx;
+}
+@import "/pages/bottomMenu/bottomMenu"

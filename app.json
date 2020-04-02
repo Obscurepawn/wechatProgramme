@@ -1,11 +1,11 @@
 {
   "pages": [
     "pages/auth/auth",
+    "pages/bottomMenu/bottomMenu",
+    "pages/mainPage/mainPage",
     "pages/history/history",
     "pages/cashBook/cashBook",
-    "pages/mainPage/mainPage",
-    "pages/diary/diary",
-    "pages/bottomMenu/bottomMenu"
+    "pages/diary/diary"
   ],
   "window": {
     "backgroundTextStyle": "light",

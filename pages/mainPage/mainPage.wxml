@@ -1,2 +1,21 @@
-<!--pages/mainPage/mainPage.wxml-->
-<text>pages/mainPage/mainPage.wxml</text>
+<!--主界面-->
+<scroll-view class='mainContainer' scroll-y='true'>
+	<view class='calender'>
+		<view class="todayContainer">
+			<text class="todayText">{{today}}</text>
+		</view>
+		<view>
+		<!--日历-->
+		</view>
+	</view>
+	<view class='simpleCashBook' style="height:{{cashBookWindowHeight}}">
+		<text class = 'simpleText'>今日账单</text>
+		<view wx:for='{{cashList}}'>
+		</view>
+	</view>
+	<view class='simpleDiary' style="height:{{diaryWindowHeight}}">
+		<text class = 'simpleText'>日记</text>
+		<view wx:for='{{diaryList}}'> </view>
+	</view>
+</scroll-view>
+<include src='/pages/bottomMenu/bottomMenu'/>

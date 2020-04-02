@@ -1,2 +1,9 @@
 <!--pages/bottomMenu/bottomMenu.wxml-->
-<text>pages/bottomMenu/bottomMenu.wxml</text>
+<view class="bottomMenuBox">
+	<image src='/images/bottomMenu/money.png' class="moneyButton" style="color:{{moneyColor}}"></image>
+	<image src='/images/bottomMenu/home.png' class="homeButton" style="color:{{homeColor}}"></image>
+	<image src='/images/bottomMenu/history.png' class="historyButton" style="color:{{historyColor}}">
+	</image>
+	<image src='/images/bottomMenu/diary.png' class="diaryButton" style="color:{{diaryColor}}">
+	</image>
+</view>

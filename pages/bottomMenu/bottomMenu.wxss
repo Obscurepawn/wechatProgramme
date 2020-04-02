@@ -1,1 +1,28 @@
 /* pages/bottomMenu/bottomMenu.wxss */
+.bottomMenuBox{
+  background-color: #e7e7e7;
+  display: flex;
+  flex-direction: row;
+  height: 100rpx;
+  width: 100%;
+  bottom: 0%;
+  position: fixed;
+  justify-content: space-evenly;
+  align-items: center;
+}
+.moneyButton{
+  height: 48rpx;
+  width: 48rpx;
+}
+.homeButton{
+  height: 48rpx;
+  width: 48rpx;
+}
+.historyButton{
+  height: 48rpx;
+  width: 48rpx;
+}
+.diaryButton{
+  height: 48rpx;
+  width: 48rpx;
+}
