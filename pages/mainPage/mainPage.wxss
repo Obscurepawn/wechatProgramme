@@ -1,29 +1,192 @@
 /* pages/mainPage/mainPage.wxss */
-.mainContainer{
-  top:0%;
-  height: 100%;
-  margin-left:0%;
-  margin-right:0%;
+.main-container {
+  top: 0%;
+  height: 90%;
+  margin-left: 0%;
+  margin-right: 0%;
   display: flex;
   flex-direction: column;
   position: absolute;
 }
-.calender{
+
+/* 日历 */
+.calender {
   height: 750rpx;
   display: flex;
   flex-direction: column;
+  border-bottom: 1px solid #e7e7e7;
+
 }
-.todayContainer{
+
+.today-container {
   height: 70rpx;
-  margin-left:0%;
-  margin-right:0%;
+  margin-left: 0%;
+  margin-right: 0%;
   padding-left: 3%;
 }
-.todayText{
+
+.today-text {
   font-size: 42rpx;
   font-weight: 700;
 }
-.simpleText{
+
+.calendar_title {
+  width: 70%;
+  margin: 10rpx auto;
+  justify-content: space-between;
+  font-size: 20pt;
+  color: #fff;
+}
+
+.calendar_title .icon image {
+  width: 60rpx;
+  height: 60rpx;
+  margin: 5rpx auto;
+}
+
+.calendar-box {
+  width: 100%;
+  margin-top: 20rpx;
+  height:400rpx;
+  background: #fff;
+  border-bottom-right-radius: 20rpx;
+  border-bottom-left-radius: 20rpx;
+  padding: 0 0 20rpx;
+  font-family: FZZhunYuan-M02S;
+}
+
+.header {
+  font-size: 0;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.header>view {
+  display: inline-block;
+  width: 14.285%;
+  color: #666;
+  font-size: 30rpx;
+  text-align: center;
+  border-bottom: 1px solid #D0D0D0;
+  padding: 20rpx 0;
+}
+
+.weekMark {
+  position: relative;
+  width: 80%;
+  margin: 0 auto;
+}
+
+.weekMark view {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  border-bottom: 2px solid #69f;
+}
+
+.date-box {
+  font-size: 0;
+  padding: 10rpx 0;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.date-box>view {
+  position: relative;
+  display: inline-block;
+  width: 14.285%;
+  color: #666;
+  text-align: center;
+  vertical-align: middle;
+  padding-top: 25rpx;
+  padding-bottom: 25rpx;
+}
+
+.date-head {
+  height: 60rpx;
+  line-height: 60rpx;
+  font-size: 12pt;
+}
+
+.nowDay .date-head {
+  width: 60rpx;
+  border-radius: 50%;
+  text-align: center;
+  color: #fff;
+  background-color: #ff9933;
+  margin: 0 auto;
+}
+
+/*time axis*/
+.axis_block{
+  position: relative;
+  background-color: #fff;
+  width: 90%;
+  left: 5%;
+  right: 5%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  padding-bottom: 50rpx;
+}
+.axis_line{
+  position: absolute;
+  left:8rpx;
+  height: 100%;
+  width: 1px;
+  top:0rpx;
+  background-color: grey;
+}
+.axis_circle {
+  width: 20rpx;
+  height: 20rpx;
+  border-radius: 5px;
+}
+.axis_content{
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  margin:0 auto;
+}
+.axis_time{
+  width: 20%;
+  color:grey;
+  font-size: 27rpx;
+  padding-left:5%;
+}
+.axis_event{
+  width: 20%;
+  color:#666;
+  font-size: 30rpx;
+  padding-left:5%;
+}
+.axis_money{
+  font-size: 20rpx;
+  width: 20%;
+  color:grey;
+  font-size: 35rpx;
+  padding-left:5%;
+}
+.axis_diary{
+  font-size: 30rpx;
+  padding-left: 5%;
+  color: #666;
+}
+/* 简略信息 */
+.simple-cashBook{
+  margin-top: 25rpx;
+  border-bottom: 2px solid #e7e7e7
+}
+.simple-text {
   font-size: 38rpx;
+  color:#191717;
+}
+.simple-diary{
+  margin-top: 25rpx;
+  border-bottom: 2px solid #e7e7e7;
 }
 @import "/pages/bottomMenu/bottomMenu"

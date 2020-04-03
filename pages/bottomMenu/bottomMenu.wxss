@@ -1,6 +1,6 @@
 /* pages/bottomMenu/bottomMenu.wxss */
 .bottomMenuBox{
-  background-color: #e7e7e7;
+  background-color: #fff;
   display: flex;
   flex-direction: row;
   height: 100rpx;

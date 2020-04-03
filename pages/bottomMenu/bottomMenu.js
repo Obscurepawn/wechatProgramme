@@ -5,12 +5,8 @@ Page({
    * 页面的初始数据
    */
   data: {
-    moneyColor:"#e7e7e7",
-    homeColor:"#e7e7e7",
-    historyColor:"#e7e7e7",
-    diaryColor:"#e7e7e7"
-  },
 
+  },
   /**
    * 生命周期函数--监听页面加载
    */

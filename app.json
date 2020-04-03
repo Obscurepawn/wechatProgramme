@@ -1,8 +1,8 @@
 {
   "pages": [
     "pages/auth/auth",
-    "pages/bottomMenu/bottomMenu",
     "pages/mainPage/mainPage",
+    "pages/bottomMenu/bottomMenu",
     "pages/history/history",
     "pages/cashBook/cashBook",
     "pages/diary/diary"
