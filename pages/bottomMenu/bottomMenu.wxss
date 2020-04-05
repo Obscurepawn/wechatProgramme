@@ -3,7 +3,7 @@
   background-color: #fff;
   display: flex;
   flex-direction: row;
-  height: 100rpx;
+  height: 70rpx;
   width: 100%;
   bottom: 0%;
   position: fixed;

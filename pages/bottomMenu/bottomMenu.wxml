@@ -1,9 +1,9 @@
 <!--pages/bottomMenu/bottomMenu.wxml-->
 <view class="bottomMenuBox">
-	<image src='/images/bottomMenu/money.png' class="moneyButton" style="color:{{moneyColor}}"></image>
-	<image src='/images/bottomMenu/home.png' class="homeButton" style="color:{{homeColor}}"></image>
-	<image src='/images/bottomMenu/history.png' class="historyButton" style="color:{{historyColor}}">
+	<image src='/images/bottomMenu/money.png' class="moneyButton" bindtap="gotoCashBook"></image>
+	<image src='/images/bottomMenu/home.png' class="homeButton" bindtap="gotoHomePage"></image>
+	<image src='/images/bottomMenu/history.png' class="historyButton" bindtap="gotoHistory">
 	</image>
-	<image src='/images/bottomMenu/diary.png' class="diaryButton" style="color:{{diaryColor}}">
+	<image src='/images/bottomMenu/diary.png' class="diaryButton" bindtap="gotoDiary">
 	</image>
 </view>
