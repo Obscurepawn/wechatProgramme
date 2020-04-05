@@ -35,3 +35,11 @@
   justify-content: center;
   align-items:center;
 }
+.normal-page {
+  height: 50rpx;
+  width: 50rpx;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items:center;
+}

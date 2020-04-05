@@ -1,15 +1,15 @@
 <!--pages/bottomMenu/bottomMenu.wxml-->
 <view class="bottomMenuBox">
-	<view class='{{inCashBook? "now-page": ""}}'>
+	<view class='{{inCashBook? "now-page": "nomal-page"}}'>
 	<image src='/images/bottomMenu/money.png' class="moneyButton" bindtap="gotoCashBook"/>
 	</view>
-	<view class='{{inHomePage? "now-page": ""}}'>
+	<view class='{{inHomePage? "now-page": "normal-page"}}'>
 	<image src='/images/bottomMenu/home.png' class="homeButton" bindtap="gotoHomePage"/>
 	</view>
-	<view class='{{inHistory? "now-page": ""}}'>
+	<view class='{{inHistory? "now-page": "normal-page"}}'>
 	<image src='/images/bottomMenu/history.png' class="historyButton" bindtap="gotoHistory"/>
 	</view>
-	<view class='{{inDiary? "now-page": ""}}'>
+	<view class='{{inDiary? "now-page": "normal-page"}}'>
 	<image src='/images/bottomMenu/diary.png' class="diaryButton" bindtap="gotoDiary"/>
 	</view>
 </view>
