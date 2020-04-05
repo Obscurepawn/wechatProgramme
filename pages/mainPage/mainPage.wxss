@@ -2,32 +2,40 @@
 .main-container {
   top: 0%;
   height: 90%;
-  margin-left: 0%;
-  margin-right: 0%;
+  width: 96%;
+  margin-left: 2%;
+  margin-right: 2%;
   display: flex;
   flex-direction: column;
   position: absolute;
 }
-
-/* 日历 */
-.calender {
-  height: 750rpx;
-  display: flex;
-  flex-direction: column;
-  border-bottom: 1px solid #e7e7e7;
-
-}
-
+/* today */
 .today-container {
-  height: 70rpx;
   margin-left: 0%;
   margin-right: 0%;
   padding-left: 3%;
 }
 
 .today-text {
-  font-size: 42rpx;
+  font-size: 45rpx;
   font-weight: 700;
+}
+.today-chicken-text{
+  font-size: 35rpx;
+  padding-left: 25rpx;
+  color: #666;
+}
+.today-chicken-soup{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+/* 日历 */
+.calender {
+  display: flex;
+  flex-direction: column;
+  border-bottom: 1px solid #e7e7e7;
 }
 
 .calendar_title {
@@ -47,7 +55,6 @@
 .calendar-box {
   width: 100%;
   margin-top: 20rpx;
-  height:400rpx;
   background: #fff;
   border-bottom-right-radius: 20rpx;
   border-bottom-left-radius: 20rpx;
@@ -118,7 +125,7 @@
   margin: 0 auto;
 }
 
-/*time axis*/
+/*时间轴样式*/
 .axis_block{
   position: relative;
   background-color: #fff;
@@ -176,7 +183,7 @@
   padding-left: 5%;
   color: #666;
 }
-/* 简略信息 */
+/* 简略账单信息 */
 .simple-cashBook{
   margin-top: 25rpx;
   border-bottom: 2px solid #e7e7e7
@@ -185,8 +192,37 @@
   font-size: 38rpx;
   color:#191717;
 }
+/* 折叠窗口控制栏 */
+.simple-panel{
+  width: 96%;
+  margin-left: 2%;
+  margin-right: 2%;
+  display: inline-flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+.simple-cashBook-arrow{
+  width: 25rpx;
+  height: 25rpx;
+}
 .simple-diary{
   margin-top: 25rpx;
-  border-bottom: 2px solid #e7e7e7;
+}
+.simple-diary-add{
+  width:30rpx;
+  height:30rpx;
+  padding-left: 40rpx;
+}
+.simple-color-egg{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.simple-color-egg>text {
+  font-size: 35rpx;
+  color:goldenrod;
+  background-color: wheat;
 }
 @import "/pages/bottomMenu/bottomMenu"

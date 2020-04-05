@@ -1,9 +1,15 @@
 <!--pages/bottomMenu/bottomMenu.wxml-->
 <view class="bottomMenuBox">
-	<image src='/images/bottomMenu/money.png' class="moneyButton" bindtap="gotoCashBook"></image>
-	<image src='/images/bottomMenu/home.png' class="homeButton" bindtap="gotoHomePage"></image>
-	<image src='/images/bottomMenu/history.png' class="historyButton" bindtap="gotoHistory">
-	</image>
-	<image src='/images/bottomMenu/diary.png' class="diaryButton" bindtap="gotoDiary">
-	</image>
+	<view class='{{inCashBook? "now-page": ""}}'>
+	<image src='/images/bottomMenu/money.png' class="moneyButton" bindtap="gotoCashBook"/>
+	</view>
+	<view class='{{inHomePage? "now-page": ""}}'>
+	<image src='/images/bottomMenu/home.png' class="homeButton" bindtap="gotoHomePage"/>
+	</view>
+	<view class='{{inHistory? "now-page": ""}}'>
+	<image src='/images/bottomMenu/history.png' class="historyButton" bindtap="gotoHistory"/>
+	</view>
+	<view class='{{inDiary? "now-page": ""}}'>
+	<image src='/images/bottomMenu/diary.png' class="diaryButton" bindtap="gotoDiary"/>
+	</view>
 </view>

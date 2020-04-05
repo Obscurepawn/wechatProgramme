@@ -1,6 +1,6 @@
 /* pages/bottomMenu/bottomMenu.wxss */
 .bottomMenuBox{
-  background-color: #fff;
+  background-color: #f7f7f7;
   display: flex;
   flex-direction: row;
   height: 70rpx;
@@ -11,18 +11,27 @@
   align-items: center;
 }
 .moneyButton{
-  height: 48rpx;
-  width: 48rpx;
+  height: 38rpx;
+  width: 38rpx;
 }
 .homeButton{
-  height: 48rpx;
-  width: 48rpx;
+  height: 38rpx;
+  width: 38rpx;
 }
 .historyButton{
-  height: 48rpx;
-  width: 48rpx;
+  height: 38rpx;
+  width: 38rpx;
 }
 .diaryButton{
-  height: 48rpx;
-  width: 48rpx;
+  height: 38rpx;
+  width: 38rpx;
+}
+.now-page {
+  background-color: steelblue;
+  height: 50rpx;
+  width: 50rpx;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items:center;
 }

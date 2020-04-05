@@ -5,8 +5,13 @@ Page({
    * 页面的初始数据
    */
   data: {
+    //page style
+    inHomePage: true, // this is for bottom menu
     cashWindowHeight: "500rpx",
     diaryWindowHeight: "500rpx",
+    // whether to show diary of cashBook
+    showCashBook: true,
+    showDiary: true,
     // for calender
     today: "",
     year: 0,
@@ -23,8 +28,8 @@ Page({
   },
   axisGetRandomColor() {
     var color = [
-      "red", "blue", "green", "purple", "coral", "yellowgreen", 
-      "blueviolet","aqua","slateblue","royalblue","gold","brown","chocolate"
+      "red", "blue", "green", "purple", "coral", "yellowgreen",
+      "blueviolet", "aqua", "slateblue", "royalblue", "gold", "brown", "chocolate"
     ];
     var getRandNum = (min, max) => {
       var r = Math.floor(Math.random() * (max - min + 1) + min);
@@ -32,9 +37,11 @@ Page({
     }
     return color[getRandNum(0, color.length - 1)];
   },
-
+  /**
+   * 初始化时间
+   */
   dateInit: function (setYear, setMonth) {
-    //全部时间的月份都是按0~11基准，显示月份才+1
+    //全部时间的月份都是按0~11基准,显示月份才+1
     let dateArr = []; //需要遍历的日历数组数据
     let arrLen = 0; //dateArr的数组长度
     let now = setYear ? new Date(setYear, setMonth) : new Date();
@@ -85,20 +92,40 @@ Page({
       })
     }
   },
-  gotoCashBook: function(){
+  /** 
+   * 页面跳转相关函数
+   */
+  gotoCashBook: function () {
     wx.navigateTo({
       url: '/pages/cashBook/cashBook',
     })
   },
-  gotoHistory: function(){
+  gotoHistory: function () {
     wx.navigateTo({
       url: '/pages/history/history',
     })
   },
-  gotoDiary: function(){
+  gotoDiary: function () {
     wx.navigateTo({
       url: '/pages/diary/diary',
     })
+  },
+  /** 
+   * 改变页面状态，收缩展开
+   */
+  cashBookViewControl: function () {
+    let nextCond = !this.data.showCashBook;
+    this.setData({
+      showCashBook: nextCond,
+      cashWindowHeight: nextCond?"500rpx":"80rpx"
+    });
+  },
+  diaryViewControl: function () {
+    let nextCond = !this.data.showDiary;
+    this.setData({
+      showDiary: nextCond,
+      diaryWindowHeight:nextCond?"500rpx":"80rpx"
+    });
   },
   /**
    * 生命周期函数--监听页面加载
@@ -136,14 +163,85 @@ Page({
         "time": "14:17",
         "event": "吃小汉堡",
         "money": "$38"
+      },
+      {
+        "color": "",
+        "time": "14:17",
+        "event": "吃小汉堡",
+        "money": "$38"
+      },
+      {
+        "color": "",
+        "time": "14:17",
+        "event": "吃小汉堡",
+        "money": "$38"
+      },
+      {
+        "color": "",
+        "time": "14:17",
+        "event": "吃小汉堡",
+        "money": "$38"
+      },
+      {
+        "color": "",
+        "time": "14:17",
+        "event": "吃小汉堡",
+        "money": "$38"
+      },
+      {
+        "color": "",
+        "time": "14:17",
+        "event": "吃小汉堡",
+        "money": "$38"
+      },
+      {
+        "color": "",
+        "time": "14:17",
+        "event": "吃小汉堡",
+        "money": "$38"
+      },
+      {
+        "color": "",
+        "time": "14:17",
+        "event": "吃小汉堡",
+        "money": "$38"
+      },
+      {
+        "color": "",
+        "time": "14:17",
+        "event": "吃小汉堡",
+        "money": "$38"
+      },
+      {
+        "color": "",
+        "time": "14:17",
+        "event": "吃小汉堡",
+        "money": "$38"
+      },
+      {
+        "color": "",
+        "time": "14:17",
+        "event": "吃小汉堡",
+        "money": "$38"
+      },
+      {
+        "color": "",
+        "time": "14:17",
+        "event": "吃小汉堡",
+        "money": "$38"
+      },
+      {
+        "color": "",
+        "time": "14:17",
+        "event": "吃小汉堡",
+        "money": "$38"
       }
     ]
     for (var i = 0; i < cashBookListTest.length; i++) {
       cashBookListTest[i].color = that.axisGetRandomColor()
     }
     // create diaryList test group
-    var diaryListTest = [
-      {
+    var diaryListTest = [{
         "color": "blue",
         "time": "0:12",
         "title": "《hello,world》"
@@ -151,20 +249,76 @@ Page({
       {
         "color": "pink",
         "time": "9:12",
-        "title": "《今天捡了100元，美滋滋》"
+        "title": "《今天捡了100元,美滋滋》"
       },
       {
         "color": "yellowgreen",
         "time": "23:59",
         "title": "《小程序真好玩orz》"
+      }, {
+        "color": "yellowgreen",
+        "time": "23:59",
+        "title": "《小程序真好玩orz》"
+      }, {
+        "color": "yellowgreen",
+        "time": "23:59",
+        "title": "《小程序真好玩orz》"
+      }, {
+        "color": "yellowgreen",
+        "time": "23:59",
+        "title": "《小程序真好玩orz》"
+      }, {
+        "color": "yellowgreen",
+        "time": "23:59",
+        "title": "《小程序真好玩orz》"
+      }, {
+        "color": "yellowgreen",
+        "time": "23:59",
+        "title": "《小程序真好玩orz》"
+      }, {
+        "color": "yellowgreen",
+        "time": "23:59",
+        "title": "《小程序真好玩orz》"
+      }, {
+        "color": "yellowgreen",
+        "time": "23:59",
+        "title": "《小程序真好玩orz》"
+      }, {
+        "color": "yellowgreen",
+        "time": "23:59",
+        "title": "《小程序真好玩orz》"
+      }, {
+        "color": "yellowgreen",
+        "time": "23:59",
+        "title": "《小程序真好玩orz》"
+      }, {
+        "color": "yellowgreen",
+        "time": "23:59",
+        "title": "《小程序真好玩orz》"
+      }, {
+        "color": "yellowgreen",
+        "time": "23:59",
+        "title": "《小程序真好玩orz》"
+      }, {
+        "color": "yellowgreen",
+        "time": "23:59",
+        "title": "《小程序真好玩orz》"
+      }, {
+        "color": "yellowgreen",
+        "time": "23:59",
+        "title": "《小程序真好玩orz》"
+      }, {
+        "color": "yellowgreen",
+        "time": "23:59",
+        "title": "《小程序真好玩orz》"
       }
     ]
-    for(var i = 0;i < diaryListTest.length; i++) {
+    for (var i = 0; i < diaryListTest.length; i++) {
       diaryListTest[i].color = that.axisGetRandomColor()
     }
     this.setData({
       cashList: cashBookListTest,
-      diaryList:diaryListTest
+      diaryList: diaryListTest
     })
   },
 
