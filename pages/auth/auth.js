@@ -29,7 +29,6 @@ Page({
                 */
                 success: res => {
                   getApp().userInfo = res.userInfo
-                  console.log("I get userInfo")
                   that.next()
                 }
               })
@@ -43,7 +42,7 @@ Page({
   bindUserInfo(res) {
     if(res.detail.userInfo == undefined)
       return
-    getApp().userInfo = res.userInfo
+    getApp().globalDat.userInfo = res.userInfo
     this.next()
   },
   /**

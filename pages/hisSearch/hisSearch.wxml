@@ -3,7 +3,7 @@
     <view class="pick">{{date}}</view>
   </picker>
   <view class="input-btn" bindtap="search">
-    <image mode="aspectFit" src="../../image/search.png"></image>
+    <image mode="aspectFit" src="/images/hisSearch/search.png"></image>
   </view>
 </view>
 

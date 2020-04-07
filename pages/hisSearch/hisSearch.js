@@ -1,4 +1,4 @@
-var util = require("../../util/util.js");
+var util = require("../../utils/util.js");
 Page({
   data: {
     date: util.dateFormat(Date.now()),
