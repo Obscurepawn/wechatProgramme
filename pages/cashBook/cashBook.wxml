@@ -1,2 +1,16 @@
 <!--pages/cashBook/cashBook.wxml-->
-<text>pages/cashBook/cashBook.wxml</text>
+<!-- <text>pages/cashBook/cashBook.wxml</text> -->
+<view class="page" hover-class="none" hover-stop-propagation="false">
+    <view class="topBar" hover-class="none" hover-stop-propagation="false" style="font-size: medium;">
+        <text style="float: left;height: 25px;">2020年4月</text> <text style="float: right;height: 25px;"
+            space="ensp">支出:30 收入:0(RMB)</text>
+    </view>
+    <view class="page__bd">
+        <mp-searchbar bindselectresult="selectResult" search="{{search}}" style="width:100%"></mp-searchbar>
+    </view>
+    <text style="float: left;height: 25px;">3月30日 今</text><text style="float: right;height: 25px;" space="ensp">支出:33
+        收入:0</text>
+    <view class="bill" hover-class="none" hover-stop-propagation="false">
+    </view>
+    <tabbar style="position:fixed;bottom:0;width:100%;left:0;right:0;" list="{{list}}" bindchange="tabchange"> </tabbar>
+</view>

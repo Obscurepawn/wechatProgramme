@@ -1,1 +1,16 @@
 /* pages/cashBook/cashBook.wxss */
+
+.topBar{
+    background-color: antiquewhite;
+    width: auto;
+    height: 25px;
+    text-decoration-color: black;
+}
+
+.bill{
+    margin-left: 20px;
+    margin-right: 20px;
+    width: auto;
+    height: 50px;
+}
+
