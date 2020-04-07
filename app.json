@@ -1,7 +1,9 @@
 {
   "pages": [
-    "pages/index/index",
-    "pages/logs/logs"
+        "pages/hisSearch/hisSearch",
+        "pages/history/history",
+        "pages/diary/diary"
+  
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -12,3 +14,5 @@
   "style": "v2",
   "sitemapLocation": "sitemap.json"
 }
+
+

@@ -1,0 +1,41 @@
+  <view class="date">
+    <view class="dateDetail">
+      <view>3/30</view>
+    </view>
+    <view class="dateYearWeek">
+      <view class="dateYear">
+        <view>2020</view>
+      </view>
+      <view class="dateWeek">
+        <view>Monday</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="line"></view>
+
+  <view class="swiper"> 
+    <swiper autoplay interval="1000" circular style='width:90%'>
+      <swiper-item mode='widthFix' wx:for="{{list}}" wx:key="{{key}}" wx:if="{{item.img.length>0}}"> 
+          <image src="{{item.img}}"></image>
+      </swiper-item>
+    </swiper>
+  </view>
+  
+<block wx:if="list.length > 0">
+  <view class="resultPanel" wx:for="{{list}}" wx:key="{{key}}">
+  <!--左边子容器-->
+    <view class="leftIcon">
+      <view class="topLine" wx:if="{{item.day!=0}}"></view>
+      <view class="dot" wx:if="{{item.day!=0}}" style='background:{{item.month}}'></view>
+      <view class="dotFirst" wx:if="{{item.day==0}}"></view>
+      <view class="bottomLine"></view>
+    </view>
+  <!--右边子容器-->
+    <view class="resultDesc">
+      <view class="resultDate">{{item.year}}</view>
+      <view class="resultTitle">{{item.title}}</view>
+    </view>
+
+  </view>
+</block>
