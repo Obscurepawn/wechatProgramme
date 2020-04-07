@@ -22,7 +22,7 @@
 }
 .today-chicken-text{
   font-size: 35rpx;
-  padding-left: 25rpx;
+  text-indent:35rpx;
   color: #666;
 }
 .today-chicken-soup{
