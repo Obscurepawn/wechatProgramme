@@ -31,6 +31,7 @@ Page({
       date: query.date,
       list: getApp().list
     });
+    console.log("list:",this.data.list)
     for(var i = 0;i < this.data.list.length;i++){
         this.data.list[i].day=i;
         this.data.list[i].month=this.data.color[i%4].color;
