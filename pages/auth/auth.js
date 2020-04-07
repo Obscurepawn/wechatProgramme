@@ -42,7 +42,7 @@ Page({
   bindUserInfo(res) {
     if(res.detail.userInfo == undefined)
       return
-    getApp().globalDat.userInfo = res.userInfo
+    getApp().globalData.userInfo = res.userInfo
     this.next()
   },
   /**
