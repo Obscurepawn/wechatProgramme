@@ -1,0 +1,9 @@
+<view class="input-panel">
+  <picker class="input-control" mode="date" value="{{date}}" start="{{start}}" end="{{end}}" bindchange="onChangeDate">
+    <view class="pick">{{date}}</view>
+  </picker>
+  <view class="input-btn" bindtap="search">
+    <image mode="aspectFit" src="../../image/search.png"></image>
+  </view>
+</view>
+

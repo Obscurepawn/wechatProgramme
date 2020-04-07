@@ -5,6 +5,7 @@
     "pages/bottomMenu/bottomMenu",
     "pages/history/history",
     "pages/cashBook/cashBook",
+    "pages/hisSearch/hisSearch",
     "pages/diary/diary"
   ],
   "window": {

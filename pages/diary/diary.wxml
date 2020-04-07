@@ -1,2 +1,57 @@
-<!--pages/diary/diary.wxml-->
-<text>pages/diary/diary.wxml</text>
+<view class="container">
+<!--上面的四个字体、颜色等图标-->
+  <view class="operation-list flex">
+    <view class="item" bindtap="showFont">
+      <image src="../../image/字体.png"></image>
+    </view>
+    <view class="item" bindtap="showColor">
+      <image src="../../image/颜色.png"></image>
+    </view>
+    <view class="item" bindtap="insPic">
+      <image src="../../image/图库.png"></image>
+    </view>
+    <view class="item" bindtap="showSave">
+      <image src="../../image/确认.png"></image>
+    </view>
+  </view>
+<!--日记的文字输入框-->
+  <view class="inputBox">
+    <form bindsubmit="save">
+      <textarea fixed value="{{textareaValue}}" placeholder="记录美好的一天" style="font-size:{{fontSize}};color:{{fontColor}};height:200px">
+      </textarea>
+      <image src="{{imgFilePaths}}" style="width: 250px; height: 250px;" mode="aspectFit"></image>
+    </form>
+  </view>
+<!--字体选择-->
+  <view class="font-box" style="{{fontBoxStyle}}">
+    <view>
+      <view class="font">
+        <text>字号</text>
+        <view class="size">
+          <block wx:for="{{sizes}}" wx:key="item">
+            <view class="size-item">
+              <view class="fontSize" id="{{item.index}}" bindtap="changeFont" data-fontsize="{{item.size}}" style="font-size:{{item.size}}">Aa</view>
+            </view>
+          </block>
+        </view>
+      </view>
+    </view>
+  </view>
+
+<!--颜色选择框-->
+  <view class="color-box" style="{{colorBoxStyle}}">
+    <view>
+      <view class="font2">
+        <text>颜色</text>
+        <view class="color">
+          <block wx:for="{{color}}" wx:key="item">
+            <view class="color-item">
+              <view class="fontColor" id="{{index}}" bindtap="changeColor" data-color="{{item.color}}" style="background-color: {{item.color}};"></view>
+            </view>
+          </block>
+        </view>
+      </view>
+    </view>
+  </view>
+
+</view>

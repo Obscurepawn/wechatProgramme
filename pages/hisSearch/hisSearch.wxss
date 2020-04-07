@@ -1,0 +1,30 @@
+.input-panel {
+  width: 670rpx;
+  height: 100rpx;
+  margin: 30rpx 40rpx;
+  border-bottom: 2px solid #ccc;
+}
+.input-panel > .input-control {
+  width: 570rpx;
+  height: 100rpx;
+  float: left;
+}
+.input-panel > .input-btn {
+  width: 100rpx;
+  height: 100rpx;
+  float: right;
+}
+.input-btn > image {
+  width: 100rpx;
+  height: 100rpx;
+  box-sizing: border-box;
+  padding: 20rpx;
+}
+
+.pick {
+  width: 570rpx;
+  height: 100rpx;
+  line-height: 100rpx;
+  padding: 0 20rpx;
+  color: #2c2c2c;
+}
