@@ -4,8 +4,28 @@ Page({
    * 页面的初始数据
    */
   data: {
+    list: [{
+      "text": "统计图",
+      "iconPath": "/images/cashBook/line-chart.jpg",
+      "selectedIconPath": "/images/cashBook/line-chart.jpg",
+      dot: 'true'
+    },
+    {
+      "text": "AA分账",
+      "iconPath": "/images/cashBook/calculator.jpg",
+      "selectedIconPath": "/images/cashBook/calculator.jpg",
+      dot: 'true'
+    }
+    ]
     
   },
+
+  tabChange(e) {
+    console.log('tab change', e)
+  },
+
+
+
 
   /**
    * 生命周期函数--监听页面加载
