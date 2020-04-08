@@ -28,6 +28,8 @@
     border: 1px;
     /* background-color: #f10b2e; */
     border-radius: 100rpx;
+    position: relative;
+    bottom: 7px;
 }
 
 .moneyIO {
@@ -40,6 +42,15 @@
     height: auto;
 }
 
-.billfont {
-    font-size: smaller;
+.usefulness {
+    font-size: 13px;
+    position: relative;
+    bottom: 20px;
+    margin-top: -20px;
+}
+
+.comment {
+    font-size: 13px;
+    position: relative;
+    right: 26px;
 }

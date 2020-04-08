@@ -17,8 +17,9 @@
 		<view class="singleBill">
 			<text>\n</text>
 			<image src="{{icon_path.car}}" class="icon"></image>
-			<text space="nbsp">       出行</text>
-			<text style="float:right;color:red;">-15</text>
+			<text space="nbsp" class="usefulness">       出行</text>
+			<text class="comment">备注:</text>
+			<text style="float:right;color:red;" class="billfont">-15</text>
 		</view>
 		<view class="line"></view>
 		<view class="line"></view>

@@ -25,6 +25,7 @@ Page({
        "house":"/images/cashBook/house.png",
        "play":"/images/cashBook/play.png"
      }
+     
     
   },
 
