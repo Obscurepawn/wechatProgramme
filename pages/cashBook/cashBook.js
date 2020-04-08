@@ -16,7 +16,15 @@ Page({
       "selectedIconPath": "/images/cashBook/calculator.jpg",
       dot: 'true'
     }
-    ]
+    ],
+     icon_path:{
+       "car":"/images/cashBook/car.png",
+       "financial":"/images/cashBook/financial.png",
+       "book":"/images/cashBook/book.png",
+       "food":"/images/cashBook/food.png",
+       "house":"/images/cashBook/house.png",
+       "play":"/images/cashBook/play.png"
+     }
     
   },
 

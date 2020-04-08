@@ -1,17 +1,27 @@
 <!-- pages/cashBook/cashBook.wxml -->
 <!-- <text>pages/cashBook/cashBook.wxml</text> -->
 <view class="page" hover-class="none" hover-stop-propagation="false">
-				<view class="topBar" hover-class="none" hover-stop-propagation="false" style="font-size: medium;">
-								<text style="float: left;height: 25px;">2020年4月</text>
-								<text style="float: right;height: 25px" space="ensp">支出:30 收入:0(RMB)</text>
-				</view>
-				<view class="page__bd">
-								<mp-searchbar bindselectresult="selectResult" search="{{search}}" style="width:100%"></mp-searchbar>
-				</view>
-				<text style="float: left;height: 25px;">3月30日 今</text>
-				<text style="float: right;height: 25px;" space="ensp">支出:33 收入:0</text>
-				<view class="bill" hover-class="none" hover-stop-propagation="false">
-								<view></view>
-				</view>
-				<mp-tabbar style="position:fixed;bottom:0;width:100%;left:0;right:0;" list="{{list}}" bindchange="tabChange"></mp-tabbar>
+	<view class="topBar" hover-class="none" hover-stop-propagation="false" style="font-size: medium;">
+		<text style="float: left;height: 25px;">2020年4月</text>
+		<text style="float: right;height: 25px" space="ensp">支出:30 收入:0(RMB)</text>
+	</view>
+	<view class="page__bd">
+		<mp-searchbar bindselectresult="selectResult" search="{{search}}" style="width:100%"></mp-searchbar>
+	</view>
+	<view class="bill" hover-class="none" hover-stop-propagation="false">
+		<view class="moneyIO">
+			<text style="float: left;height: auto;">3月30日 今</text>
+			<text style="float: right;height: auto;" space="">支出:33 收入:0</text>
+			<text>\n</text>
+		</view>
+		<view class="singleBill">
+			<text>\n</text>
+			<image src="{{icon_path.car}}" class="icon"></image>
+			<text space="nbsp">       出行</text>
+			<text style="float:right;color:red;">-15</text>
+		</view>
+		<view class="line"></view>
+		<view class="line"></view>
+	</view>
+	<mp-tabbar style="position:fixed;bottom:0;width:100%;left:0;right:0;" list="{{list}}" bindchange="tabChange"></mp-tabbar>
 </view>

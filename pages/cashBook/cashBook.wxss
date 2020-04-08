@@ -1,16 +1,45 @@
 /* pages/cashBook/cashBook.wxss */
 
-.topBar{
-    background-color: antiquewhite;
+.topBar {
+    background-color: rgb(172, 244, 236);
     width: auto;
     height: 25px;
     text-decoration-color: black;
 }
 
-.bill{
+.bill {
     margin-left: 20px;
     margin-right: 20px;
     width: auto;
-    height: 50px;
+    height: auto;
 }
 
+.line {
+    margin: 0 auto;
+    width: 100%;
+    height: 2rpx;
+    background-color: rgb(165, 159, 159);
+    align-items: center;
+}
+
+.icon {
+    width: 60rpx;
+    height: 60rpx;
+    border: 1px;
+    /* background-color: #f10b2e; */
+    border-radius: 100rpx;
+}
+
+.moneyIO {
+    width: 100%;
+    height: auto;
+}
+
+.singleBill {
+    width: 100%;
+    height: auto;
+}
+
+.billfont {
+    font-size: smaller;
+}
