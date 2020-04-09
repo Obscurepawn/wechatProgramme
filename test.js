@@ -1,5 +1,5 @@
 var myDate = new Date();
-month = myDate.getMonth();
+month = myDate.getFullYear();
 function test(month){
     return month+1;
 }
