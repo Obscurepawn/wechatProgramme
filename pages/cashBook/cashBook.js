@@ -26,15 +26,17 @@ Page({
       "house": "/images/cashBook/house.png",
       "play": "/images/cashBook/play.png"
     },
-    year:new Date().getFullYear(),
-    month:new Date().getMonth()+1,
-    date:new Date().getDate()+1,
-    time:util.formatTime(new Date()).substring(0,10),
+    year: new Date().getFullYear(),
+    month: new Date().getMonth() + 1,
+    date: new Date().getDate() + 1,
+    time: util.formatTime(new Date()).substring(0, 10),
     expenditrue: 0,
     income: 0,
     groups: [
       {
         date: "2020-4-9",
+        income: undefined,
+        expenditrue: undefined,
         detail: [{
           usefulness: "car",
           amount: -15,
@@ -57,6 +59,8 @@ Page({
       },
       {
         date: "2020-4-7",
+        income: undefined,
+        expenditrue: undefined,
         detail: [
           {
             usefulness: "house",
@@ -98,27 +102,50 @@ Page({
   getNowMonth: function () {
     var myDate = new Date();
     var month = myDate.getMonth();
-    var nowMonth = month+1;
+    var nowMonth = month + 1;
     return nowMonth;
   },
 
   getSum: function (val) {
     var Expenditrue = 0;
     var Income = 0;
+    var expendTemp = 0;
+    var incomeTemp = 0;
+    var str1 = ".expenditrue";
+    var str2 = ".income";
+    var str3 = "groups"
+    var index = 0;
+    var path1 = "";
+    var path2 = "";
+    var basePath = "";
     val.forEach(element => {
+      element.detail.forEach(bill => {
+        if (bill.amount < 0) {
+          expendTemp += bill.amount;
+        } else if (bill.amount > 0) {
+          incomeTemp += bill.amount;
+        }
+      });
+      basePath = str3 + '[' + index + ']' + '.';
+      path1 =  basePath + str1;
+      path2 = basePath + str2;
+      this.setData({
+        [path1]: expendTemp,
+        [path2]: incomeTemp
+      })
       if (this.getMonth(element.date) == this.getNowMonth()) {
-        element.detail.forEach(bill => {
-          if (bill.amount < 0) {
-            Expenditrue += bill.amount;
-          }else if(bill.amount>0){
-            Income += bill.amount;
-          }
-        });
+        Expenditrue += expendTemp;
+        Income += incomeTemp;
       }
-    });
+      expendTemp = 0;
+      incomeTemp = 0;
+      index += 1
+    })
+    console.log(Expenditrue);
+    console.log(Income);
     this.setData({
       expenditrue: Expenditrue,
-      income:Income
+      income: Income
     })
   },
 
@@ -127,7 +154,6 @@ Page({
    */
   onLoad: function (options) {
     this.getSum(this.data.groups)
-    console.log(this.data.expenditrue,this.data.income)
   },
 
   /**
