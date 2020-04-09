@@ -39,6 +39,6 @@ var iconPath = function (val) {
 }
 
 module.exports.month = month;
-module.exports.day = date;
+module.exports.date = date;
 module.exports.color = color;
 module.exports.iconPath = iconPath;
