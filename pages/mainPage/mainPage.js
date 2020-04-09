@@ -102,7 +102,7 @@ Page({
   },
   gotoHistory: function () {
     wx.navigateTo({
-      url: '/pages/history/history',
+      url: '/pages/hisSearch/hisSearch',
     })
   },
   gotoDiary: function () {
