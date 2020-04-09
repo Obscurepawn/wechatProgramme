@@ -1,0 +1,45 @@
+var month = function (val) {
+  if (val.length < 8 || val.length > 10) {
+    return "Unknown";
+  }
+  if (val[4] == "-") {
+    if (val[6] == "-") {
+      return val[5];
+    } else if (val[7] == "-") {
+      return val.substring(5, 7);
+    }
+  }
+  return "Unknown";
+}
+
+var day = function (val) {
+  if (val.length < 8 || val.length > 10) {
+    return "Unknown";
+  }
+  if (val[val.length - 2] == '-') {
+    return val[val.length - 1];
+  }
+  else if (val[val.length - 2] != '-') {
+    return val[val.length - 2];
+  }
+}
+
+var color = function (val) {
+  if (val < 0) {
+    return "red";
+  } else if (val > 0) {
+    return "green";
+  } else if (val==0){
+    return "black";
+  }
+}
+
+var iconPath = function (val) {
+  return "icon_path."+val.usefulness; 
+}
+
+
+module.exports.month = month;
+module.exports.day = day;
+module.exports.color = color;
+module.exports.iconPath = iconPath;
