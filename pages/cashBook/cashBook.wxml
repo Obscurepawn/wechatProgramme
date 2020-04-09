@@ -11,7 +11,9 @@
 	</view>
 	<view class="bill" wx:for="{{groups}}" wx:for-item="item" wx:for-index="index" wx:key="*this">
 		<view class="moneyIO">
-			<text style="float: left;height: auto;">{{tools.month(item.date)}}月{{tools.day(item.date)}}日 </text>
+			<text style="float: left;height: auto;">{{tools.month(item.date)}}月{{tools.day(item.date)}}日 <text wx:if="{{}}">
+				
+			</text></text>
 			<text style="float: right;height: auto;" space="">支出:-- 收入:--</text>
 			<text>\n</text>
 		</view>

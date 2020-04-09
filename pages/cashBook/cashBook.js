@@ -26,12 +26,13 @@ Page({
       "house": "/images/cashBook/house.png",
       "play": "/images/cashBook/play.png"
     },
+    month:
     time:util.formatTime(new Date()).substring(0,10),
     expenditrue: 0,
     income: 0,
     groups: [
       {
-        date: "2020-4-8",
+        date: "2020-4-9",
         detail: [{
           usefulness: "car",
           amount: -15,
