@@ -26,12 +26,15 @@ Page({
       "house": "/images/cashBook/house.png",
       "play": "/images/cashBook/play.png"
     },
-    time:util.formatTime(new Date()),
+    year:new Date().getFullYear(),
+    month:new Date().getMonth()+1,
+    date:new Date().getDate()+1,
+    time:util.formatTime(new Date()).substring(0,10),
     expenditrue: 0,
     income: 0,
     groups: [
       {
-        date: "2020-4-8",
+        date: "2020-4-9",
         detail: [{
           usefulness: "car",
           amount: -15,
@@ -94,16 +97,16 @@ Page({
 
   getNowMonth: function () {
     var myDate = new Date();
-    month = myDate.getMonth();
-    nowMonth = month+1;
+    var month = myDate.getMonth();
+    var nowMonth = month+1;
     return nowMonth;
   },
 
-  getSum: function () {
+  getSum: function (val) {
     var Expenditrue = 0;
     var Income = 0;
-    this.groups.forEach(element => {
-      if (this.getMonth(element.date) == this.getNowMonth) {
+    val.forEach(element => {
+      if (this.getMonth(element.date) == this.getNowMonth()) {
         element.detail.forEach(bill => {
           if (bill.amount < 0) {
             Expenditrue += bill.amount;
@@ -123,12 +126,8 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    this.getSum()
-    var time = util.formatTime(new Date());
-    // 再通过setData更改Page()里面的data，动态更新页面的数据
-    this.setData({
-      time: time
-    });
+    this.getSum(this.data.groups)
+    console.log(this.data.expenditrue,this.data.income)
   },
 
   /**
