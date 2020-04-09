@@ -38,7 +38,6 @@ var iconPath = function (val) {
   return "/images/cashBook/"+val.usefulness+".png"; 
 }
 
-
 module.exports.month = month;
 module.exports.day = day;
 module.exports.color = color;

@@ -1,4 +1,5 @@
 // pages/cashBook/cashBook.js
+var util = require('../../utils/util.js');
 Page({
   /**
    * 页面的初始数据
@@ -25,8 +26,7 @@ Page({
       "house": "/images/cashBook/house.png",
       "play": "/images/cashBook/play.png"
     },
-    month:undefined,
-    year:undefined,
+    time:util.formatTime(new Date()),
     expenditrue: 0,
     income: 0,
     groups: [
@@ -96,9 +96,6 @@ Page({
     var myDate = new Date();
     month = myDate.getMonth();
     nowMonth = month+1;
-    this.setData({
-      month:nowMonth
-    })
     return nowMonth;
   },
 
@@ -127,6 +124,11 @@ Page({
    */
   onLoad: function (options) {
     this.getSum()
+    var time = util.formatTime(new Date());
+    // 再通过setData更改Page()里面的data，动态更新页面的数据
+    this.setData({
+      time: time
+    });
   },
 
   /**
