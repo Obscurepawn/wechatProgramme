@@ -26,7 +26,7 @@ Page({
       "house": "/images/cashBook/house.png",
       "play": "/images/cashBook/play.png"
     },
-    time:util.formatTime(new Date()),
+    time:util.formatTime(new Date()).substring(0,10),
     expenditrue: 0,
     income: 0,
     groups: [
