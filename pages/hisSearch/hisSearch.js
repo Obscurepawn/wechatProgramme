@@ -49,12 +49,13 @@ Page({
         showapi_sign: "255dd762226b4cb689d9b5c244374e81",
       },
       success: function (res) {
+        console.log("success");
         var body = res.data.showapi_res_body;
         if (body.ret_code === 0) {
           body.list.forEach(evt => {
             evt.date = util.compareDate(evt);
           });
-          getApp().list = body.list;
+          getApp().globalData.list = body.list;
           wx.hideLoading();
           wx.navigateTo({
             url: '../history/history?date=' + date,
