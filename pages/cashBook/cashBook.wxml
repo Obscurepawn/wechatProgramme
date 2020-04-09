@@ -12,12 +12,12 @@
 	<view class="bill" wx:for="{{groups}}" wx:for-item="item" wx:for-index="index" wx:key="*this">
 		<view class="moneyIO">
 			<text style="float: left;height: auto;">{{tools.month(item.date)}}月{{tools.day(item.date)}}日 今</text>
-			<text style="float: right;height: auto;" space="">支出:33 收入:0</text>
+			<text style="float: right;height: auto;" space="">支出:-- 收入:--</text>
 			<text>\n</text>
 		</view>
 		<view class="singleBill" wx:for="{{item.detail}}" wx:for-index="Index" wx:for-item="Item" wx:key="*this">
 			<text>\n</text>
-			<image src="{{tools.iconPath(Item.usefulness)}}" class="icon"></image>
+			<image src="{{tools.iconPath(Item)}}" class="icon"></image>
 			<text space="nbsp" class="usefulness">       {{Item.usefulness}}</text>
 			<text class="comment">备注:{{Item.comments}}</text>
 			<text style="float:right;color:{{tools.color(Item.amount)}};" class="billfont">{{Item.amount}}</text>
