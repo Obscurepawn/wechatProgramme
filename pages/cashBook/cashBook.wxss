@@ -45,7 +45,7 @@
 .usefulness {
     font-size: 13px;
     position: relative;
-    bottom: 20px;
+    bottom: 26px;
     margin-top: -20px;
     font-weight: 600;
     color: rgb(93, 204, 240);
@@ -53,6 +53,6 @@
 
 .comment {
     font-size: 13px;
-    position: relative;
-    right: 26px;
+    position: absolute;
+    left: 72px;
 }

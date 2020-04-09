@@ -12,7 +12,7 @@ var month = function (val) {
   return "Unknown";
 }
 
-var day = function (val) {
+var date = function (val) {
   if (val.length < 8 || val.length > 10) {
     return "Unknown";
   }
@@ -39,6 +39,6 @@ var iconPath = function (val) {
 }
 
 module.exports.month = month;
-module.exports.day = day;
+module.exports.day = date;
 module.exports.color = color;
 module.exports.iconPath = iconPath;

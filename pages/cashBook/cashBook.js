@@ -26,7 +26,9 @@ Page({
       "house": "/images/cashBook/house.png",
       "play": "/images/cashBook/play.png"
     },
-    month:
+    year:new Date().getFullYear(),
+    month:new Date().getMonth()+1,
+    date:new Date().getDate()+1,
     time:util.formatTime(new Date()).substring(0,10),
     expenditrue: 0,
     income: 0,
@@ -125,11 +127,6 @@ Page({
    */
   onLoad: function (options) {
     this.getSum(this.data.groups)
-    // var time = util.formatTime(new Date());
-    // // 再通过setData更改Page()里面的data，动态更新页面的数据
-    // this.setData({
-    //   time: time
-    // });
     console.log(this.data.expenditrue,this.data.income)
   },
 
