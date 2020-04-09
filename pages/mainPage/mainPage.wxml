@@ -36,8 +36,13 @@
 		<scroll-view wx:if='{{showCashBook}}' scroll-y='true' style="height:90%;position=relative">
 			<block wx:for="{{cashList}}" wx:key="*this">
 				<view class='axis_block'>
-					<view class="axis_circle" style="background-color:{{item.color}}"></view>
-					<view class='axis_line'></view>
+					<view class='axis_icon'>
+						<view class='axis_line'  wx:if="{{index!=0}}" />
+						<view class='axis_line_pad' wx:else/>
+						<view class="axis_circle" style="background-color:{{item.color}}" />
+						<view class='axis_line' wx:if="{{index != cashList.length - 1}}"/>
+						<view class='axis_line_pad' wx:else/>
+					</view>
 					<view class="axis_content">
 						<view class="axis_time">{{item.time}}</view>
 						<view class="axis_event">{{item.event}}</view>
@@ -58,8 +63,13 @@
 		<scroll-view wx:if='{{showDiary}}' scroll-y="true" style="height:90%">
 			<block wx:for="{{diaryList}}" wx:key="title">
 				<view class='axis_block'>
-					<view class="axis_circle" style="background-color:{{item.color}}"></view>
-					<view class='axis_line'></view>
+					<view class='axis_icon'>
+						<view class='axis_line'  wx:if="{{index!=0}}" />
+						<view class='axis_line_pad' wx:else/>
+						<view class="axis_circle" style="background-color:{{item.color}}" />
+						<view class='axis_line' wx:if="{{index != diaryList.length - 1}}"/>
+						<view class='axis_line_pad' wx:else/>
+					</view>
 					<view class="axis_content">
 						<view class="axis_time">{{item.time}}</view>
 						<view class="axis_diary">{{item.title}}</view>

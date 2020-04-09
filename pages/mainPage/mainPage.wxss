@@ -132,24 +132,35 @@
   width: 90%;
   left: 5%;
   right: 5%;
+  height:120rpx;
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
   padding-bottom: 50rpx;
 }
-.axis_line{
-  position: absolute;
-  left:8rpx;
-  height: 100%;
-  width: 1px;
-  top:0rpx;
-  background-color: grey;
+.axis_icon{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
-.axis_circle {
-  width: 20rpx;
+.axis_line{
+  left:8rpx;
+  height: 80rpx;
+  width: 1px;
+  background-color: grey;
+  margin-left: 5rpx;
+}
+.axis_line_pad{
+  left:8rpx;
+  height: 80rpx;
+  background-color: grey;
+  margin-left: 5rpx;
+}.axis_circle {
+  width: 22rpx;
   height: 20rpx;
-  border-radius: 5px;
+  border-radius: 50rpx;
 }
 .axis_content{
   width: 100%;
