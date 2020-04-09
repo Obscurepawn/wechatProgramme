@@ -2,16 +2,16 @@
 <!--上面的四个字体、颜色等图标-->
   <view class="operation-list flex">
     <view class="item" bindtap="showFont">
-      <image src="/images/diary/字体.png"></image>
+      <image src="/images/diary/font.png"></image>
     </view>
     <view class="item" bindtap="showColor">
-      <image src="/images/diary/颜色.png"></image>
+      <image src="/images/diary/color.png"></image>
     </view>
     <view class="item" bindtap="insPic">
-      <image src="/images/diary/图库.png"></image>
+      <image src="/images/diary/picture.png"></image>
     </view>
     <view class="item" bindtap="showSave">
-      <image src="/images/diary/确认.png"></image>
+      <image src="/images/diary/sure.png"></image>
     </view>
   </view>
 <!--日记的文字输入框-->
