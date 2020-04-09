@@ -81,7 +81,79 @@ Page({
             payer: "Me",
           },
         ]
-      }
+      },
+      {
+        date: "2020-4-2",
+        income: undefined,
+        expenditrue: undefined,
+        detail: [{
+          usefulness: "car",
+          amount: -77,
+          comments: "打的士",
+          payer: "Me"
+        },
+        {
+          usefulness: "food",
+          amount: -89,
+          comments: "吃午饭",
+          payer: "Me"
+        },
+        {
+          usefulness: "other",
+          amount: 280,
+          comments: "路上捡到钱",
+          payer: "Me",
+        },
+        ]
+      },
+      {
+        date: "2020-3-31",
+        income: undefined,
+        expenditrue: undefined,
+        detail: [{
+          usefulness: "financial",
+          amount: -2000,
+          comments: "买指数基金进行投资",
+          payer: "Me"
+        },
+        {
+          usefulness: "food",
+          amount: -2700,
+          comments: "吃晚饭",
+          payer: "Boss"
+        },
+        {
+          usefulness: "play",
+          amount: -180,
+          comments: "游戏充值",
+          payer: "Me",
+        },
+        ]
+      },
+      {
+        date: "2020-3-9",
+        income: undefined,
+        expenditrue: undefined,
+        detail: [{
+          usefulness: "book",
+          amount: -80,
+          comments: "买计算机组成原理教材",
+          payer: "Me"
+        },
+        {
+          usefulness: "other",
+          amount: -78,
+          comments: "去洗脚城按摩",
+          payer: "Kris"
+        },
+        {
+          usefulness: "other",
+          amount: -300,
+          comments: "给女朋友买礼物",
+          payer: "Me",
+        },
+        ]
+      },
     ],
   },
 
