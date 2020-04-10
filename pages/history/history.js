@@ -74,6 +74,7 @@ Page({
       date: query.date,
       list: getApp().globalData.list
     });
+    
     for(var i = 0;i < this.data.list.length;i++){
         this.data.list[i].day=i;
         this.data.list[i].month=this.data.color[i%4].color;
