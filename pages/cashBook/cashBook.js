@@ -26,15 +26,17 @@ Page({
       "house": "/images/cashBook/house.png",
       "play": "/images/cashBook/play.png"
     },
-    year:new Date().getFullYear(),
-    month:new Date().getMonth()+1,
-    date:new Date().getDate()+1,
-    time:util.formatTime(new Date()).substring(0,10),
+    year: new Date().getFullYear(),
+    month: new Date().getMonth() + 1,
+    date: new Date().getDate() + 1,
+    time: util.formatTime(new Date()).substring(0, 10),
     expenditrue: 0,
     income: 0,
     groups: [
       {
         date: "2020-4-9",
+        income: undefined,
+        expenditrue: undefined,
         detail: [{
           usefulness: "car",
           amount: -15,
@@ -57,6 +59,8 @@ Page({
       },
       {
         date: "2020-4-7",
+        income: undefined,
+        expenditrue: undefined,
         detail: [
           {
             usefulness: "house",
@@ -77,7 +81,79 @@ Page({
             payer: "Me",
           },
         ]
-      }
+      },
+      {
+        date: "2020-4-2",
+        income: undefined,
+        expenditrue: undefined,
+        detail: [{
+          usefulness: "car",
+          amount: -77,
+          comments: "打的士",
+          payer: "Me"
+        },
+        {
+          usefulness: "food",
+          amount: -89,
+          comments: "吃午饭",
+          payer: "Me"
+        },
+        {
+          usefulness: "other",
+          amount: 280,
+          comments: "路上捡到钱",
+          payer: "Me",
+        },
+        ]
+      },
+      {
+        date: "2020-3-31",
+        income: undefined,
+        expenditrue: undefined,
+        detail: [{
+          usefulness: "financial",
+          amount: -2000,
+          comments: "买指数基金进行投资",
+          payer: "Me"
+        },
+        {
+          usefulness: "food",
+          amount: -2700,
+          comments: "吃晚饭",
+          payer: "Boss"
+        },
+        {
+          usefulness: "play",
+          amount: -180,
+          comments: "游戏充值",
+          payer: "Me",
+        },
+        ]
+      },
+      {
+        date: "2020-3-9",
+        income: undefined,
+        expenditrue: undefined,
+        detail: [{
+          usefulness: "book",
+          amount: -80,
+          comments: "买计算机组成原理教材",
+          payer: "Me"
+        },
+        {
+          usefulness: "other",
+          amount: -78,
+          comments: "去洗脚城按摩",
+          payer: "Kris"
+        },
+        {
+          usefulness: "other",
+          amount: -300,
+          comments: "给女朋友买礼物",
+          payer: "Me",
+        },
+        ]
+      },
     ],
   },
 
@@ -98,27 +174,50 @@ Page({
   getNowMonth: function () {
     var myDate = new Date();
     var month = myDate.getMonth();
-    var nowMonth = month+1;
+    var nowMonth = month + 1;
     return nowMonth;
   },
 
   getSum: function (val) {
     var Expenditrue = 0;
     var Income = 0;
+    var expendTemp = 0;
+    var incomeTemp = 0;
+    var str1 = ".expenditrue";
+    var str2 = ".income";
+    var str3 = "groups"
+    var index = 0;
+    var path1 = "";
+    var path2 = "";
+    var basePath = "";
     val.forEach(element => {
+      element.detail.forEach(bill => {
+        if (bill.amount < 0) {
+          expendTemp += bill.amount;
+        } else if (bill.amount > 0) {
+          incomeTemp += bill.amount;
+        }
+      });
+      basePath = str3 + '[' + index + ']' + '.';
+      path1 =  basePath + str1;
+      path2 = basePath + str2;
+      this.setData({
+        [path1]: expendTemp,
+        [path2]: incomeTemp
+      })
       if (this.getMonth(element.date) == this.getNowMonth()) {
-        element.detail.forEach(bill => {
-          if (bill.amount < 0) {
-            Expenditrue += bill.amount;
-          }else if(bill.amount>0){
-            Income += bill.amount;
-          }
-        });
+        Expenditrue += expendTemp;
+        Income += incomeTemp;
       }
-    });
+      expendTemp = 0;
+      incomeTemp = 0;
+      index += 1
+    })
+    console.log(Expenditrue);
+    console.log(Income);
     this.setData({
       expenditrue: Expenditrue,
-      income:Income
+      income: Income
     })
   },
 
@@ -127,7 +226,6 @@ Page({
    */
   onLoad: function (options) {
     this.getSum(this.data.groups)
-    console.log(this.data.expenditrue,this.data.income)
   },
 
   /**
