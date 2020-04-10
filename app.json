@@ -1,7 +1,8 @@
 {
   "pages": [
-    "pages/hisSearch/hisSearch",
     "pages/auth/auth",
+    "pages/hisSearch/hisSearch",
+    
     
     
     "pages/mainPage/mainPage",
