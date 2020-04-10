@@ -1,16 +1,12 @@
 {
   "pages": [
     "pages/auth/auth",
+    "pages/diary/diary",
     "pages/hisSearch/hisSearch",
-    
-    
-    
     "pages/mainPage/mainPage",
     "pages/bottomMenu/bottomMenu",
     "pages/history/history",
-    "pages/cashBook/cashBook",
-    
-    "pages/diary/diary"
+    "pages/cashBook/cashBook" 
   ],
   "window": {
     "backgroundTextStyle": "light",
