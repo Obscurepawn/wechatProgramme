@@ -1,10 +1,10 @@
   <view class="date">
     <view class="dateDetail">
-      <view>3/30</view>
+      <view>{{month}}/{{day}}</view>
     </view>
     <view class="dateYearWeek">
       <view class="dateYear">
-        <view>2020</view>
+        <view>{{year}}</view>
       </view>
       <view class="dateWeek">
         <view>Monday</view>
@@ -21,7 +21,15 @@
       </swiper-item>
     </swiper>
   </view>
-  
+
+<view class="holContainer">
+  <view class="leftText">节日</view>
+  <view class="holiday">
+    <view class="dot"></view>
+    <view class="content">无</view>
+  </view>
+</view>
+
 <block wx:if="list.length > 0">
   <view class="resultPanel" wx:for="{{list}}" wx:key="{{key}}">
   <!--左边子容器-->
