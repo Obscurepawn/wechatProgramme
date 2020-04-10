@@ -62,8 +62,8 @@ Page({
     console.log(event);
     wx.setStorage({
       key: 'diaryContent',
-      data: this.data.textareaValue,
-    })
+      data: event.detail.value
+    });
   },
 
 /*点击Tt按钮后触发该事件 */
@@ -127,6 +127,9 @@ Page({
    */
   onLoad: function (query) {
     let that = this;
+    let buf = wx.getStorageSync('diaryContent') || [];
+    this.setData({textareaValue: buf});
+    console.log(buf);
     wx.setNavigationBarTitle({
       title: 'Diary',
     });
@@ -184,6 +187,15 @@ Page({
 
   /*点击确定按钮 先将标题存储，然后输入框消失 */
   touchAddNew:function(event){
+    // 检查标题是否为空
+    if(event.detail.value == undefined) {
+      wx.showToast({
+        title: '标题不能为空',
+        icon: 'none',
+        duration:500
+      })
+      return;
+    }
     wx.setStorage({
       key: "diaryTitle",
       data: this.data.dairyTitle
