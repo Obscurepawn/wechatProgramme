@@ -11,23 +11,6 @@ Page({
     var logs = wx.getStorageSync("logs") || [];
     this.setData({logs: logs.slice(0, 10)});
   },
-  onShow: function () {
-    var node = this;
-    wx.request({
-      url: 'http://119.23.53.56:8080/mysql?appId=101',
-      success: function (res) {
-        if(res.data.res_code === 0) {
-          var list = [];
-          res.data.body.forEach(function (n) {
-            list.push(n.name);
-          });
-          node.setData({
-            words: list
-          })
-        }
-      }
-    });
-  },
   onChangeDate: function (event) {
     var value = event.detail.value;
     this.setData({date:value});
@@ -54,7 +37,7 @@ Page({
           body.list.forEach(evt => {
             evt.date = util.compareDate(evt);
           });
-          getApp().list = body.list;
+          getApp().globalData.list = body.list;
           wx.hideLoading();
           wx.navigateTo({
             url: '../history/history?date=' + date,
