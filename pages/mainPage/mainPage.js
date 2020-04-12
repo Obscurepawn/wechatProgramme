@@ -38,20 +38,25 @@ Page({
       url: 'http://106.15.198.136:8001/v1/diary',
       method: "GET",
       success: res => {
-        console.log("read db");
         // 将服务器返回数据存入到diarylist中
         for (let i = 0; i < res.data.data.length; i++) {
           var newDiary = {};
+          newDiary["did"] = res.data.data[i].Did;
           newDiary["color"] = that.axisGetRandomColor();
-          newDiary["title"] = res.data.data[i].Content;
+          newDiary["title"] = res.data.data[i].Title;
+          newDiary["content"] = res.data.data[i].Content;
           // 设置时间
           var d = new Date(res.data.data[i].Time);
           newDiary["time"] = d.getHours() + ':' + d.getMinutes();
           diaryList.push(newDiary);
         }
+        //将日记List存入本地缓存，方便其他页面读取
+        wx.setStorage({
+          data: diaryList,
+          key: 'dirList',
+        });
         // 动态设置高度
         var diaryHeight = Math.min((1 + diaryList.length) * 120, 500);
-        console.log(diaryHeight);
         this.setData({
           diaryList: diaryList,
           defaultDiaryHeight: diaryHeight + "rpx",
@@ -147,6 +152,14 @@ Page({
     wx.navigateTo({
       url: '/pages/diary/diary',
     })
+  },
+  gotoDetailDiary: event => {
+    let url = "/pages/diary/detail/detail"
+    var query = "?id=" + event.currentTarget.dataset.id;
+    url += query;
+    wx.navigateTo({
+      url: url,
+    });
   },
   /** 
    * 改变页面状态，收缩展开
