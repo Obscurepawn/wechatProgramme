@@ -207,11 +207,12 @@ Page({
     newDiary["content"] = this.data.textareaValue;
 
     // 日记内容为空，不能上传到服务器
-    if (newDiary.content == undefined) {
+    if (newDiary.content == undefined || newDiary.content=="") {
       wx.showToast({
         title: '日记内容不能为空',
         icon: 'none'
       });
+      return;
     }
     console.log(newDiary);
     // 上传当前日记到服务器
@@ -225,11 +226,11 @@ Page({
     });
     // 更新当地缓存(还没想好怎么写),目前暂时清空内容和标题缓存
     wx.setStorage({
-      data: "",
+      data: undefined,
       key: 'diaryTitle',
     })
     wx.setStorage({
-      data: "",
+      data: undefined,
       key: 'diaryContent',
     })
     this.setData({
