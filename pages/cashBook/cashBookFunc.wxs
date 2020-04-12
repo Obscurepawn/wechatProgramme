@@ -29,13 +29,13 @@ var color = function (val) {
     return "red";
   } else if (val > 0) {
     return "green";
-  } else if (val==0){
+  } else if (val == 0) {
     return "black";
   }
 }
 
 var iconPath = function (val) {
-  return "/images/cashBook/"+val.usefulness+".png"; 
+  return "/images/cashBook/" + val.usefulness + ".png";
 }
 
 module.exports.month = month;

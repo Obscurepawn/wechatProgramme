@@ -1,7 +1,8 @@
 {
   "usingComponents": {
     "mp-searchbar":"./searchbar/searchbar",
-    "mp-tabbar":"./tabbar/tabbar"
+    "mp-tabbar":"./tabbar/tabbar",
+    "mp-modal":"./modal/modal"
   },
   "navigationBarTitleText": ""
 }

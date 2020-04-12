@@ -10,6 +10,8 @@
 groups = [
     {
         date: "2020-4-8",
+        income: 0,
+        expenditrue: -22,
         detail: [{
             usefulness: "car",
             amount: -15,
@@ -32,6 +34,8 @@ groups = [
     },
     {
         date: "2020-4-7",
+        income: 13000,
+        expenditrue: -7050,
         detail: [
             {
                 usefulness: "house",
@@ -60,19 +64,95 @@ function getSum(val) {
     var Expenditrue = 0;
     var Income = 0;
     val.forEach(element => {
-            element.detail.forEach(bill => {
-                console.log(bill)
-                if (bill.amount < 0) {
-                    Expenditrue += bill.amount;
-                } else if (bill.amount > 0) {
-                    Income += bill.amount;
-                }
-            });
-        }
+        element.detail.forEach(bill => {
+            console.log(bill)
+            if (bill.amount < 0) {
+                Expenditrue += bill.amount;
+            } else if (bill.amount > 0) {
+                Income += bill.amount;
+            }
+        });
+    }
     )
-    console.log(Expenditrue,Income);
+    console.log(Expenditrue, Income);
 }
 
-getSum(groups);
+function newIndexOf(list, data) {
+    for (value of list) {
+        if (value == data) {
+            return true;
+        }
+    }
+    return false;
+}
 
+
+
+function makeList(val) {
+    let list = val.split(" ");
+    let count = 0;
+    let temp = [];
+    for (element of groups) {
+        count = 0;
+        if (element.date.search(val) != -1 || newIndexOf(list, element.date)) {
+            count += 1;
+        }
+        if (element.income == val || newIndexOf(list, element.income)) {
+            count += 1;
+        }
+        if (element.expenditrue == val || newIndexOf(list, element.expenditrue)) {
+            count += 1;
+        }
+        for (bill of element.detail) {
+            for (data in bill) {
+                if (newIndexOf(list, bill[data])) {
+                    count += 1
+                }
+                else if (typeof bill[data] == "string") {
+                    if (bill[data].search(val) != -1) {
+                        count += 1
+                    }
+                } else if (typeof bill[data] == "number") {
+                    if (bill[data] == val) {
+                        count += 1;
+                    }
+                }
+            }
+        }
+        if (count != 0) {
+            temp.push(element);
+            temp[temp.length - 1].count = count;
+        }
+    }
+    return temp.sort(function(a,b){return b.count-a.count});
+}
+
+function makeText(list) {
+    let ret = [];
+    let temp;
+    for (element of list) {
+        temp = ""
+        temp += element.date + ";";
+        for (detail of element.detail) {
+                temp += detail.comments + ";";
+        }
+        ret.push(temp);
+    }
+    return ret;
+}
+
+// getSum(groups);
+
+function testSearch() {
+    str = "123456"
+    console.log(str.search(888))
+}
+
+// testSearch()
+
+console.log(makeList("回学校 13000 -7050"));
+console.log(makeText(makeList("回学校 13000 -7050")));
+
+// list = ["123","456"]
+// console.log(list.indexOf(456))
 

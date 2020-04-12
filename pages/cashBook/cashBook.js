@@ -17,6 +17,12 @@ Page({
       "selectedIconPath": "/images/cashBook/calculator.jpg",
       dot: 'true'
     },
+    {
+      "text": "增加记录",
+      "iconPath": "/images/cashBook/add.png",
+      "selectedIconPath": "/images/cashBook/add.png",
+      dot: 'true'
+    },
     ],
     icon_path: {
       "car": "/images/cashBook/car.png",
@@ -32,6 +38,7 @@ Page({
     time: util.formatTime(new Date()).substring(0, 10),
     expenditrue: 0,
     income: 0,
+    // searchResultText:undefined,
     groups: [
       {
         date: "2020-4-9",
@@ -155,10 +162,92 @@ Page({
         ]
       },
     ],
+    bill_attributes: [
+      "usefulness",
+      "amount",
+      "comments",
+      "payer"
+    ],
+    show: [],
+    tab:-1,
+    // inputShowed: false,
+    // inputVal: "",
   },
 
+  newIndexOf: function (list, data) {
+    list.forEach(value => {
+      if (value == data) {
+        return true;
+      }
+    });
+    return false;
+  },
+
+  makeList: function (val, groups) {
+    let list = val.split(" ");
+    console.log(list)
+    console.log(groups)
+    let count = 0;
+    let temp = [];
+    groups.forEach(element => {
+      count = 0;
+      if (element.date.search(val) != -1 || this.newIndexOf(list, element.date)) {
+        count += 1;
+      }
+      if (element.income == val || this.newIndexOf(list, element.income)) {
+        count += 1;
+      }
+      if (element.expenditrue == val || this.newIndexOf(list, element.expenditrue)) {
+        count += 1;
+      }
+      element.detail.forEach(bill => {
+        this.data.bill_attributes.forEach(attribute => {
+          if (this.newIndexOf(list, bill[attribute])) {
+            count += 1
+          }
+          else if (typeof bill[attribute] == "string") {
+            if (bill[attribute].search(val) != -1) {
+              count += 1
+            }
+          } else if (typeof bill[attribute] == "number") {
+            if (bill[attribute] == val) {
+              count += 1;
+            }
+          }
+        });
+      });
+      if (count != 0) {
+        temp.push(element);
+        temp[temp.length - 1].count = count;
+      }
+    })
+    return temp.sort(function (a, b) { return b.count - a.count });
+  },
+
+  makeText: function (list) {
+    console.log(list)
+    let ret = [];
+    let temp;
+    list.forEach(element => {
+      temp = ""
+      temp += element.date + ";";
+      element.detail.forEach(bill => {
+        temp += bill.comments + ";";
+      })
+      ret.push({ text: temp });
+    });
+    console.log(ret);
+    return ret;
+  },
+
+
   tabChange(e) {
-    console.log('tab change', e);
+    console.log('tab change', e.detail.index);
+    if(e.detail.index==2){
+      this.setData({
+        tab:2
+      })
+    }
   },
 
   getMonth: function (val) {
@@ -199,7 +288,7 @@ Page({
         }
       });
       basePath = str3 + '[' + index + ']' + '.';
-      path1 =  basePath + str1;
+      path1 = basePath + str1;
       path2 = basePath + str2;
       this.setData({
         [path1]: expendTemp,
@@ -221,11 +310,56 @@ Page({
     })
   },
 
+  search: function (value) {
+    return new Promise((resolve, reject) => {
+      resolve(this.makeText(this.makeList(value, JSON.parse(JSON.stringify(this.data.groups)))))
+    });
+    // JSON.parse(JSON.stringify(object)) //对象深拷贝
+  },
+
+  selectResult: function (e) {
+    let list = e.detail.item.text.split(";");
+    console.log(list);
+    let date = list[0];
+    console.log(date);
+    let temp = [];
+    this.data.groups.forEach(element => {
+      console.log(element);
+      if(element.date==date){
+        temp.push(element);
+        this.setData({
+          show:temp
+        });
+        return;
+      }
+    })
+    console.log('select result', e.detail.item.text)
+  },
+
+  modalCancel() {
+    this.setData({
+      tab:-1
+    })
+  },
+
+  modalConfirm(e) {
+    this.setData({
+      tab:-1
+    })
+  },
+
+
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    this.getSum(this.data.groups)
+    this.setData({
+      search: this.search.bind(this)
+    });
+    this.getSum(this.data.groups);
+    this.setData({
+      show: this.data.groups
+    })
   },
 
   /**
