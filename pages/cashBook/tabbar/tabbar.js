@@ -118,19 +118,19 @@ module.exports =
                     },
                     current: {
                         type: Number,
-                        value: 0
+                        value: -1
                     }
                 },
                 methods: {
                     tabChange: function tabChange(e) {
                         var index = e.currentTarget.dataset.index;
 
-                        if (index === this.data.current) {
-                            return;
-                        }
-                        this.setData({
-                            current: index
-                        });
+                        // if (index === this.data.current) {
+                        //     return;
+                        // }
+                        // this.setData({
+                        //     current: index
+                        // });
                         this.triggerEvent('change', { index: index, item: this.data.list[index] });
                     }
                 }

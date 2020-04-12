@@ -7,9 +7,12 @@
 		<text style="float: right;height: 25px;color:white;" space="ensp">本月 支出:{{expenditrue}} 收入:{{income}}</text>
 	</view>
 	<view class="page__bd">
-		<mp-searchbar bindselectresult="selectResult" search="{{search}}" style="width:100%"></mp-searchbar>
+		<mp-searchbar bindselectresult="selectResult" search="{{search}}" style="width:100%" result="{{searchResultText}}"></mp-searchbar>
 	</view>
-	<view class="bill" wx:for="{{groups}}" wx:for-item="item" wx:for-index="index" wx:key="*this">
+	<modal show="{{showModal}}" height='60%' bindcancel="modalCancel" bindconfirm='modalConfirm' wx:if="{{tab==2}}">
+   		<view class='modal-content'>你自己的布局</view>
+	</modal>
+	<view class="bill" wx:for="{{show}}" wx:for-item="item" wx:for-index="index" wx:key="*this">
 		<view class="moneyIO">
 			<text class="sum" style="float: left;height: auto;">{{tools.month(item.date)}}月{{tools.date(item.date)}}日</text>
 			<text class="sum" style="float: right;height: auto;">支出:{{item.expenditrue}} 收入:{{item.income}}</text>
@@ -28,5 +31,6 @@
 	<text>\n</text>
 	<text>\n</text>
 	<text>\n</text>
-	<mp-tabbar style="position:fixed;bottom:0;width:100%;left:0;right:0;" list="{{list}}" bindchange="tabChange"></mp-tabbar>
+	<text>\n</text>
+	<mp-tabbar style="position:fixed;bottom:0;width:100%;left:0;right:0;" list="{{list}}" current="{{tab}}" bindchange="tabChange"></mp-tabbar>
 </view>
