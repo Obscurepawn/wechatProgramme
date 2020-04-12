@@ -37,5 +37,5 @@ module.exports = {
   formatTime: formatTime,
   dateFormat: dateFormat,
   getRequestTimestamp: getRequestTimestamp,
-  compareDate: compareDate
+  compareDate: compareDate,
 }

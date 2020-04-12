@@ -7,8 +7,10 @@ Page({
   data: {
     //page style
     inHomePage: true, // this is for bottom menu
-    cashWindowHeight: "500rpx",
-    diaryWindowHeight: "500rpx",
+    cashWindowHeight: "",
+    defaultCashHeight: "",
+    diaryWindowHeight: "",
+    defaultDiaryHeight: "",
     // whether to show diary of cashBook
     showCashBook: true,
     showDiary: true,
@@ -22,10 +24,46 @@ Page({
     isTodayWeek: false,
     todayIndex: 0,
     // for cashbook list
-    cashList: undefined,
+    cashList: [],
     // for diary list
-    diaryList: undefined
+    diaryList: []
   },
+  /**
+   * 读取数据库
+   */
+  getDiaryFromDB() {
+    var that = this;
+    var diaryList = [];
+    wx.request({
+      url: 'http://106.15.198.136:8001/v1/diary',
+      method: "GET",
+      success: res => {
+        console.log("read db");
+        // 将服务器返回数据存入到diarylist中
+        for (let i = 0; i < res.data.data.length; i++) {
+          var newDiary = {};
+          newDiary["color"] = that.axisGetRandomColor();
+          newDiary["title"] = res.data.data[i].Content;
+          // 设置时间
+          var d = new Date(res.data.data[i].Time);
+          newDiary["time"] = d.getHours() + ':' + d.getMinutes();
+          diaryList.push(newDiary);
+        }
+        // 动态设置高度
+        var diaryHeight = Math.min((1 + diaryList.length) * 120, 500);
+        console.log(diaryHeight);
+        this.setData({
+          diaryList: diaryList,
+          defaultDiaryHeight: diaryHeight + "rpx",
+          diaryWindowHeight: diaryHeight + "rpx",
+        })
+      }
+    });
+
+  },
+  /**
+   * 得到随机时间轴颜色
+   */
   axisGetRandomColor() {
     var color = [
       "red", "blue", "green", "purple", "coral", "yellowgreen",
@@ -114,17 +152,19 @@ Page({
    * 改变页面状态，收缩展开
    */
   cashBookViewControl: function () {
+    var that = this;
     let nextCond = !this.data.showCashBook;
     this.setData({
       showCashBook: nextCond,
-      cashWindowHeight: nextCond?"500rpx":"80rpx"
+      cashWindowHeight: nextCond ? that.data.defaultCashHeight : "80rpx"
     });
   },
   diaryViewControl: function () {
+    var that = this;
     let nextCond = !this.data.showDiary;
     this.setData({
       showDiary: nextCond,
-      diaryWindowHeight:nextCond?"500rpx":"80rpx"
+      diaryWindowHeight: nextCond ? that.data.defaultDiaryHeight : "80rpx"
     });
   },
   /**
@@ -132,193 +172,18 @@ Page({
    */
   onLoad: function (options) {
     var that = this;
-    // get now time in format 'xx年xx月'
     var date = new Date();
-    var t = date.getFullYear() + '年' + (date.getMonth() + 1) + '月';
     let now = new Date();
     let year = now.getFullYear();
     let month = now.getMonth() + 1;
+    let t = year + '年' + month + '月' // for title
     this.dateInit();
+    this.getDiaryFromDB();
     this.setData({
       today: t,
       year: year,
       month: month,
-      isToday: '' + year + month + now.getDate()
-    })
-    // create cashList test group
-    var cashBookListTest = [{
-        "color": "",
-        "time": "9:00",
-        "event": "充饭卡",
-        "money": "$100"
-      },
-      {
-        "color": "",
-        "time": "12:10",
-        "event": "捡到100元",
-        "money": "$100"
-      },
-      {
-        "color": "",
-        "time": "14:17",
-        "event": "吃小汉堡",
-        "money": "$38"
-      },
-      {
-        "color": "",
-        "time": "14:17",
-        "event": "吃小汉堡",
-        "money": "$38"
-      },
-      {
-        "color": "",
-        "time": "14:17",
-        "event": "吃小汉堡",
-        "money": "$38"
-      },
-      {
-        "color": "",
-        "time": "14:17",
-        "event": "吃小汉堡",
-        "money": "$38"
-      },
-      {
-        "color": "",
-        "time": "14:17",
-        "event": "吃小汉堡",
-        "money": "$38"
-      },
-      {
-        "color": "",
-        "time": "14:17",
-        "event": "吃小汉堡",
-        "money": "$38"
-      },
-      {
-        "color": "",
-        "time": "14:17",
-        "event": "吃小汉堡",
-        "money": "$38"
-      },
-      {
-        "color": "",
-        "time": "14:17",
-        "event": "吃小汉堡",
-        "money": "$38"
-      },
-      {
-        "color": "",
-        "time": "14:17",
-        "event": "吃小汉堡",
-        "money": "$38"
-      },
-      {
-        "color": "",
-        "time": "14:17",
-        "event": "吃小汉堡",
-        "money": "$38"
-      },
-      {
-        "color": "",
-        "time": "14:17",
-        "event": "吃小汉堡",
-        "money": "$38"
-      },
-      {
-        "color": "",
-        "time": "14:17",
-        "event": "吃小汉堡",
-        "money": "$38"
-      },
-      {
-        "color": "",
-        "time": "14:17",
-        "event": "吃小汉堡",
-        "money": "$38"
-      }
-    ]
-    for (var i = 0; i < cashBookListTest.length; i++) {
-      cashBookListTest[i].color = that.axisGetRandomColor()
-    }
-    // create diaryList test group
-    var diaryListTest = [{
-        "color": "blue",
-        "time": "0:12",
-        "title": "《hello,world》"
-      },
-      {
-        "color": "pink",
-        "time": "9:12",
-        "title": "《今天捡了100元,美滋滋》"
-      },
-      {
-        "color": "yellowgreen",
-        "time": "23:59",
-        "title": "《小程序真好玩orz》"
-      }, {
-        "color": "yellowgreen",
-        "time": "23:59",
-        "title": "《小程序真好玩orz》"
-      }, {
-        "color": "yellowgreen",
-        "time": "23:59",
-        "title": "《小程序真好玩orz》"
-      }, {
-        "color": "yellowgreen",
-        "time": "23:59",
-        "title": "《小程序真好玩orz》"
-      }, {
-        "color": "yellowgreen",
-        "time": "23:59",
-        "title": "《小程序真好玩orz》"
-      }, {
-        "color": "yellowgreen",
-        "time": "23:59",
-        "title": "《小程序真好玩orz》"
-      }, {
-        "color": "yellowgreen",
-        "time": "23:59",
-        "title": "《小程序真好玩orz》"
-      }, {
-        "color": "yellowgreen",
-        "time": "23:59",
-        "title": "《小程序真好玩orz》"
-      }, {
-        "color": "yellowgreen",
-        "time": "23:59",
-        "title": "《小程序真好玩orz》"
-      }, {
-        "color": "yellowgreen",
-        "time": "23:59",
-        "title": "《小程序真好玩orz》"
-      }, {
-        "color": "yellowgreen",
-        "time": "23:59",
-        "title": "《小程序真好玩orz》"
-      }, {
-        "color": "yellowgreen",
-        "time": "23:59",
-        "title": "《小程序真好玩orz》"
-      }, {
-        "color": "yellowgreen",
-        "time": "23:59",
-        "title": "《小程序真好玩orz》"
-      }, {
-        "color": "yellowgreen",
-        "time": "23:59",
-        "title": "《小程序真好玩orz》"
-      }, {
-        "color": "yellowgreen",
-        "time": "23:59",
-        "title": "《小程序真好玩orz》"
-      }
-    ]
-    for (var i = 0; i < diaryListTest.length; i++) {
-      diaryListTest[i].color = that.axisGetRandomColor()
-    }
-    this.setData({
-      cashList: cashBookListTest,
-      diaryList: diaryListTest
+      isToday: '' + year + month + now.getDate(),
     })
   },
 

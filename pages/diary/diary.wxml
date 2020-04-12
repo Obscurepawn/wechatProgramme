@@ -14,10 +14,12 @@
       <image src="/images/diary/sure.png"></image>
     </view>
   </view>
+
 <!--日记的文字输入框-->
   <view class="inputBox">
     <form bindsubmit="save">
-      <textarea fixed value="{{textareaValue}}" placeholder="记录美好的一天" style="font-size:{{fontSize}};color:{{fontColor}};height:200px">
+      <!--日记内容输入，我存储到textareaValue里了，不知道行不行，小马哥你看看-->
+      <textarea value="{{textareaValue}}" placeholder="记录美好的一天" style="font-size:{{fontSize}};color:{{fontColor}};height:200px" bindinput="saveDiaryContent">
       </textarea>
       <image src="{{imgFilePaths}}" style="width: 250px; height: 250px;" mode="aspectFit"></image>
     </form>
@@ -54,4 +56,19 @@
     </view>
   </view>
 
+  <!--点击确定按钮输入文章标题-->
+  <view class="modal" style="{{modalShowStyle}}">
+      <view class="dialog">
+          <view class="modal-item" style="display:flex;justify-content:center;align-items:center;">
+          请输入日记标题
+          </view>
+          <view class="modal-item" style="margin:0 auto;width:90%;">
+              <input type="text" bindinput="titleInput" style="background-color:white;border-radius:2px;" value="{{dairyTitle}}" placeholder="请输入日记标题"></input>
+          </view>
+          <view class="modal-button" style="width:100%">
+              <view style="color:green;border-right:1px solid #E5E7ED;" bindtap="touchAddNew">确定</view>
+              <view bindtap="touchCancel">取消</view>
+          </view>
+      </view>
+  </view>
 </view>

@@ -48,6 +48,7 @@ Page({
           selected: false
         }
       ],
+    dairyTitle: '',
     fontColor:'',/*在textarea属性中用来设置style */
     fontSize:'',
     textareaValue:'',
@@ -55,6 +56,16 @@ Page({
     colorBoxStyle:'',/*点击颜色按钮，才能使得底下的颜色选择框显现出来，也就是colorBox */
     imgFilePaths: ''
   },
+
+  /*日记内容存储 */
+  saveDiaryContent:function(event){
+    console.log(event);
+    wx.setStorage({
+      key: 'diaryContent',
+      data: event.detail.value
+    });
+  },
+
 /*点击Tt按钮后触发该事件 */
   changeFont: function (event) {
     // let that=this;
@@ -116,6 +127,9 @@ Page({
    */
   onLoad: function (query) {
     let that = this;
+    let buf = wx.getStorageSync('diaryContent') || [];
+    this.setData({textareaValue: buf});
+    console.log(buf);
     wx.setNavigationBarTitle({
       title: 'Diary',
     });
@@ -157,7 +171,49 @@ Page({
       }
     })
   },
-  
+  /*点击确定按钮，弹出输入标题*/
+  showSave:function(){
+    this.setData({
+      modalShowStyle:"opacity:1;pointer-events:auto;"
+    })
+  },
+/*输入标题后进行存储 */
+  titleInput:function(event){
+    var title = event.detail.value;
+    this.setData({
+      dairyTitle:event.detail.value,
+    });
+  },
+
+  /*点击确定按钮 先将标题存储，然后输入框消失 */
+  touchAddNew:function(event){
+    // 检查标题是否为空
+    if(event.detail.value == undefined) {
+      wx.showToast({
+        title: '标题不能为空',
+        icon: 'none',
+        duration:500
+      })
+      return;
+    }
+    wx.setStorage({
+      key: "diaryTitle",
+      data: this.data.dairyTitle
+    });
+    this.setData({
+      modalShowStyle:"",
+      dairyTitle:"",
+    })
+  },
+
+  /*点击取消按钮 不存储，输入框消失 */
+  touchCancel:function(event){
+    this.setData({
+      modalShowStyle:"",
+      dairyTitle:"",
+    })
+  },
+
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
