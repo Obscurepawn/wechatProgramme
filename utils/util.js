@@ -33,9 +33,43 @@ function compareDate (obj) {
   return obj.year + '-' + toDouble(obj.month) + '-' + toDouble(obj.day);
 }
 
+//得到时间格式2020-4-12
+const formatDate = date => {
+  const year = date.getFullYear()
+  const month = date.getMonth() + 1
+  const day = date.getDate()
+  return [year, month, day].map(formatNumber).join('-')
+
+}
+//todate默认参数是当前日期，可以传入对应时间 todate格式为2020-4-12
+function getDates(days, todate) {
+  var dateArry = [];
+  for (var i = 0; i < days; i++) {
+    var dateObj = dateLater(todate, i);
+    dateArry.push(dateObj)
+  }
+  return dateArry;
+}
+
+function dateLater(dates, later) {
+  let dateObj = {};
+  let show_day = new Array('Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday');
+  let date = new Date(dates);
+  date.setDate(date.getDate() + later);
+  let day = date.getDay();
+  let yearDate = date.getFullYear();
+  let month = ((date.getMonth() + 1) < 10 ? ("0" + (date.getMonth() + 1)) : date.getMonth() + 1);
+  let dayFormate = (date.getDate() < 10 ? ("0" + date.getDate()) : date.getDate());
+  dateObj.time = yearDate + '-' + month + '-' + dayFormate;
+  dateObj.week = show_day[day];
+  return dateObj;
+}
+
 module.exports = {
   formatTime: formatTime,
   dateFormat: dateFormat,
   getRequestTimestamp: getRequestTimestamp,
   compareDate: compareDate,
+  formatDate: formatDate,
+  getDates: getDates
 }

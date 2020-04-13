@@ -7,7 +7,7 @@
         <view>{{year}}</view>
       </view>
       <view class="dateWeek">
-        <view>Monday</view>
+        <view>{{week}}</view>
       </view>
     </view>
   </view>

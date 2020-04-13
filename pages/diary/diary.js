@@ -4,69 +4,72 @@ Page({
    * 页面的初始数据
    */
   data: {
-      sizes: [
-        {
-          index: 0,
-          size: "12px",
-          selected: false
-        },
-        {
-          index: 1,
-          size: "14px",
-          selected: false
-        },
-        {
-          index: 2,
-          size: "16px",
-          selected: false
-        },
-        {
-          index: 3,
-          size: "18px",
-          selected: false
-        }
-      ],
-      color: [
-        {
-          index: 0,
-          color: "#000",
-          selected: false
-        },
-        {
-          index: 1,
-          color: "#f00",
-          selected: false
-        },
-        {
-          index: 2,
-          color: "#00ac00",
-          selected: false
-        },
-        {
-          index: 3,
-          color: "#ffa0c1",
-          selected: false
-        }
-      ],
+    sizes: [{
+        index: 0,
+        size: "12px",
+        selected: false
+      },
+      {
+        index: 1,
+        size: "14px",
+        selected: false
+      },
+      {
+        index: 2,
+        size: "16px",
+        selected: false
+      },
+      {
+        index: 3,
+        size: "18px",
+        selected: false
+      }
+    ],
+    color: [{
+        index: 0,
+        color: "#000",
+        selected: false
+      },
+      {
+        index: 1,
+        color: "#f00",
+        selected: false
+      },
+      {
+        index: 2,
+        color: "#00ac00",
+        selected: false
+      },
+      {
+        index: 3,
+        color: "#ffa0c1",
+        selected: false
+      }
+    ],
     dairyTitle: '',
-    fontColor:'',/*在textarea属性中用来设置style */
-    fontSize:'',
-    textareaValue:'',
-    fontBoxStyle:'',
-    colorBoxStyle:'',/*点击颜色按钮，才能使得底下的颜色选择框显现出来，也就是colorBox */
+    fontColor: '',
+    /*在textarea属性中用来设置style */
+    fontSize: '',
+    textareaValue: '',
+    fontBoxStyle: '',
+    colorBoxStyle: '',
+    /*点击颜色按钮，才能使得底下的颜色选择框显现出来，也就是colorBox */
     imgFilePaths: ''
   },
 
   /*日记内容存储 */
-  saveDiaryContent:function(event){
+  saveDiaryContent: function (event) {
     console.log(event);
+    this.setData({
+      textareaValue:event.detail.value
+    });
     wx.setStorage({
       key: 'diaryContent',
       data: event.detail.value
     });
   },
 
-/*点击Tt按钮后触发该事件 */
+  /*点击Tt按钮后触发该事件 */
   changeFont: function (event) {
     // let that=this;
     console.log(event.currentTarget);
@@ -75,8 +78,7 @@ Page({
     for (var i = 0; i < this.data.sizes.length; i++) {
       if (event.currentTarget.id == i) {
         this.data.sizes[i].selected = true
-      }
-      else {
+      } else {
         this.data.sizes[i].selected = false
       }
     }
@@ -86,14 +88,13 @@ Page({
     this.setData(this.data);
     console.log(this.data);
   },
-  
-/*同上类似，点击画盘按钮触发 */
+
+  /*同上类似，点击画盘按钮触发 */
   changeColor: function (event) {
     for (var i = 0; i < this.data.color.length; i++) {
       if (event.currentTarget.id == i) {
         this.data.color[i].selected = true
-      }
-      else {
+      } else {
         this.data.color[i].selected = false
       }
     }
@@ -128,27 +129,26 @@ Page({
   onLoad: function (query) {
     let that = this;
     let buf = wx.getStorageSync('diaryContent') || [];
-    this.setData({textareaValue: buf});
-    console.log(buf);
     wx.setNavigationBarTitle({
       title: 'Diary',
     });
+    // 内容为缓存区或者空内容
     this.setData({
-      textareaValue:query.content
+      textareaValue: buf
     });
   },
-/*点击Tt按钮，则会在下部显示字体大小选择按钮，并且colorbox会消失 */
-  showFont:function(){
+  /*点击Tt按钮，则会在下部显示字体大小选择按钮，并且colorbox会消失 */
+  showFont: function () {
     this.setData({
-      fontBoxStyle:'display:block',
-      colorBoxStyle:''
+      fontBoxStyle: 'display:block',
+      colorBoxStyle: ''
     })
   },
-  
-  showColor:function(){
+
+  showColor: function () {
     this.setData({
-      colorBoxStyle:'display:block',
-      fontBoxStyle:''
+      colorBoxStyle: 'display:block',
+      fontBoxStyle: ''
     })
   },
 
@@ -172,45 +172,78 @@ Page({
     })
   },
   /*点击确定按钮，弹出输入标题*/
-  showSave:function(){
+  showSave: function () {
     this.setData({
-      modalShowStyle:"opacity:1;pointer-events:auto;"
+      modalShowStyle: "opacity:1;pointer-events:auto;"
     })
   },
-/*输入标题后进行存储 */
-  titleInput:function(event){
+  /*输入标题后进行存储 */
+  titleInput: function (event) {
     var title = event.detail.value;
+    // 输入过程实时更新标题
     this.setData({
-      dairyTitle:event.detail.value,
+      dairyTitle: event.detail.value,
     });
   },
 
   /*点击确定按钮 先将标题存储，然后输入框消失 */
-  touchAddNew:function(event){
+  touchAddNew: function (event) {
+    console.log(this.data.dairyTitle);
     // 检查标题是否为空
-    if(event.detail.value == undefined) {
+    if (this.data.dairyTitle == "") {
       wx.showToast({
         title: '标题不能为空',
         icon: 'none',
-        duration:500
+        duration: 500
       })
       return;
     }
-    wx.setStorage({
-      key: "diaryTitle",
-      data: this.data.dairyTitle
+    //存储数据库
+    var date = new Date();
+    var newDiary = {};
+    // 用户ID还没定怎么整,default:wx12345
+    newDiary["uid"] = "wx12345"
+    newDiary["title"] = this.data.dairyTitle;
+    newDiary["content"] = this.data.textareaValue;
+
+    // 日记内容为空，不能上传到服务器
+    if (newDiary.content == undefined || newDiary.content=="") {
+      wx.showToast({
+        title: '日记内容不能为空',
+        icon: 'none'
+      });
+      return;
+    }
+    console.log(newDiary);
+    // 上传当前日记到服务器
+    wx.request({
+      url: 'http://106.15.198.136:8001/v1/diary',
+      method: 'POST',
+      data: newDiary,
+      success: res => {
+        console.log("Success add diary into db", res);
+      }
     });
+    // 更新当地缓存(还没想好怎么写),目前暂时清空内容和标题缓存
+    wx.setStorage({
+      data: undefined,
+      key: 'diaryTitle',
+    })
+    wx.setStorage({
+      data: undefined,
+      key: 'diaryContent',
+    })
     this.setData({
-      modalShowStyle:"",
-      dairyTitle:"",
+      modalShowStyle: "",
+      dairyTitle: "",
     })
   },
 
   /*点击取消按钮 不存储，输入框消失 */
-  touchCancel:function(event){
+  touchCancel: function (event) {
     this.setData({
-      modalShowStyle:"",
-      dairyTitle:"",
+      modalShowStyle: "",
+      dairyTitle: "",
     })
   },
 

@@ -1,0 +1,5 @@
+<view class="time">{{time}}</view>
+<view class="title">{{title}}</view>
+<scroll-view scroll-y="true" class="content_box">
+  <text>{{content}}</text>
+</scroll-view>
