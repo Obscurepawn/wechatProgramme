@@ -15,9 +15,14 @@
     height: auto;
 }
 
+.billfont{
+    position: relative;
+    bottom: 10px;
+}
+
 .line {
     position: relative;
-    z-index: 1;
+    z-index: 99;
     margin: auto auto auto auto;
     width: 100%;
     height: 1rpx;
@@ -62,4 +67,24 @@
 
 .sum {
     font-size: 14px;
+}
+
+.formrow {
+    width: 100%;
+    height: 15px;
+}
+
+.field {
+    font-size: small;
+    height: 10px;
+    color:black;
+    float: left;
+}
+
+.input {
+    font-size: small;
+    color: black;
+    float: right;
+    display: flex;
+    border: 1px solid #b6b6b6;
 }

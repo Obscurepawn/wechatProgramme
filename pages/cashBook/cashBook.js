@@ -5,6 +5,19 @@ Page({
    * 页面的初始数据
    */
   data: {
+    useList: [
+      "book",
+      "financial",
+      "food",
+      "house",
+      "play",
+      "other",
+      "transpotation",
+    ],
+    useIndex: 0,
+    input_amount: undefined,
+    input_comment: undefined,
+    input_payer: undefined,
     list: [{
       "text": "统计图",
       "iconPath": "/images/cashBook/line-chart.jpg",
@@ -25,7 +38,7 @@ Page({
     },
     ],
     icon_path: {
-      "car": "/images/cashBook/car.png",
+      "transpotation": "/images/cashBook/transpotation.png",
       "financial": "/images/cashBook/financial.png",
       "book": "/images/cashBook/book.png",
       "food": "/images/cashBook/food.png",
@@ -34,18 +47,19 @@ Page({
     },
     year: new Date().getFullYear(),
     month: new Date().getMonth() + 1,
-    date: new Date().getDate() + 1,
-    time: util.formatTime(new Date()).substring(0, 10),
+    date: new Date().getDate(),
+    time: undefined,
+    showTime: undefined,
     expenditrue: 0,
     income: 0,
     // searchResultText:undefined,
     groups: [
       {
-        date: "2020-4-9",
+        date: "2020-04-09",
         income: undefined,
         expenditrue: undefined,
         detail: [{
-          usefulness: "car",
+          usefulness: "transpotation",
           amount: -15,
           comments: "回学校",
           payer: "Jankos"
@@ -65,7 +79,7 @@ Page({
         ]
       },
       {
-        date: "2020-4-7",
+        date: "2020-04-07",
         income: undefined,
         expenditrue: undefined,
         detail: [
@@ -90,11 +104,11 @@ Page({
         ]
       },
       {
-        date: "2020-4-2",
+        date: "2020-04-02",
         income: undefined,
         expenditrue: undefined,
         detail: [{
-          usefulness: "car",
+          usefulness: "transpotation",
           amount: -77,
           comments: "打的士",
           payer: "Me"
@@ -114,7 +128,7 @@ Page({
         ]
       },
       {
-        date: "2020-3-31",
+        date: "2020-03-31",
         income: undefined,
         expenditrue: undefined,
         detail: [{
@@ -130,15 +144,15 @@ Page({
           payer: "Boss"
         },
         {
-          usefulness: "play",
-          amount: -180,
-          comments: "游戏充值",
+          usefulness: "financial",
+          amount: 180,
+          comments: "投资收益",
           payer: "Me",
         },
         ]
       },
       {
-        date: "2020-3-9",
+        date: "2020-03-09",
         income: undefined,
         expenditrue: undefined,
         detail: [{
@@ -162,14 +176,15 @@ Page({
         ]
       },
     ],
+    show: [],
     bill_attributes: [
       "usefulness",
       "amount",
       "comments",
       "payer"
     ],
-    show: [],
-    tab:-1,
+    tab: -1,
+    // picker_value: [1],
     // inputShowed: false,
     // inputVal: "",
   },
@@ -240,12 +255,12 @@ Page({
     return ret;
   },
 
-
   tabChange(e) {
     console.log('tab change', e.detail.index);
-    if(e.detail.index==2){
+    if (e.detail.index == 2) {
       this.setData({
-        tab:2
+        tab: 2,
+        showTime: this.data.time,
       })
     }
   },
@@ -317,6 +332,41 @@ Page({
     // JSON.parse(JSON.stringify(object)) //对象深拷贝
   },
 
+  inputAmount(e) {
+    console.log(e.detail.value)
+    this.setData({
+      input_amount: e.detail.value
+    })
+  },
+
+  inputPayer(e) {
+    console.log(e.detail.value)
+    this.setData({
+      input_payer: e.detail.value
+    })
+  },
+
+  inputComment(e) {
+    console.log(e.detail.value)
+    this.setData({
+      input_comment: e.detail.value
+    })
+  },
+
+  bindDateChange(e) {
+    console.log(e.detail.value);
+    this.setData({
+      showTime: e.detail.value
+    })
+    console.log(this.data.showTime);
+  },
+
+  bindUseChange(e) {
+    this.setData({
+      useIndex: e.detail.value
+    })
+  },
+
   selectResult: function (e) {
     let list = e.detail.item.text.split(";");
     console.log(list);
@@ -325,10 +375,10 @@ Page({
     let temp = [];
     this.data.groups.forEach(element => {
       console.log(element);
-      if(element.date==date){
+      if (element.date == date) {
         temp.push(element);
         this.setData({
-          show:temp
+          show: temp
         });
         return;
       }
@@ -338,23 +388,94 @@ Page({
 
   modalCancel() {
     this.setData({
-      tab:-1
+      tab: -1
     })
   },
 
+  dateCompare: function(a, b) {
+    let date1 = a.date;
+    let date2 = b.date;
+    let year1 = parseInt(date1.substring(0, 4));
+    let year2 = parseInt(date2.substring(0, 4));
+    if (year1 != year2) {
+      return year2 - year1;
+    }
+    let month1 = parseInt(date1.substring(5, 7));
+    let month2 = parseInt(date2.substring(5, 7));
+    if (month1 != month2) {
+      return month2 - month1;
+    }
+    let Date1 = parseInt(date1.substring(8));
+    let Date2 = parseInt(date2.substring(8));
+    if (Date1 != Date2) {
+      return Date2 - Date1;
+    }
+    return 0;
+  },
+
+  // usefulness: "transpotation",
+  // amount: -15,
+  // comments: "回学校",
+  // payer: "Jankos",
+  // date: "2020-03-09",
+  // income: undefined,
+  // expenditrue: undefined,
+  // detail:
   modalConfirm(e) {
     this.setData({
-      tab:-1
+      tab: -1
     })
+    let newItem = new Object();
+    newItem.usefulness = this.data.useList[this.data.useIndex];
+    newItem.amount = this.data.input_amount;
+    newItem.comments = this.data.input_comment;
+    newItem.payer = this.data.input_payer;
+    let isDateExist = false;
+    this.data.groups.forEach(element => {
+      if (element.date == this.data.showTime) {
+        element.detail.push(newItem);
+        isDateExist = true;
+        if (newItem.amount < 0) {
+          element.expenditrue += newItem.amount;
+        } else {
+          element.income += newItem.amount;
+        }
+      }
+    })
+    if (isDateExist == false) {
+      let dateBill = new Object();
+      let detail = [];
+      detail.push(newItem);
+      console.log(this.data.showTime);
+      dateBill.date = this.data.showTime;
+      dateBill.expenditrue = 0;
+      dateBill.income = 0;
+      if (newItem.amount < 0) {
+        dateBill.expenditrue += newItem.amount;
+      } else {
+        dateBill.income += newItem.amount;
+      }
+      dateBill.detail = detail;
+      this.data.groups.push(dateBill);
+      this.data.groups.sort(this.dateCompare);
+      console.log(dateBill);
+      this.setData({
+        show: this.data.groups,
+      })
+    }
   },
 
+  timeAssign: function () {
+    return this.data.year + ((this.data.month < 10) ? "-0" : "-") + this.data.month + ((this.data.date < 10) ? "-0" : "-") + this.data.date;
+  },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
     this.setData({
-      search: this.search.bind(this)
+      search: this.search.bind(this),
+      time: this.timeAssign()
     });
     this.getSum(this.data.groups);
     this.setData({
@@ -366,7 +487,6 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-
   },
 
   /**

@@ -2,12 +2,10 @@ var month = function (val) {
   if (val.length < 8 || val.length > 10) {
     return "Unknown";
   }
-  if (val[4] == "-") {
-    if (val[6] == "-") {
-      return val[5];
-    } else if (val[7] == "-") {
+  if (val[5] == "0") {
+      return val[6];
+  } else {
       return val.substring(5, 7);
-    }
   }
   return "Unknown";
 }
@@ -16,11 +14,10 @@ var date = function (val) {
   if (val.length < 8 || val.length > 10) {
     return "Unknown";
   }
-  if (val[val.length - 2] == '-') {
-    return val[val.length - 1];
-  }
-  else if (val[val.length - 2] != '-') {
-    return val[val.length - 2];
+  if (val[val.length - 2] == '0') {
+    return val[val.length-1];
+  }else {
+    return val.substring(val.length-2);
   }
 }
 
