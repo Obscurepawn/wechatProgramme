@@ -414,6 +414,7 @@ Page({
     return 0;
   },
 
+  //格式如下:
   // usefulness: "transpotation",
   // amount: -15,
   // comments: "回学校",
@@ -421,7 +422,7 @@ Page({
   // date: "2020-03-09",
   // income: undefined,
   // expenditrue: undefined,
-  // detail:
+  // detail:[]
   modalConfirm(e) {
     this.setData({
       tab: -1
