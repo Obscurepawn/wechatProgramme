@@ -55,7 +55,7 @@ Page({
     // searchResultText:undefined,
     groups: [
       {
-        date: "2020-04-09",
+        "date": "2020-04-09",
         income: undefined,
         expenditrue: undefined,
         detail: [{
@@ -74,8 +74,8 @@ Page({
           usefulness: "play",
           amount: -300,
           comments: "买最新款的游戏",
-          payer: "Me",
-        },
+          payer: "Me"
+        }
         ]
       },
       {
@@ -87,20 +87,20 @@ Page({
             usefulness: "house",
             amount: -7000,
             comments: "付房租",
-            payer: "Me",
+            payer: "Me"
           },
           {
             usefulness: "financial",
             amount: 13000,
             comments: "发工资",
-            payer: "Boss",
+            payer: "Boss"
           },
           {
             usefulness: "book",
             amount: -50,
             comments: "买《白夜行》",
-            payer: "Me",
-          },
+            payer: "Me"
+          }
         ]
       },
       {
@@ -123,8 +123,8 @@ Page({
           usefulness: "other",
           amount: 280,
           comments: "路上捡到钱",
-          payer: "Me",
-        },
+          payer: "Me"
+        }
         ]
       },
       {
@@ -147,8 +147,8 @@ Page({
           usefulness: "financial",
           amount: 180,
           comments: "投资收益",
-          payer: "Me",
-        },
+          payer: "Me"
+        }
         ]
       },
       {
@@ -171,8 +171,8 @@ Page({
           usefulness: "other",
           amount: -300,
           comments: "给女朋友买礼物",
-          payer: "Me",
-        },
+          payer: "Me"
+        }
         ]
       },
     ],

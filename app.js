@@ -8,11 +8,51 @@ App({
 
     // 登录
     wx.login({
-      success: res => {
-        // 发送 res.code 到后台换取 openId, sessionKey, unionId
+      success: r => {
+      //  // 发送 res.code 到后台换取 openId, sessionKey, unionId
+      var code = r.code;//登录凭证
+      if (code) {
+        //2、调用获取用户信息接口
+        wx.getUserInfo({
+          success: function (res) {
+            //3.请求自己的服务器，解密用户信息 获取unionId等加密信息
+            wx.request({
+              url: 'http://47.102.203.228:5000/openId',//自己的服务接口地址
+              method: 'post',
+              header: {
+                'content-type': 'application/json'
+              },
+              data: { encryptedData: res.encryptedData, iv: res.iv, code: code },
+              success: function (res) {
+                //4.解密成功后 获取自己服务器返回的结果
+                if (res.data.return_code == 0) {
+                  console.log(res.data.data);
+                  var app = getApp();
+                  app.globalData.userInfo = res.data.data;
+                } else {
+                  console.log('解密失败');
+                }
+
+              },
+              fail: function () {
+                console.log('系统错误');
+              }
+            })
+          },
+          fail: function () {
+            console.log('获取用户信息失败');
+          }
+        })
+
+      } else {
+        console.log('获取用户登录态失败！' + r.errMsg);
       }
-    })
-    // 获取用户信息
+    },
+    fail: function () {
+      console.log('登陆失败');
+    }
+  })
+    //获取用户信息
     wx.getSetting({
       success: res => {
         if (res.authSetting['scope.userInfo']) {
@@ -21,7 +61,6 @@ App({
             success: res => {
               // 可以将 res 发送给后台解码出 unionId
               this.globalData.userInfo = res.userInfo
-
               // 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回
               // 所以此处加入 callback 以防止这种情况
               if (this.userInfoReadyCallback) {
@@ -36,7 +75,7 @@ App({
   globalData: {
     userInfo: null,
     list:[]
-  }
+  },
 }),
 Array.prototype.remove = function (item) {
   if (this.indexOf(item) === -1) return this;
