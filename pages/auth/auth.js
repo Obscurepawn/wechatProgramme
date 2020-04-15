@@ -7,7 +7,7 @@ Page({
   data: {
 
   },
-  next:function(){
+  next: function () {
     wx.navigateTo({
       url: '/pages/mainPage/mainPage',
     })
@@ -40,7 +40,7 @@ Page({
   },
   // 点击“授权登录” 获取用户信息并跳转页面
   bindUserInfo(res) {
-    if(res.detail.userInfo == undefined)
+    if (res.detail.userInfo == undefined)
       return
     getApp().globalData.userInfo = res.userInfo
     this.next()
