@@ -148,15 +148,31 @@ function testSearch() {
     console.log(str.search(888))
 }
 
+function testLet(){
+    let temp = 0;
+    if (true){
+        let kk = new Object();
+        kk.oop = 1;
+        kk.oob = 2;
+        temp = kk;
+    }
+    // console.log(kk);
+    console.log(temp);
+}
+
 // testSearch()
 
-console.log(makeList("回学校 13000 -7050"));
-console.log(makeText(makeList("回学校 13000 -7050")));
+// console.log(makeList("回学校 13000 -7050"));
+// console.log(makeText(makeList("回学校 13000 -7050")));
 
-console.log(parseInt("100000"));
-console.log(parseInt("12a000"));
-console.log(Number("aaabbc"))
+// console.log(parseInt("100000"));
+// console.log(parseInt("12a000"));
+// console.log(Number("aaabbc"))
 
 // list = ["123","456"]
 // console.log(list.indexOf(456))
+
+testLet()
+
+
 

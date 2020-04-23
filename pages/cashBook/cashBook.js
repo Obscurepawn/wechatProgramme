@@ -54,127 +54,127 @@ Page({
     income: 0,
     // searchResultText:undefined,
     groups: [
-      {
-        "date": "2020-04-09",
-        income: undefined,
-        expenditrue: undefined,
-        detail: [{
-          usefulness: "transpotation",
-          amount: -15,
-          comments: "回学校",
-          payer: "Jankos"
-        },
-        {
-          usefulness: "food",
-          amount: -7,
-          comments: "吃早餐",
-          payer: "Me"
-        },
-        {
-          usefulness: "play",
-          amount: -300,
-          comments: "买最新款的游戏",
-          payer: "Me"
-        }
-        ]
-      },
-      {
-        date: "2020-04-07",
-        income: undefined,
-        expenditrue: undefined,
-        detail: [
-          {
-            usefulness: "house",
-            amount: -7000,
-            comments: "付房租",
-            payer: "Me"
-          },
-          {
-            usefulness: "financial",
-            amount: 13000,
-            comments: "发工资",
-            payer: "Boss"
-          },
-          {
-            usefulness: "book",
-            amount: -50,
-            comments: "买《白夜行》",
-            payer: "Me"
-          }
-        ]
-      },
-      {
-        date: "2020-04-02",
-        income: undefined,
-        expenditrue: undefined,
-        detail: [{
-          usefulness: "transpotation",
-          amount: -77,
-          comments: "打的士",
-          payer: "Me"
-        },
-        {
-          usefulness: "food",
-          amount: -89,
-          comments: "吃午饭",
-          payer: "Me"
-        },
-        {
-          usefulness: "other",
-          amount: 280,
-          comments: "路上捡到钱",
-          payer: "Me"
-        }
-        ]
-      },
-      {
-        date: "2020-03-31",
-        income: undefined,
-        expenditrue: undefined,
-        detail: [{
-          usefulness: "financial",
-          amount: -2000,
-          comments: "买指数基金进行投资",
-          payer: "Me"
-        },
-        {
-          usefulness: "food",
-          amount: -2700,
-          comments: "吃晚饭",
-          payer: "Boss"
-        },
-        {
-          usefulness: "financial",
-          amount: 180,
-          comments: "投资收益",
-          payer: "Me"
-        }
-        ]
-      },
-      {
-        date: "2020-03-09",
-        income: undefined,
-        expenditrue: undefined,
-        detail: [{
-          usefulness: "book",
-          amount: -80,
-          comments: "买计算机组成原理教材",
-          payer: "Me"
-        },
-        {
-          usefulness: "other",
-          amount: -78,
-          comments: "去洗脚城按摩",
-          payer: "Kris"
-        },
-        {
-          usefulness: "other",
-          amount: -300,
-          comments: "给女朋友买礼物",
-          payer: "Me"
-        }
-        ]
-      },
+      // {
+      //   "date": "2020-04-09",
+      //   income: undefined,
+      //   expenditrue: undefined,
+      //   detail: [{
+      //     usefulness: "transpotation",
+      //     amount: -15,
+      //     comments: "回学校",
+      //     payer: "Jankos"
+      //   },
+      //   {
+      //     usefulness: "food",
+      //     amount: -7,
+      //     comments: "吃早餐",
+      //     payer: "Me"
+      //   },
+      //   {
+      //     usefulness: "play",
+      //     amount: -300,
+      //     comments: "买最新款的游戏",
+      //     payer: "Me"
+      //   }
+      //   ]
+      // },
+      // {
+      //   date: "2020-04-07",
+      //   income: undefined,
+      //   expenditrue: undefined,
+      //   detail: [
+      //     {
+      //       usefulness: "house",
+      //       amount: -7000,
+      //       comments: "付房租",
+      //       payer: "Me"
+      //     },
+      //     {
+      //       usefulness: "financial",
+      //       amount: 13000,
+      //       comments: "发工资",
+      //       payer: "Boss"
+      //     },
+      //     {
+      //       usefulness: "book",
+      //       amount: -50,
+      //       comments: "买《白夜行》",
+      //       payer: "Me"
+      //     }
+      //   ]
+      // },
+      // {
+      //   date: "2020-04-02",
+      //   income: undefined,
+      //   expenditrue: undefined,
+      //   detail: [{
+      //     usefulness: "transpotation",
+      //     amount: -77,
+      //     comments: "打的士",
+      //     payer: "Me"
+      //   },
+      //   {
+      //     usefulness: "food",
+      //     amount: -89,
+      //     comments: "吃午饭",
+      //     payer: "Me"
+      //   },
+      //   {
+      //     usefulness: "other",
+      //     amount: 280,
+      //     comments: "路上捡到钱",
+      //     payer: "Me"
+      //   }
+      //   ]
+      // },
+      // {
+      //   date: "2020-03-31",
+      //   income: undefined,
+      //   expenditrue: undefined,
+      //   detail: [{
+      //     usefulness: "financial",
+      //     amount: -2000,
+      //     comments: "买指数基金进行投资",
+      //     payer: "Me"
+      //   },
+      //   {
+      //     usefulness: "food",
+      //     amount: -2700,
+      //     comments: "吃晚饭",
+      //     payer: "Boss"
+      //   },
+      //   {
+      //     usefulness: "financial",
+      //     amount: 180,
+      //     comments: "投资收益",
+      //     payer: "Me"
+      //   }
+      //   ]
+      // },
+      // {
+      //   date: "2020-03-09",
+      //   income: undefined,
+      //   expenditrue: undefined,
+      //   detail: [{
+      //     usefulness: "book",
+      //     amount: -80,
+      //     comments: "买计算机组成原理教材",
+      //     payer: "Me"
+      //   },
+      //   {
+      //     usefulness: "other",
+      //     amount: -78,
+      //     comments: "去洗脚城按摩",
+      //     payer: "Kris"
+      //   },
+      //   {
+      //     usefulness: "other",
+      //     amount: -300,
+      //     comments: "给女朋友买礼物",
+      //     payer: "Me"
+      //   }
+      //   ]
+      // },
     ],
     show: [],
     bill_attributes: [
@@ -333,28 +333,28 @@ Page({
   },
 
   inputAmount(e) {
-    console.log(e.detail.value)
+    // console.log(e.detail.value)
     this.setData({
       input_amount: e.detail.value
     })
   },
 
   inputPayer(e) {
-    console.log(e.detail.value)
+    // console.log(e.detail.value)
     this.setData({
       input_payer: e.detail.value
     })
   },
 
   inputComment(e) {
-    console.log(e.detail.value)
+    // console.log(e.detail.value)
     this.setData({
       input_comment: e.detail.value
     })
   },
 
   bindDateChange(e) {
-    console.log(e.detail.value);
+    // console.log(e.detail.value);
     this.setData({
       showTime: e.detail.value
     })
@@ -427,6 +427,7 @@ Page({
       tab: -1
     })
     let newItem = new Object();
+    let temp;
     newItem.usefulness = this.data.useList[this.data.useIndex];
     newItem.amount = this.data.input_amount;
     newItem.comments = this.data.input_comment;
@@ -442,6 +443,7 @@ Page({
           element.income += newItem.amount;
         }
       }
+      temp = element;
     })
     if (isDateExist == false) {
       let dateBill = new Object();
@@ -463,7 +465,17 @@ Page({
       this.setData({
         show: this.data.groups,
       })
+      temp = dateBill
     }
+    wx.request({
+      url: 'http://47.102.203.228:5000/update',
+      data: {},
+      header: {'content-type':'application/json'},
+      method: 'POST',
+      success: (result)=>{},
+      fail: ()=>{},
+      complete: ()=>{}
+    });
   },
 
   timeAssign: function () {
