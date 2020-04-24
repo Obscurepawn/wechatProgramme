@@ -5,7 +5,7 @@ App({
     var logs = wx.getStorageSync('logs') || []
     logs.unshift(Date.now())
     wx.setStorageSync('logs', logs)
-
+    let that = this;
     // 登录
     wx.login({
       success: r => {
@@ -26,13 +26,14 @@ App({
               success: function (res) {
                 //4.解密成功后 获取自己服务器返回的结果
                 if (res.data.return_code == 0) {
-                  console.log(res.data.data);
-                  var app = getApp();
-                  app.globalData.userInfo = res.data.data;
+                  that.globalData.userInfo = res.data.data;
+                  console.log(that.globalData.userInfo);
+                  if (that.userInfoReadyCallback) {
+                     that.userInfoReadyCallback(res.data.data);
+                  }
                 } else {
                   console.log('解密失败');
                 }
-
               },
               fail: function () {
                 console.log('系统错误');
@@ -52,7 +53,7 @@ App({
       console.log('登陆失败');
     }
   })
-    //获取用户信息
+    // // 获取用户信息
     // wx.getSetting({
     //   success: res => {
     //     if (res.authSetting['scope.userInfo']) {

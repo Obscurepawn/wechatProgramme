@@ -14,6 +14,7 @@ Page({
       "other",
       "transpotation",
     ],
+    userInfo:undefined,
     useIndex: 0,
     input_amount: undefined,
     input_comment: undefined,
@@ -335,7 +336,7 @@ Page({
   inputAmount(e) {
     // console.log(e.detail.value)
     this.setData({
-      input_amount: e.detail.value
+      input_amount: Number(e.detail.value)
     })
   },
 
@@ -392,7 +393,7 @@ Page({
     })
   },
 
-  dateCompare: function(a, b) {
+  dateCompare: function (a, b) {
     let date1 = a.date;
     let date2 = b.date;
     let year1 = parseInt(date1.substring(0, 4));
@@ -428,6 +429,8 @@ Page({
     })
     let newItem = new Object();
     let temp;
+    console.log(this.userInfo);
+    const openId = this.userInfo.openId;
     newItem.usefulness = this.data.useList[this.data.useIndex];
     newItem.amount = this.data.input_amount;
     newItem.comments = this.data.input_comment;
@@ -443,6 +446,9 @@ Page({
           element.income += newItem.amount;
         }
       }
+      this.setData({
+        show: this.data.groups,
+      })
       temp = element;
     })
     if (isDateExist == false) {
@@ -460,6 +466,7 @@ Page({
       }
       dateBill.detail = detail;
       this.data.groups.push(dateBill);
+      console.log(this.data.groups);
       this.data.groups.sort(this.dateCompare);
       console.log(dateBill);
       this.setData({
@@ -467,15 +474,36 @@ Page({
       })
       temp = dateBill
     }
+    temp.openId = openId;
     wx.request({
       url: 'http://47.102.203.228:5000/update',
-      data: {},
-      header: {'content-type':'application/json'},
-      method: 'POST',
-      success: (result)=>{},
-      fail: ()=>{},
-      complete: ()=>{}
+      data: temp,
+      header: { 'content-type': 'application/json' },
+      method: 'PUT',
+      success: (result) => {
+        console.log(temp);
+        if (result.statusCode != 200) {
+          wx.request({
+            url: 'http://47.102.203.228:5000/add',
+            data: temp,
+            header: { 'content-type': 'application/json' },
+            method: 'PUT',
+            success: (res) => {
+              if (res.statusCode != 200) {
+                console.log(res.message);
+              } else {
+                console.log("update data successfully");
+              }
+              console.log(res);
+            }
+          });
+        } else {
+          console.log("update data successfully");
+        }
+        console.log(result);
+      }
     });
+    wx.setStorageSync("bills", this.data.groups);
   },
 
   timeAssign: function () {
@@ -494,6 +522,12 @@ Page({
     this.setData({
       show: this.data.groups
     })
+    var app = getApp();
+    app.userInfoReadyCallback = function() {
+      this.setData({
+        userInfo:app.globalData.userInfo
+      })
+    }
   },
 
   /**
