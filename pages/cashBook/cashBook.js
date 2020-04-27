@@ -1,5 +1,6 @@
 // pages/cashBook/cashBook.js
 var util = require('../../utils/util.js');
+var app = getApp();
 Page({
   /**
    * 页面的初始数据
@@ -14,7 +15,7 @@ Page({
       "other",
       "transpotation",
     ],
-    userInfo:undefined,
+    openId: undefined,
     useIndex: 0,
     input_amount: undefined,
     input_comment: undefined,
@@ -54,129 +55,7 @@ Page({
     expenditrue: 0,
     income: 0,
     // searchResultText:undefined,
-    groups: [
-      // {
-      //   "date": "2020-04-09",
-      //   income: undefined,
-      //   expenditrue: undefined,
-      //   detail: [{
-      //     usefulness: "transpotation",
-      //     amount: -15,
-      //     comments: "回学校",
-      //     payer: "Jankos"
-      //   },
-      //   {
-      //     usefulness: "food",
-      //     amount: -7,
-      //     comments: "吃早餐",
-      //     payer: "Me"
-      //   },
-      //   {
-      //     usefulness: "play",
-      //     amount: -300,
-      //     comments: "买最新款的游戏",
-      //     payer: "Me"
-      //   }
-      //   ]
-      // },
-      // {
-      //   date: "2020-04-07",
-      //   income: undefined,
-      //   expenditrue: undefined,
-      //   detail: [
-      //     {
-      //       usefulness: "house",
-      //       amount: -7000,
-      //       comments: "付房租",
-      //       payer: "Me"
-      //     },
-      //     {
-      //       usefulness: "financial",
-      //       amount: 13000,
-      //       comments: "发工资",
-      //       payer: "Boss"
-      //     },
-      //     {
-      //       usefulness: "book",
-      //       amount: -50,
-      //       comments: "买《白夜行》",
-      //       payer: "Me"
-      //     }
-      //   ]
-      // },
-      // {
-      //   date: "2020-04-02",
-      //   income: undefined,
-      //   expenditrue: undefined,
-      //   detail: [{
-      //     usefulness: "transpotation",
-      //     amount: -77,
-      //     comments: "打的士",
-      //     payer: "Me"
-      //   },
-      //   {
-      //     usefulness: "food",
-      //     amount: -89,
-      //     comments: "吃午饭",
-      //     payer: "Me"
-      //   },
-      //   {
-      //     usefulness: "other",
-      //     amount: 280,
-      //     comments: "路上捡到钱",
-      //     payer: "Me"
-      //   }
-      //   ]
-      // },
-      // {
-      //   date: "2020-03-31",
-      //   income: undefined,
-      //   expenditrue: undefined,
-      //   detail: [{
-      //     usefulness: "financial",
-      //     amount: -2000,
-      //     comments: "买指数基金进行投资",
-      //     payer: "Me"
-      //   },
-      //   {
-      //     usefulness: "food",
-      //     amount: -2700,
-      //     comments: "吃晚饭",
-      //     payer: "Boss"
-      //   },
-      //   {
-      //     usefulness: "financial",
-      //     amount: 180,
-      //     comments: "投资收益",
-      //     payer: "Me"
-      //   }
-      //   ]
-      // },
-      // {
-      //   date: "2020-03-09",
-      //   income: undefined,
-      //   expenditrue: undefined,
-      //   detail: [{
-      //     usefulness: "book",
-      //     amount: -80,
-      //     comments: "买计算机组成原理教材",
-      //     payer: "Me"
-      //   },
-      //   {
-      //     usefulness: "other",
-      //     amount: -78,
-      //     comments: "去洗脚城按摩",
-      //     payer: "Kris"
-      //   },
-      //   {
-      //     usefulness: "other",
-      //     amount: -300,
-      //     comments: "给女朋友买礼物",
-      //     payer: "Me"
-      //   }
-      //   ]
-      // },
-    ],
+    groups: [],
     show: [],
     bill_attributes: [
       "usefulness",
@@ -354,7 +233,7 @@ Page({
     })
   },
 
-  bindDateChange(e) {
+  bindDateChange(e) {2
     // console.log(e.detail.value);
     this.setData({
       showTime: e.detail.value
@@ -429,13 +308,12 @@ Page({
     })
     let newItem = new Object();
     let temp;
-    console.log(this.userInfo);
-    const openId = this.userInfo.openId;
     newItem.usefulness = this.data.useList[this.data.useIndex];
     newItem.amount = this.data.input_amount;
     newItem.comments = this.data.input_comment;
     newItem.payer = this.data.input_payer;
     let isDateExist = false;
+    console.log(this.data.showTime);
     this.data.groups.forEach(element => {
       if (element.date == this.data.showTime) {
         element.detail.push(newItem);
@@ -445,11 +323,11 @@ Page({
         } else {
           element.income += newItem.amount;
         }
+        temp = element;
       }
       this.setData({
         show: this.data.groups,
       })
-      temp = element;
     })
     if (isDateExist == false) {
       let dateBill = new Object();
@@ -474,7 +352,10 @@ Page({
       })
       temp = dateBill
     }
-    temp.openId = openId;
+    temp.openId = this.data.openId;
+    //oldDate在该函数中没有意义,只是为了保持格式一致,方便后端api编写。
+    temp.old_date = temp.date;
+    console.log("tempBill: ",temp);
     wx.request({
       url: 'http://47.102.203.228:5000/update',
       data: temp,
@@ -514,26 +395,65 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    wx.clearStorageSync();
     this.setData({
       search: this.search.bind(this),
       time: this.timeAssign()
     });
-    this.getSum(this.data.groups);
-    this.setData({
-      show: this.data.groups
-    })
-    var app = getApp();
-    app.userInfoReadyCallback = function() {
-      this.setData({
-        userInfo:app.globalData.userInfo
-      })
-    }
   },
 
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
+    var App = getApp();
+    console.log("App.js:", App.globalData.openId);
+    this.setData({
+      openId: App.globalData.openId
+    })
+    console.log("cashBook.js:", this.data.openId);
+    let groups = wx.getStorageSync("bills");
+    if (!groups) {
+      wx.request({
+        url: 'http://47.102.203.228:5000/init',
+        data: { openId: this.data.openId },
+        header: { 'content-type': 'application/json' },
+        method: 'POST',
+        dataType: 'json',
+        success: (result) => {
+          if (result.statusCode != 200) {
+            console.log(result.message);
+          } else {
+            console.log(result.data.data);
+            this.setData({
+              groups: result.data.data,
+            })
+            this.getSum(this.data.groups);
+            console.log(this.data.groups);
+            this.data.groups.sort(this.dateCompare);
+            this.setData({
+              show:this.data.groups
+            })
+            wx.setStorageSync("bills", result.data.data);
+            console.log("Init Successfully");
+          }
+        },
+        fail: function () {
+          console.log("系统错误");
+        }
+      });
+    } else {
+      this.setData({
+        groups: groups,
+      })
+      console.log(this.data.groups);
+      this.getSum(this.data.groups);
+      this.data.groups.sort(this.dateCompare);
+      this.setData({
+        show:this.data.groups
+      })
+      console.log("Init Successfully");
+    }
   },
 
   /**
