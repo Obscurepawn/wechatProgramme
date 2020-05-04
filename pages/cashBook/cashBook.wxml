@@ -7,7 +7,7 @@
 		<text style="float: right;height: 25px;color:white;" space="ensp">本月 支出:{{expenditrue}} 收入:{{income}}</text>
 	</view>
 	<view class="page__bd">
-		<mp-searchbar bindselectresult="selectResult" search="{{search}}" style="width:100%" result="{{searchResultText}}"></mp-searchbar>
+		<mp-searchbar bindselectresult="selectResult" search="{{search}}" bindcancel="showAll" style="width:100%" ></mp-searchbar>
 	</view>
 	<modal show="{{showModal}}" height='60%' bindcancel="modalCancel" bindconfirm='modalConfirm' wx:if="{{tab==2}}">
 		<view class="section">
@@ -49,12 +49,14 @@
 			<text class="sum" style="float: right;height: auto;">支出:{{item.expenditrue}} 收入:{{item.income}}</text>
 			<text>\n</text>
 		</view>
-		<view class="singleBill" wx:for="{{item.detail}}" wx:for-index="Index" wx:for-item="Item" wx:key="*this">
+		<view class="singleBill" wx:for="{{item.detail}}" wx:for-index="Index" wx:for-item="Item" wx:key="*this" data-insideIndex="{{Index}}" data-outsideIndex="{{index}}" bindtap="chooseBill" >
+		<view class="{{Item.isChosen ? 'isChosen' : ''}}">
 			<text>\n</text>
 			<image src="{{tools.iconPath(Item)}}" class="icon"></image>
 			<text space="nbsp" class="usefulness">       {{Item.usefulness}}</text>
 			<text class="comment">备注:<text wx:if="{{Item.payer!='Me'}}">[支付人:{{Item.payer}}]</text>{{Item.comments}}</text>
 			<text style="float:right;color:{{tools.color(Item.amount)}};" class="billfont">{{Item.amount}}</text>
+		</view>
 		</view>
 		<view class="line"></view>
 	</view>

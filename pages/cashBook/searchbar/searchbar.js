@@ -181,6 +181,7 @@ module.exports =
                             this.setData({
                                 searchState: false
                             });
+                            this.triggerEvent('cancel');
                         },
                         inputChange: function inputChange(e) {
                             var _this = this;
@@ -209,9 +210,7 @@ module.exports =
                         selectResult: function selectResult(e) {
                             var index = e.currentTarget.dataset.index;
                             var item = this.data.result[index];
-                            this.setData({
-                                searchState: false
-                            });
+                            
                             this.triggerEvent('selectresult', { index: index, item: item });
                         }
                     }

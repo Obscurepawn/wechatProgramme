@@ -17,9 +17,9 @@ Page({
     ],
     openId: undefined,
     useIndex: 0,
-    input_amount: undefined,
-    input_comment: undefined,
-    input_payer: undefined,
+    inputAmount: undefined,
+    inputComment: undefined,
+    inputPayer: undefined,
     list: [{
       "text": "统计图",
       "iconPath": "/images/cashBook/line-chart.jpg",
@@ -54,73 +54,61 @@ Page({
     showTime: undefined,
     expenditrue: 0,
     income: 0,
-    // searchResultText:undefined,
     groups: [],
     show: [],
-    bill_attributes: [
+    billAttributes: [
       "usefulness",
       "amount",
       "comments",
       "payer"
     ],
+    chooseList:[],
     tab: -1,
     // picker_value: [1],
     // inputShowed: false,
     // inputVal: "",
   },
 
-  newIndexOf: function (list, data) {
-    list.forEach(value => {
-      if (value == data) {
-        return true;
-      }
-    });
-    return false;
-  },
-
   makeList: function (val, groups) {
     let list = val.split(" ");
-    console.log(list)
-    console.log(groups)
+    console.log("list in makeList: ", list);
+    console.log("groups in makeList: ", groups);
     let count = 0;
     let temp = [];
     groups.forEach(element => {
       count = 0;
-      if (element.date.search(val) != -1 || this.newIndexOf(list, element.date)) {
-        count += 1;
-      }
-      if (element.income == val || this.newIndexOf(list, element.income)) {
-        count += 1;
-      }
-      if (element.expenditrue == val || this.newIndexOf(list, element.expenditrue)) {
-        count += 1;
-      }
-      element.detail.forEach(bill => {
-        this.data.bill_attributes.forEach(attribute => {
-          if (this.newIndexOf(list, bill[attribute])) {
-            count += 1
-          }
-          else if (typeof bill[attribute] == "string") {
-            if (bill[attribute].search(val) != -1) {
-              count += 1
-            }
-          } else if (typeof bill[attribute] == "number") {
-            if (bill[attribute] == val) {
+      list.forEach(lex => {
+        if (element.date.search(lex) != -1 || lex == element.date) {
+          count += 1;
+        }
+        if (element.income == lex || lex == element.income) {
+          count += 1;
+        }
+        if (element.expenditrue == lex || lex == element.expenditrue) {
+          count += 1;
+        }
+        element.detail.forEach(bill => {
+          this.data.billAttributes.forEach(attribute => {
+            if (lex == bill[attribute]) {
               count += 1;
+            } else if (typeof bill[attribute] == "string") {
+              if (bill[attribute].search(lex) != -1) {
+                count += 1;
+              }
             }
-          }
+          });
         });
       });
       if (count != 0) {
         temp.push(element);
         temp[temp.length - 1].count = count;
       }
-    })
+    });
     return temp.sort(function (a, b) { return b.count - a.count });
   },
 
   makeText: function (list) {
-    console.log(list)
+    console.log("List in makeText: ", list)
     let ret = [];
     let temp;
     list.forEach(element => {
@@ -131,12 +119,12 @@ Page({
       })
       ret.push({ text: temp });
     });
-    console.log(ret);
+    console.log("ret in makeText: ", ret);
     return ret;
   },
 
   tabChange(e) {
-    console.log('tab change', e.detail.index);
+    console.log('tab change: ', e.detail.index);
     if (e.detail.index == 2) {
       this.setData({
         tab: 2,
@@ -197,8 +185,8 @@ Page({
       incomeTemp = 0;
       index += 1
     })
-    console.log(Expenditrue);
-    console.log(Income);
+    console.log("expenditure in getSum: ", Expenditrue);
+    console.log("income in getSum: ", Income);
     this.setData({
       expenditrue: Expenditrue,
       income: Income
@@ -215,30 +203,31 @@ Page({
   inputAmount(e) {
     // console.log(e.detail.value)
     this.setData({
-      input_amount: Number(e.detail.value)
+      inputAmount: Number(e.detail.value)
     })
   },
 
   inputPayer(e) {
     // console.log(e.detail.value)
     this.setData({
-      input_payer: e.detail.value
+      inputPayer: e.detail.value
     })
   },
 
   inputComment(e) {
     // console.log(e.detail.value)
     this.setData({
-      input_comment: e.detail.value
+      inputComment: e.detail.value
     })
   },
 
-  bindDateChange(e) {2
+  bindDateChange(e) {
+    2
     // console.log(e.detail.value);
     this.setData({
       showTime: e.detail.value
     })
-    console.log(this.data.showTime);
+    console.log("shwoTime in makeText: ", this.data.showTime);
   },
 
   bindUseChange(e) {
@@ -249,12 +238,12 @@ Page({
 
   selectResult: function (e) {
     let list = e.detail.item.text.split(";");
-    console.log(list);
+    console.log("list in selectResult: ", list);
     let date = list[0];
-    console.log(date);
+    console.log("date in selectResult: ", date);
     let temp = [];
     this.data.groups.forEach(element => {
-      console.log(element);
+      console.log("element in selectResult: ", element);
       if (element.date == date) {
         temp.push(element);
         this.setData({
@@ -309,11 +298,11 @@ Page({
     let newItem = new Object();
     let temp;
     newItem.usefulness = this.data.useList[this.data.useIndex];
-    newItem.amount = this.data.input_amount;
-    newItem.comments = this.data.input_comment;
-    newItem.payer = this.data.input_payer;
+    newItem.amount = this.data.inputAmount;
+    newItem.comments = this.data.inputComment;
+    newItem.payer = this.data.inputPayer;
     let isDateExist = false;
-    console.log(this.data.showTime);
+    console.log("showTime in modalConfirm: ", this.data.showTime);
     this.data.groups.forEach(element => {
       if (element.date == this.data.showTime) {
         element.detail.push(newItem);
@@ -333,7 +322,7 @@ Page({
       let dateBill = new Object();
       let detail = [];
       detail.push(newItem);
-      console.log(this.data.showTime);
+      console.log("new showTime in modalConfirm: ", this.data.showTime);
       dateBill.date = this.data.showTime;
       dateBill.expenditrue = 0;
       dateBill.income = 0;
@@ -344,9 +333,9 @@ Page({
       }
       dateBill.detail = detail;
       this.data.groups.push(dateBill);
-      console.log(this.data.groups);
+      console.log("groups in modalConfirm: ", this.data.groups);
       this.data.groups.sort(this.dateCompare);
-      console.log(dateBill);
+      console.log("dateBill in modalConfirm: ", dateBill);
       this.setData({
         show: this.data.groups,
       })
@@ -355,7 +344,7 @@ Page({
     temp.openId = this.data.openId;
     //oldDate在该函数中没有意义,只是为了保持格式一致,方便后端api编写。
     temp.old_date = temp.date;
-    console.log("tempBill: ",temp);
+    console.log("tempBill: ", temp);
     wx.request({
       url: 'http://47.102.203.228:5000/update',
       data: temp,
@@ -389,6 +378,30 @@ Page({
 
   timeAssign: function () {
     return this.data.year + ((this.data.month < 10) ? "-0" : "-") + this.data.month + ((this.data.date < 10) ? "-0" : "-") + this.data.date;
+  },
+
+  showAll: function () {
+    this.setData({
+      show: this.data.groups
+    })
+  },
+
+  chooseBill: function (e) {
+    let object = {"insideIndex":e.currentTarget.dataset.insideindex,"outsideIndex":e.currentTarget.dataset.outsideindex};
+    if(JSON.stringify(this.data.chooseList).indexOf(JSON.stringify(object))==-1){
+      console.log(object);
+      this.data.chooseList.push(object);
+    }
+    if(this.data.groups[object.outsideIndex].detail[object.insideIndex].isChosen!=true){
+      this.data.groups[object.outsideIndex].detail[object.insideIndex].isChosen = true;
+    } else{
+      this.data.groups[object.outsideIndex].detail[object.insideIndex].isChosen = false;
+    }
+    console.log(this.data.groups[object.outsideIndex].detail[object.insideIndex]);
+    console.log(this.data.chooseList);
+    this.setData({
+      show: this.data.groups
+    })
   },
 
   /**
@@ -432,7 +445,7 @@ Page({
             console.log(this.data.groups);
             this.data.groups.sort(this.dateCompare);
             this.setData({
-              show:this.data.groups
+              show: this.data.groups
             })
             wx.setStorageSync("bills", result.data.data);
             console.log("Init Successfully");
@@ -450,7 +463,7 @@ Page({
       this.getSum(this.data.groups);
       this.data.groups.sort(this.dateCompare);
       this.setData({
-        show:this.data.groups
+        show: this.data.groups
       })
       console.log("Init Successfully");
     }

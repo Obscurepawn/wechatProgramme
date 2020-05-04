@@ -88,3 +88,7 @@
     display: flex;
     border: 1px solid #b6b6b6;
 }
+
+.isChosen {
+    background-color: rgba(187, 240, 222, 0.774);
+}

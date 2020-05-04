@@ -82,128 +82,111 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 25);
+/******/ 	return __webpack_require__(__webpack_require__.s = 0);
 /******/ })
 /************************************************************************/
-/******/ ({
-
-/***/ 25:
+/******/ ([
+/* 0 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 Component({
-    options: {
-        addGlobalClass: true
-    },
-    properties: {
-        extClass: {
-            type: String,
-            value: ''
-        },
-        focus: {
-            type: Boolean,
-            value: false
-        },
-        placeholder: {
-            type: String,
-            value: '搜索'
-        },
-        value: {
-            type: String,
-            value: ''
-        },
-        search: {
-            type: Function,
-            value: null
-        },
-        throttle: {
-            type: Number,
-            value: 500
-        },
-        cancelText: {
-            type: String,
-            value: '取消'
-        },
-        cancel: {
-            type: Boolean,
-            value: true
-        }
-    },
-    data: {
-        result: []
-    },
-    lastSearch: Date.now(),
-    lifetimes: {
-        attached: function attached() {
-            if (this.data.focus) {
-                this.setData({
-                    searchState: true
-                });
-            }
-        }
-    },
-    methods: {
-        clearInput: function clearInput() {
-            this.setData({
-                value: ''
-            });
-            this.triggerEvent('clear');
-        },
-        inputFocus: function inputFocus(e) {
-            this.triggerEvent('focus', e.detail);
-        },
-        inputBlur: function inputBlur(e) {
-            this.setData({
-                focus: false
-            });
-            this.triggerEvent('blur', e.detail);
-        },
-        showInput: function showInput() {
-            this.setData({
-                focus: true,
-                searchState: true
-            });
-        },
-        hideInput: function hideInput() {
-            this.setData({
-                searchState: false
-            });
-        },
-        inputChange: function inputChange(e) {
-            var _this = this;
+  /**
+   * 外部样式类
+   */
+  externalClasses: ['header-row-class-name', 'row-class-name', 'cell-class-name'],
 
-            this.setData({
-                value: e.detail.value
-            });
-            this.triggerEvent('input', e.detail);
-            if (Date.now() - this.lastSearch < this.data.throttle) {
-                return;
-            }
-            if (typeof this.data.search !== 'function') {
-                return;
-            }
-            this.lastSearch = Date.now();
-            this.timerId = setTimeout(function () {
-                _this.data.search(e.detail.value).then(function (json) {
-                    _this.setData({
-                        result: json
-                    });
-                }).catch(function (err) {
-                    console.log('search error', err);
-                });
-            }, this.data.throttle);
-        },
-        selectResult: function selectResult(e) {
-            var index = e.currentTarget.dataset.index;
-            var item = this.data.result[index];
-            
-            this.triggerEvent('selectresult', { index: index, item: item });
-        }
+  /**
+   * 组件样式隔离
+   */
+  options: {
+    styleIsolation: "isolated",
+    multipleSlots: true // 支持多个slot
+  },
+
+  /**
+   * 组件的属性列表
+   */
+  properties: {
+    data: {
+      type: Array,
+      value: []
+    },
+    headers: {
+      type: Array,
+      value: []
+    },
+    // table的高度, 溢出可滚动
+    height: {
+      type: String,
+      value: 'auto'
+    },
+    width: {
+      type: Number || String,
+      value: '100%'
+    },
+    // 单元格的宽度
+    tdWidth: {
+      type: Number,
+      value: 35
+    },
+    // 固定表头 thead达到Header的位置时就应该被fixed了
+    offsetTop: {
+      type: Number,
+      value: 150
+    },
+    // 是否带有纵向边框
+    stripe: {
+      type: Boolean,
+      value: false
+    },
+    // 是否带有纵向边框
+    border: {
+      type: Boolean,
+      value: false
+    },
+    msg: {
+      type: String,
+      value: '暂无数据~'
     }
+  },
+
+  /**
+   * 组件的初始数据
+   */
+  data: {
+    scrolWidth: '100%'
+  },
+
+  /**
+   * 组件的监听属性
+   */
+  observers: {
+    // 在 numberA 或者 numberB 被设置时，执行这个函数
+    'headers': function headers(_headers) {
+      var reducer = function reducer(accumulator, currentValue) {
+        return accumulator + Number(currentValue.width);
+      };
+      var scrolWidth = _headers.reduce(reducer, 0);
+
+      this.setData({
+        scrolWidth: scrolWidth
+      });
+    }
+  },
+
+  /**
+   * 组件的方法列表
+   */
+  methods: {
+    onRowClick: function onRowClick(e) {
+      this.triggerEvent('rowClick', e, e.currentTarget.dataset.it);
+    }
+  }
 });
 
 /***/ })
-
-/******/ });
+/******/ ]);
+//# sourceMappingURL=index.js.map

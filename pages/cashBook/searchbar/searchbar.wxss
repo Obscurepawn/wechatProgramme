@@ -14,14 +14,15 @@
   vertical-align: top;
   margin-top: .64em;
   height: 1em;
-  line-height: 1em
+  line-height: 1em;
+  /* background-color: rgb(183, 250, 228); */
 }
 
 .weui-icon-search_in-box {
   position: absolute;
   left: 12px;
   top: 50%;
-  margin-top: -8px
+  margin-top: -8px;
 }
 
 .weui-search-bar__text {
