@@ -64,9 +64,29 @@ Page({
     ],
     chooseList:[],
     tab: -1,
-    // picker_value: [1],
-    // inputShowed: false,
-    // inputVal: "",
+    AATextList:[],
+    // tableHeader: [
+    //   {
+    //     prop: 'datetime',
+    //     width: 150,
+    //     label: '日期',
+    //     color: '#55C355'
+    //   }
+    // ],
+    // stripe: true,
+    // border: true,
+    // outBorder: true,
+    // row: [
+    //   {
+    //       "id": 1,
+    //       "statusText": '正常',
+    //       "datetime": "04-01",
+    //       "sign_in": '09:30:00',
+    //       "sign_out": '18:30:00',
+    //       "work_hour": 8,
+    //   }
+    // ],
+    // msg: '暂无数据',
   },
 
   makeList: function (val, groups) {
@@ -125,9 +145,11 @@ Page({
 
   tabChange(e) {
     console.log('tab change: ', e.detail.index);
+    this.setData({
+      tab:e.detail.index
+    })
     if (e.detail.index == 2) {
       this.setData({
-        tab: 2,
         showTime: this.data.time,
       })
     }
@@ -386,22 +408,42 @@ Page({
     })
   },
 
+  objectEqual(object1,object2){
+    return JSON.stringify(object1)===JSON.stringify(object2);
+  },
+
+  listFind(list,object){
+    for(let i = 0;i<list.length;++i){
+      if (this.objectEqual(list[i],object)){
+        return i;
+      }
+    }
+    return -1;
+  },
+
   chooseBill: function (e) {
     let object = {"insideIndex":e.currentTarget.dataset.insideindex,"outsideIndex":e.currentTarget.dataset.outsideindex};
-    if(JSON.stringify(this.data.chooseList).indexOf(JSON.stringify(object))==-1){
+    let index = this.listFind(this.data.chooseList,object);
+    if(index==-1){
       console.log(object);
       this.data.chooseList.push(object);
-    }
+    } 
     if(this.data.groups[object.outsideIndex].detail[object.insideIndex].isChosen!=true){
       this.data.groups[object.outsideIndex].detail[object.insideIndex].isChosen = true;
     } else{
       this.data.groups[object.outsideIndex].detail[object.insideIndex].isChosen = false;
+      this.data.chooseList.splice(index,1);
     }
     console.log(this.data.groups[object.outsideIndex].detail[object.insideIndex]);
     console.log(this.data.chooseList);
     this.setData({
       show: this.data.groups
     })
+  },
+
+  AAcost: function(){
+    let info = [];
+    
   },
 
   /**
