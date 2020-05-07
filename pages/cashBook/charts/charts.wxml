@@ -1,0 +1,8 @@
+<view class="container" hover-class="none" hover-stop-propagation="false" wx:if="{{isNoData==true}}">
+    没有数据被选定
+</view>
+<view class="container" wx:if="{{isNoData==false}}">
+    <canvas canvas-id="pieCanvas" disable-scroll="true" class="pieCanvas" style="width:300px; height:220px;"></canvas>
+    <view class="line"></view>
+    <canvas canvas-id="lineCanvas" disable-scroll="true" class="lineCanvas" style="width:300px; height:220px;" bindtouchstart="touchHandler"></canvas>
+</view>

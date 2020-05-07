@@ -125,9 +125,9 @@ module.exports =
                     tabChange: function tabChange(e) {
                         var index = e.currentTarget.dataset.index;
 
-                        if (index === this.data.current) {
-                            return;
-                        }
+                        // if (index === this.data.current) {
+                        //     return;
+                        // }
                         this.setData({
                             current: index
                         });

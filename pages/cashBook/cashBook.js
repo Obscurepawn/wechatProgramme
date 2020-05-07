@@ -62,31 +62,9 @@ Page({
       "comments",
       "payer"
     ],
-    chooseList:[],
+    chooseList: [],
     tab: -1,
-    AATextList:[],
-    // tableHeader: [
-    //   {
-    //     prop: 'datetime',
-    //     width: 150,
-    //     label: '日期',
-    //     color: '#55C355'
-    //   }
-    // ],
-    // stripe: true,
-    // border: true,
-    // outBorder: true,
-    // row: [
-    //   {
-    //       "id": 1,
-    //       "statusText": '正常',
-    //       "datetime": "04-01",
-    //       "sign_in": '09:30:00',
-    //       "sign_out": '18:30:00',
-    //       "work_hour": 8,
-    //   }
-    // ],
-    // msg: '暂无数据',
+    AATextList: [],
   },
 
   makeList: function (val, groups) {
@@ -143,15 +121,98 @@ Page({
     return ret;
   },
 
+  cancelTheChoice:function(){
+    this.data.chooseList.forEach(element => {
+      let dataPath = 'show[' + element.outsideIndex + '].detail[' + element.insideIndex + '].isChosen';
+      this.setData({
+        [dataPath]: false
+      })
+    })
+    this.setData({
+      chooseList: []
+    })
+  },
+
   tabChange(e) {
     console.log('tab change: ', e.detail.index);
     this.setData({
-      tab:e.detail.index
+      tab: e.detail.index
     })
     if (e.detail.index == 2) {
       this.setData({
         showTime: this.data.time,
       })
+    } else if (e.detail.index == 1) {
+      this.AAcost();
+      let content = "";
+      this.data.AATextList.forEach(element => {
+        content += element + "\n";
+      })
+      wx.showModal({
+        title: 'AA大法好',
+        content: content,
+        showCancel: false,
+        confirmText: '确定',
+        confirmColor: '#3CC51F',
+        success: (result) => {
+          if (result.confirm) {
+            this.setData({
+              AATextList: [],
+            })
+            this.cancelTheChoice();
+          }
+        },
+        fail: () => { },
+        complete: () => { }
+      });
+    } else if (e.detail.index == 0) {
+      let sumInfo = new Array();
+      let amountList = [];
+      let dateList = [];
+      let typeInfo = [];
+      this.data.chooseList.forEach(element => {
+        this.findKey(typeInfo, this.data.show[element.outsideIndex].detail[element.insideIndex]);
+        if (sumInfo[this.data.show[element.outsideIndex].date]) {
+          sumInfo[this.data.show[element.outsideIndex].date] += this.data.show[element.outsideIndex].detail[element.insideIndex].amount;
+        } else {
+          sumInfo[this.data.show[element.outsideIndex].date] = this.data.show[element.outsideIndex].detail[element.insideIndex].amount;
+        }
+      })
+      dateList = Object.keys(sumInfo);
+      dateList.forEach(key => { amountList.push(sumInfo[key]); });
+      console.log(typeInfo);
+      console.log(sumInfo);
+      console.log(dateList);
+      console.log(amountList);
+      let object = [typeInfo, dateList, amountList];
+      console.log(object);
+      wx.navigateTo({
+        url: './charts/charts?data=' + JSON.stringify(object),
+        success: (result) => {
+          this.setData({
+            tab: -1
+          })
+          this.cancelTheChoice();
+        },
+        fail: () => { },
+        complete: () => { }
+      });
+    }
+  },
+
+  findKey: function (list, object) {
+    if (list.length == 0 && object.amount < 0) {
+      list.push({ "name": object.usefulness, "data": -object.amount });
+      return;
+    }
+    list.forEach(element => {
+      if (element.name == object.usefulness && object.amount < 0) {
+        element.amount -= object.amount;
+        return;
+      }
+    })
+    if (object.amount < 0) {
+      list.push({ "name": object.usefulness, "data": -object.amount });
     }
   },
 
@@ -408,13 +469,13 @@ Page({
     })
   },
 
-  objectEqual(object1,object2){
-    return JSON.stringify(object1)===JSON.stringify(object2);
+  objectEqual(object1, object2) {
+    return JSON.stringify(object1) === JSON.stringify(object2);
   },
 
-  listFind(list,object){
-    for(let i = 0;i<list.length;++i){
-      if (this.objectEqual(list[i],object)){
+  listFind(list, object) {
+    for (let i = 0; i < list.length; ++i) {
+      if (this.objectEqual(list[i], object)) {
         return i;
       }
     }
@@ -422,28 +483,95 @@ Page({
   },
 
   chooseBill: function (e) {
-    let object = {"insideIndex":e.currentTarget.dataset.insideindex,"outsideIndex":e.currentTarget.dataset.outsideindex};
-    let index = this.listFind(this.data.chooseList,object);
-    if(index==-1){
+    let object = { "insideIndex": e.currentTarget.dataset.insideindex, "outsideIndex": e.currentTarget.dataset.outsideindex };
+    let index = this.listFind(this.data.chooseList, object);
+    if (index == -1) {
       console.log(object);
       this.data.chooseList.push(object);
-    } 
-    if(this.data.groups[object.outsideIndex].detail[object.insideIndex].isChosen!=true){
-      this.data.groups[object.outsideIndex].detail[object.insideIndex].isChosen = true;
-    } else{
-      this.data.groups[object.outsideIndex].detail[object.insideIndex].isChosen = false;
-      this.data.chooseList.splice(index,1);
     }
-    console.log(this.data.groups[object.outsideIndex].detail[object.insideIndex]);
-    console.log(this.data.chooseList);
+    let dataPath = 'show[' + object.outsideIndex + '].detail[' + object.insideIndex + '].isChosen';
+    if (this.data.show[object.outsideIndex].detail[object.insideIndex].isChosen != true) {
+      this.setData({
+        [dataPath]: true
+      })
+    } else {
+      this.setData({
+        [dataPath]: false
+      })
+      this.data.chooseList.splice(index, 1);
+    }
     this.setData({
-      show: this.data.groups
+      show: this.data.show
     })
+    console.log(this.data.show[object.outsideIndex].detail[object.insideIndex]);
+    console.log(this.data.chooseList);
   },
 
-  AAcost: function(){
+
+  AAcost: function () {
     let info = [];
-    
+    let persons = [];
+    let collectMoney = [];
+    let giveMoney = [];
+    let collect_give = [];
+    let name;
+    let amount;
+    let sum = 0;
+    let personNum = 0;
+    let averageCost;
+    let object;
+    let index = 0;
+    this.data.chooseList.forEach(element => {
+      name = this.data.show[element.outsideIndex].detail[element.insideIndex].payer;
+      amount = this.data.show[element.outsideIndex].detail[element.insideIndex].amount;
+      info.push({ "payer": name, "amount": amount });
+      sum += amount
+      if (this.listFind(persons, name) == -1) {
+        personNum += 1;
+        persons.push(name);
+      }
+    })
+    if (personNum == 1) {
+      this.setData({
+        AATextList: ["AA分账中只有一名用户进行了支出或收入，至少要两名用户才可进行AA,请检查账单中付款人的用户名是否正确输入"]
+      })
+    }
+    averageCost = (sum / personNum).toFixed(2);
+    info.forEach(element => {
+      if (element.amount != averageCost) {
+        object = { "amount": averageCost - element.amount, "payer": element.payer };
+        if (object.amount > 0) {
+          collectMoney.push(object);
+        } else {
+          object.amount = -object.amount;
+          giveMoney.push(object);
+        }
+      }
+    })
+    collectMoney.forEach(element => {
+      while (giveMoney[index]) {
+        if (element.amount == 0) {
+          break;
+        }
+        if (giveMoney[index].amount == 0) {
+          index++;
+          continue;
+        }
+        if (element.amount <= giveMoney[index].amount) {
+          collect_give.push({ "payer": giveMoney[index].payer, "collector": element.payer, "amount": element.amount });
+          giveMoney[index].amount -= element.amount;
+          element.amount = 0;
+        } else if (element.amount > giveMoney[index].amount) {
+          collect_give.push({ "payer": giveMoney[index].payer, "collector": element.payer, "amount": giveMoney[index].amount });
+          giveMoney[index].amount = 0;
+          element.amount -= giveMoney[index].amount;
+        }
+      }
+    })
+    collect_give.forEach(element => {
+      this.data.AATextList.push(element.payer + "---" + element.amount + "--->" + element.collector);
+    })
+    console.log("TextList:", this.data.AATextList);
   },
 
   /**
@@ -515,7 +643,6 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
   },
 
   /**
