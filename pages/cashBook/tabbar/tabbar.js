@@ -128,9 +128,9 @@ module.exports =
                         // if (index === this.data.current) {
                         //     return;
                         // }
-                        // this.setData({
-                        //     current: index
-                        // });
+                        this.setData({
+                            current: index
+                        });
                         this.triggerEvent('change', { index: index, item: this.data.list[index] });
                     }
                 }

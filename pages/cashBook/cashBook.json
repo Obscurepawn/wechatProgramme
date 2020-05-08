@@ -2,7 +2,7 @@
   "usingComponents": {
     "mp-searchbar":"./searchbar/searchbar",
     "mp-tabbar":"./tabbar/tabbar",
-    "mp-modal":"./modal/modal"
+    "mp-table":"../../miniprogram_npm/miniprogram-table-component"
   },
   "navigationBarTitleText": ""
 }

@@ -7,13 +7,13 @@
 		<text style="float: right;height: 25px;color:white;" space="ensp">本月 支出:{{expenditrue}} 收入:{{income}}</text>
 	</view>
 	<view class="page__bd">
-		<mp-searchbar bindselectresult="selectResult" search="{{search}}" style="width:100%" result="{{searchResultText}}"></mp-searchbar>
+		<mp-searchbar bindselectresult="selectResult" search="{{search}}" bindcancel="showAll" style="width:100%" ></mp-searchbar>
 	</view>
-	<modal show="{{showModal}}" height='60%' bindcancel="modalCancel" bindconfirm='modalConfirm' wx:if="{{tab==2}}">
+	<modal height='60%' bindcancel="modalCancel" bindconfirm='modalConfirm' wx:if="{{tab==2}}">
 		<view class="section">
   			<picker mode="date" value="{{time}}" start="1970-1-1" end="{{time}}" bindchange="bindDateChange" style="width:100%;">
     			<view class="formrow" >
-					  <text class="field" style="font-size:">date:</text>  
+					  <text class="field" style="font-size:">date:</text>
 					  <text class="field" style="float:right;">{{showTime}}</text>
     			</view>
   			</picker>
@@ -29,13 +29,13 @@
 		</view>
 		<text>\n</text>
 		<view class='formrow'>
-			   <text class="field">amount</text> 
-			   <input type="text" class="input" bindinput="inputAmount"/>
+			   <text class="field">amount<text style="color:red">*</text></text> 
+			   <input type="text" class="input" bindinput="inputAmount" placeholder="必填项"/>
 		</view>
 		<text>\n</text>
 		<view class='formrow'>
 			   <text class="field">payer</text> 
-			   <input type="text" class="input" bindinput="inputPayer"/>
+			   <input type="text" class="input" bindinput="inputPayer" value="我"/>
 		</view>
 		<text>\n</text>
 		<view class='formrow'>
@@ -49,12 +49,14 @@
 			<text class="sum" style="float: right;height: auto;">支出:{{item.expenditrue}} 收入:{{item.income}}</text>
 			<text>\n</text>
 		</view>
-		<view class="singleBill" wx:for="{{item.detail}}" wx:for-index="Index" wx:for-item="Item" wx:key="*this">
+		<view class="singleBill" wx:for="{{item.detail}}" wx:for-index="Index" wx:for-item="Item" wx:key="*this" data-insideIndex="{{Index}}" data-outsideIndex="{{index}}" bindtap="chooseBill" >
+		<view class="{{Item.isChosen ? 'isChosen' : ''}}">
 			<text>\n</text>
 			<image src="{{tools.iconPath(Item)}}" class="icon"></image>
 			<text space="nbsp" class="usefulness">       {{Item.usefulness}}</text>
-			<text class="comment">备注:<text wx:if="{{Item.payer!='Me'}}">[支付人:{{Item.payer}}]</text>{{Item.comments}}</text>
+			<text class="comment">备注:<text wx:if="{{Item.payer!='我'}}">[支付人:{{Item.payer}}]</text>{{Item.comments}}</text>
 			<text style="float:right;color:{{tools.color(Item.amount)}};" class="billfont">{{Item.amount}}</text>
+		</view>
 		</view>
 		<view class="line"></view>
 	</view>
