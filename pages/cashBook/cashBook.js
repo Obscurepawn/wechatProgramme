@@ -308,16 +308,18 @@ Page({
         console.log(this.data.chooseList);
         let date = this.data.show[outsideIndex].date;
         let object = this.data.show[outsideIndex].detail[insideIndex];
-        console.log("object:",object);
+        console.log("object:", object);
+        console.log("groups:", this.data.groups);
         let position = this.findData(date, object);
-        console.log("position:",position);
-        console.log("deleted data:",this.data.groups[position.outsideIndex].detail[position.insideIndex]);
+        console.log("position:", position);
+        console.log("deleted data:", this.data.groups[position.outsideIndex].detail[position.insideIndex]);
         this.data.groups[position.outsideIndex].detail.splice(position.insideIndex, 1);
         if (this.data.groups[position.outsideIndex].detail.length == 0) {
           this.data.groups[position.outsideIndex].openId = this.data.openId;
           this.delete(this.data.groups[position.outsideIndex]);
           this.data.groups.splice(position.outsideIndex, 1);
         } else {
+          this.update(this.data.groups[outsideIndex]);
           this.refreshSum(position.outsideIndex);
         }
         this.refreshShow();
@@ -327,13 +329,15 @@ Page({
   },
 
   findData: function (date, object) {
-    let content = JSON.stringify(object);
     let outsideIndex = 0;
     let insideIndex = 0;
     for (outsideIndex = 0; this.data.groups[outsideIndex]; ++outsideIndex) {
-      if (this.data.groups[outsideIndex].date == date) {
+      if (this.data.groups[outsideIndex].date === date) {
         for (insideIndex = 0; this.data.groups[outsideIndex].detail[insideIndex]; ++insideIndex) {
-          if (JSON.stringify(this.data.groups[outsideIndex].detail[insideIndex] == content)) {
+          if (object.payer === this.data.groups[outsideIndex].detail[insideIndex].payer &&
+            object.comments === this.data.groups[outsideIndex].detail[insideIndex].comments &&
+            object.amount === this.data.groups[outsideIndex].detail[insideIndex].amount &&
+            object.usefulness === this.data.groups[outsideIndex].detail[insideIndex].usefulness) {
             return { "outsideIndex": outsideIndex, "insideIndex": insideIndex };
           }
         }
@@ -345,7 +349,7 @@ Page({
   refreshShow: function () {
     if (this.data.isShowAll == true) {
       this.setData({
-        show: this.data.groups
+        show: JSON.parse(JSON.stringify(this.data.groups))
       })
       return;
     }
@@ -357,10 +361,11 @@ Page({
     this.data.groups.forEach(element => {
       if (this.listFind(dateList, element.date) != -1) {
         show.push(element);
+        this.setData({
+          show: show
+        })
+        return; //暂时只能搜索某一天的数据，故此处查找到之后即可结束
       }
-    })
-    this.setData({
-      show: show
     })
   },
 
@@ -748,7 +753,7 @@ Page({
 
   showAll: function () {
     this.setData({
-      show: this.data.groups,
+      show: JSON.parse(JSON.stringify(this.data.groups)),
       isShowAll: true
     })
   },
@@ -784,9 +789,6 @@ Page({
       })
       this.data.chooseList.splice(index, 1);
     }
-    this.setData({
-      show: this.data.show
-    })
     console.log(this.data.show[object.outsideIndex].detail[object.insideIndex]);
     console.log(this.data.chooseList);
   },
@@ -914,7 +916,7 @@ Page({
             console.log(this.data.groups);
             this.data.groups.sort(this.dateCompare);
             this.setData({
-              show: this.data.groups
+              show: JSON.parse(JSON.stringify(this.data.groups))
             })
             wx.setStorageSync("bills", result.data.data);
             console.log("Init Successfully");
@@ -932,7 +934,7 @@ Page({
       this.getSum(this.data.groups);
       this.data.groups.sort(this.dateCompare);
       this.setData({
-        show: this.data.groups
+        show: JSON.parse(JSON.stringify(this.data.groups))
       })
       console.log("Init Successfully");
     }
