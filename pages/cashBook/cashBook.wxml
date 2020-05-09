@@ -43,7 +43,7 @@
 			   <input type="text" class="input" bindinput="inputComment"/>
 		</view>
 	</modal>
-	<modal height='60%' bindcancel="modalCancel" bindconfirm='updateBill' wx:if="{{tab==3}}">
+	<modal height='60%' bindcancel="modalCancel" bindconfirm='updateBill' wx:if="{{tab==5}}">
 		<view class="section">
   			<picker mode="date" value="{{showTime}}" start="1970-1-1" end="{{time}}" bindchange="bindDateChange" style="width:100%;">
     			<view class="formrow" >

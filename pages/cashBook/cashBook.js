@@ -251,6 +251,9 @@ Page({
           complete: () => { }
         });
       } else {
+        this.setData({
+          tab:5
+        })
         let outsideIndex = this.data.chooseList[0].outsideIndex;
         let insideIndex = this.data.chooseList[0].insideIndex;
         let object = JSON.parse(JSON.stringify(this.data.show[outsideIndex].detail[insideIndex]));
@@ -413,14 +416,13 @@ Page({
     } else {
       let temp = this.addDataToGroup(newItem);
       this.data.groups[outsideIndex].detail.splice(insideIndex, 1);
+      this.data.groups[outsideIndex].openId = this.data.openId;
       if (this.data.groups[outsideIndex].detail.length == 0) {
-        this.data.groups[outsideIndex].openId = this.data.openId;
         console.log("old data:", this.data.groups[outsideIndex]);
         this.delete(this.data.groups[outsideIndex]);
         this.data.groups.splice(outsideIndex, 1);
         console.log("data deleted:", this.data.groups);
       } else {
-        this.data.groups[outsideIndex].openId = this.data.openId;
         this.update(this.data.groups[outsideIndex]);
         this.refreshSum(this.data.groups[outsideIndex]);
       }
@@ -815,7 +817,7 @@ Page({
     let averageCost;
     let object;
     let index = 0;
-    this.data.chooseList.forEach(eleuUment => {
+    this.data.chooseList.forEach(element => {
       name = this.data.show[element.outsideIndex].detail[element.insideIndex].payer;
       amount = this.data.show[element.outsideIndex].detail[element.insideIndex].amount;
       index = this.isDulplicatePayer(info, name);
