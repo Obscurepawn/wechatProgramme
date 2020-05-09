@@ -5,7 +5,6 @@ var lineChart = null;
 Page({
     data: {
         pieData: [],
-        lineData: [],
         isNoData: false
     },
 
@@ -40,7 +39,6 @@ Page({
         this.setData({
             pieData: typeData
         })
-        console.log(this.data.lineData);
         pieChart = new wxCharts({
             animation: true,
             canvasId: 'pieCanvas',
