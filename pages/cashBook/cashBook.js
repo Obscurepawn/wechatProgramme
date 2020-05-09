@@ -318,7 +318,6 @@ Page({
         console.log("deleted data:", this.data.groups[position.outsideIndex].detail[position.insideIndex]);
         this.data.groups[position.outsideIndex].detail.splice(position.insideIndex, 1);
         if (this.data.groups[position.outsideIndex].detail.length == 0) {
-          this.data.groups[position.outsideIndex].openId = this.data.openId;
           this.delete(this.data.groups[position.outsideIndex]);
           this.data.groups.splice(position.outsideIndex, 1);
         } else {
@@ -409,14 +408,12 @@ Page({
         [dataPath]: newItem
       })
       let object = this.data.show[this.data.chooseList[0].outsideIndex];
-      object.openId = this.data.openId;
       object.detail[this.data.chooseList[0].insideIndex] = newItem;
       console.log("groups:", this.data.groups);
       this.update(object);
     } else {
       let temp = this.addDataToGroup(newItem);
       this.data.groups[outsideIndex].detail.splice(insideIndex, 1);
-      this.data.groups[outsideIndex].openId = this.data.openId;
       if (this.data.groups[outsideIndex].detail.length == 0) {
         console.log("old data:", this.data.groups[outsideIndex]);
         this.delete(this.data.groups[outsideIndex]);
@@ -601,6 +598,7 @@ Page({
   },
 
   add: function (object) {
+    object.openId = this.data.openId;
     wx.request({
       url: 'http://47.102.203.228:5000/add',
       data: object,
@@ -618,6 +616,7 @@ Page({
   },
 
   delete: function (object) {
+    object.openId = this.data.openId;
     wx.request({
       url: 'http://47.102.203.228:5000/delete',
       data: object,
@@ -635,6 +634,7 @@ Page({
   },
 
   update: function (object) {
+    object.openId = this.data.openId;
     wx.request({
       url: 'http://47.102.203.228:5000/update',
       data: object,
@@ -653,6 +653,7 @@ Page({
   },
 
   updateAndAdd: function (object) {
+    object.openId = this.data.openId;
     wx.request({
       url: 'http://47.102.203.228:5000/update',
       data: object,
@@ -717,7 +718,6 @@ Page({
       console.log("dateBill in modalConfirm: ", dateBill);
       temp = dateBill
     }
-    temp.openId = this.data.openId;
     return temp;
   },
 
