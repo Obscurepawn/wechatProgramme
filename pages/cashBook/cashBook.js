@@ -252,7 +252,7 @@ Page({
         });
       } else {
         this.setData({
-          tab:5
+          tab: 5
         })
         let outsideIndex = this.data.chooseList[0].outsideIndex;
         let insideIndex = this.data.chooseList[0].insideIndex;
@@ -372,6 +372,10 @@ Page({
   },
 
   refreshSum: function (outsideIndex) {
+    this.setData({
+      Expenditrue: this.data.Expenditrue - this.data.groups[outsideIndex].expenditrue,
+      Income: this.data.Income - this.data.groups[outsideIndex].income
+    })
     let expenditrue = 0;
     let income = 0;
     console.log(this.data.groups[outsideIndex]);
@@ -384,7 +388,9 @@ Page({
     })
     this.setData({
       ['groups[' + outsideIndex + '].expenditrue']: expenditrue,
-      ['groups[' + outsideIndex + '].income']: income
+      ['groups[' + outsideIndex + '].income']: income,
+      Expenditrue: this.data.Expenditrue + expenditrue,
+      Income: this.data.Income + income
     })
   },
 
@@ -466,17 +472,18 @@ Page({
   },
 
   getSum: function (val) {
-    var Expenditrue = 0;
-    var Income = 0;
-    var expendTemp = 0;
-    var incomeTemp = 0;
-    var str1 = ".expenditrue";
-    var str2 = ".income";
-    var str3 = "groups"
-    var index = 0;
-    var path1 = "";
-    var path2 = "";
-    var basePath = "";
+    let Expenditrue = 0;
+    let Income = 0;
+    let expendTemp = 0;
+    let incomeTemp = 0;
+    let str1 = ".expenditrue";
+    let str2 = ".income";
+    let str3 = "groups"
+    let index = 0;
+    let path1 = "";
+    let path2 = "";
+    let basePath = "";
+    let month = this.getNowMonth();
     val.forEach(element => {
       element.detail.forEach(bill => {
         if (bill.amount < 0) {
@@ -492,7 +499,7 @@ Page({
         [path1]: expendTemp,
         [path2]: incomeTemp
       })
-      if (this.getMonth(element.date) == this.getNowMonth()) {
+      if (this.getMonth(element.date) == month) {
         Expenditrue += expendTemp;
         Income += incomeTemp;
       }
@@ -733,8 +740,12 @@ Page({
   modalConfirm(e) {
     this.setData({
       tab: -1,
-      inputPayer: "我"
     })
+    if (this.data.inputPayer.length == 0) {
+      this.setData({
+        inputPayer: "我"
+      })
+    }
     let newItem = new Object();
     newItem.usefulness = this.data.useList[this.data.useIndex];
     newItem.amount = this.data.inputAmount;
@@ -881,7 +892,6 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    wx.clearStorageSync();
     this.setData({
       search: this.search.bind(this),
       time: this.timeAssign()
@@ -893,53 +903,19 @@ Page({
    */
   onReady: function () {
     var App = getApp();
-    console.log("App.js:", App.globalData.openId);
     this.setData({
       openId: App.globalData.openId
     })
-    console.log("cashBook.js:", this.data.openId);
     let groups = wx.getStorageSync("bills");
-    if (!groups) {
-      wx.request({
-        url: 'http://47.102.203.228:5000/init',
-        data: { openId: this.data.openId },
-        header: { 'content-type': 'application/json' },
-        method: 'POST',
-        dataType: 'json',
-        success: (result) => {
-          if (result.statusCode != 200) {
-            console.log(result.message);
-          } else {
-            console.log(result.data.data);
-            this.setData({
-              groups: result.data.data,
-            })
-            this.getSum(this.data.groups);
-            console.log(this.data.groups);
-            this.data.groups.sort(this.dateCompare);
-            this.setData({
-              show: JSON.parse(JSON.stringify(this.data.groups))
-            })
-            wx.setStorageSync("bills", result.data.data);
-            console.log("Init Successfully");
-          }
-        },
-        fail: function () {
-          console.log("系统错误");
-        }
-      });
-    } else {
-      this.setData({
-        groups: groups,
-      })
-      console.log(this.data.groups);
-      this.getSum(this.data.groups);
-      this.data.groups.sort(this.dateCompare);
-      this.setData({
-        show: JSON.parse(JSON.stringify(this.data.groups))
-      })
-      console.log("Init Successfully");
-    }
+    this.setData({
+      groups:groups
+    })
+    this.getSum(this.data.groups);
+    console.log(this.data.groups);
+    this.data.groups.sort(this.dateCompare);
+    this.setData({
+      show: JSON.parse(JSON.stringify(this.data.groups))
+    })
   },
 
   /**
