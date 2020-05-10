@@ -19,7 +19,7 @@ Page({
     useIndex: 0,
     inputAmount: undefined,
     inputComment: undefined,
-    inputPayer: undefined,
+    inputPayer: "",
     list: [{
       "text": "统计图",
       "iconPath": "/images/cashBook/line-chart.jpg",

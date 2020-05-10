@@ -15,7 +15,7 @@ Page({
    */
   onLoad: function (options) {
     let id = options.id;
-    var dirList = wx.getStorageSync('dirList');
+    var dirList = wx.getStorageSync('diaryList');
     var dir=[];
     for(var i = 0;i < dirList.length; i++) {
       if(dirList[i].did == id) {

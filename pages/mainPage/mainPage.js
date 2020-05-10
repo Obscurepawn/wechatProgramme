@@ -42,7 +42,6 @@ Page({
         for (let i = 0; i < res.data.data.length; i++) {
           var newDiary = {};
           newDiary["did"] = res.data.data[i].Did;
-          newDiary["color"] = that.axisGetRandomColor();
           newDiary["title"] = res.data.data[i].Title;
           newDiary["content"] = res.data.data[i].Content;
           // 设置时间
@@ -53,7 +52,7 @@ Page({
         //将日记List存入本地缓存，方便其他页面读取
         wx.setStorage({
           data: diaryList,
-          key: 'dirList',
+          key: 'diaryList',
         });
         // 动态设置高度
         var diaryHeight = Math.min((1 + diaryList.length) * 120, 500);
@@ -64,22 +63,9 @@ Page({
         })
       }
     });
+  },
 
-  },
-  /**
-   * 得到随机时间轴颜色
-   */
-  axisGetRandomColor() {
-    var color = [
-      "red", "blue", "green", "purple", "coral", "yellowgreen",
-      "blueviolet", "aqua", "slateblue", "royalblue", "gold", "brown", "chocolate"
-    ];
-    var getRandNum = (min, max) => {
-      var r = Math.floor(Math.random() * (max - min + 1) + min);
-      return r;
-    }
-    return color[getRandNum(0, color.length - 1)];
-  },
+
   /**
    * 初始化时间
    */
@@ -184,14 +170,11 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    var that = this;
-    var date = new Date();
     let now = new Date();
     let year = now.getFullYear();
     let month = now.getMonth() + 1;
     let t = year + '年' + month + '月' // for title
     this.dateInit();
-    this.getDiaryFromDB();
     this.setData({
       today: t,
       year: year,
@@ -204,13 +187,28 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
+    // obtain diary
+    this.getDiaryFromDB();
+    // obtain part of bills
+    let billList = wx.getStorageSync('bills');
+    let simpleCashLen = Math.min(5, billList[0].detail.length);
+    let simpleCashList = [];
+    var tmp;
+    for(var i = 0;i < simpleCashLen; i++) {
+      tmp = billList[0].detail[i];
+      tmp["time"] = billList[0].date
+      simpleCashList.push(tmp);
+    }
+    this.setData({
+      "cashList": simpleCashList
+    });
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    this.getDiaryFromDB();
   },
 
   /**

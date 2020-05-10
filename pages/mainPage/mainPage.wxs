@@ -1,0 +1,15 @@
+function axisGetRandomColor() {
+  var color = [
+    "red", "blue", "green", "purple", "coral", "yellowgreen",
+    "blueviolet", "aqua", "slateblue", "royalblue", "gold", "brown", "chocolate"
+  ];
+  var getRandNum = function (min, max) {
+    var r = Math.floor(Math.random() * (max - min + 1) + min);
+    return r;
+  }
+  return color[getRandNum(0, color.length - 1)];
+}
+
+module.exports = {
+  'randColor':axisGetRandomColor
+}

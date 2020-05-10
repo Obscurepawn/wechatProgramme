@@ -1,3 +1,4 @@
+<wxs module='color' src='./mainPage.wxs'/>
 <!--主界面-->
 <scroll-view class='main-container' scroll-y='true'>
 	<!--头部信息-->
@@ -40,14 +41,14 @@
 					<view class='axis_icon'>
 						<view class='axis_line' wx:if="{{index!=0}}" />
 						<view class='axis_line_pad' wx:else />
-						<view class="axis_circle" style="background-color:{{item.color}}" />
+						<view class="axis_circle" style="background-color:{{color.randColor()}}" />
 						<view class='axis_line' wx:if="{{index != cashList.length - 1}}" />
 						<view class='axis_line_pad' wx:else />
 					</view>
 					<view class="axis_content">
 						<view class="axis_time">{{item.time}}</view>
-						<view class="axis_event">{{item.event}}</view>
-						<view class="axis_money">{{item.money}}</view>
+						<view class="axis_event">{{item.comments}}</view>
+						<view class="axis_money">{{item.amount}}</view>
 					</view>
 				</view>
 			</block>
@@ -56,6 +57,7 @@
 			</view>
 		</scroll-view>
 	</view>
+	<!--日记模块-->
 	<view class='simple-diary' style="height:{{diaryWindowHeight}}">
 		<view class='simple-panel'>
 			<view>
@@ -66,11 +68,12 @@
 		</view>
 		<scroll-view wx:if='{{showDiary}}' scroll-y="true" style="height:90%">
 			<block wx:for="{{diaryList}}" wx:key="time">
+			<!--Time Axis-->
 				<view class='axis_block'>
 					<view class='axis_icon'>
 						<view class='axis_line' wx:if="{{index!=0}}" />
 						<view class='axis_line_pad' wx:else />
-						<view class="axis_circle" style="background-color:{{item.color}}" />
+						<view class="axis_circle" style="background-color:{{color.randColor()}}" />
 						<view class='axis_line' wx:if="{{index != diaryList.length - 1}}" />
 						<view class='axis_line_pad' wx:else />
 					</view>

@@ -14,7 +14,7 @@
   width:96%;
   margin-left:2%;
   margin-right:2%;
-  text-indent: 35rpx;
+  /* text-indent: 35rpx; */
 }
 .content_box text{
   font-size: 33rpx;

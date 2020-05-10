@@ -201,8 +201,9 @@ Page({
     //存储数据库
     var date = new Date();
     var newDiary = {};
-    // 用户ID还没定怎么整,default:wx12345
-    newDiary["uid"] = "wx12345"
+
+    newDiary["uid"] = getApp().globalData.openId;
+    console.log(newDiary["uid"] + " write a new diary");
     newDiary["title"] = this.data.dairyTitle;
     newDiary["content"] = this.data.textareaValue;
 
