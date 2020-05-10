@@ -13,7 +13,7 @@ Page({
       "house",
       "play",
       "other",
-      "transpotation",
+      "transportation",
     ],
     openId: undefined,
     useIndex: 0,
@@ -21,26 +21,38 @@ Page({
     inputComment: undefined,
     inputPayer: undefined,
     list: [{
-        "text": "统计图",
-        "iconPath": "/images/cashBook/line-chart.jpg",
-        "selectedIconPath": "/images/cashBook/line-chart.jpg",
-        dot: 'true'
-      },
-      {
-        "text": "AA分账",
-        "iconPath": "/images/cashBook/calculator.jpg",
-        "selectedIconPath": "/images/cashBook/calculator.jpg",
-        dot: 'true'
-      },
-      {
-        "text": "增加记录",
-        "iconPath": "/images/cashBook/add.png",
-        "selectedIconPath": "/images/cashBook/add.png",
-        dot: 'true'
-      },
+      "text": "统计图",
+      "iconPath": "/images/cashBook/line-chart.jpg",
+      "selectedIconPath": "/images/cashBook/line-chart.jpg",
+      dot: 'true'
+    },
+    {
+      "text": "AA分账",
+      "iconPath": "/images/cashBook/calculator.jpg",
+      "selectedIconPath": "/images/cashBook/calculator.jpg",
+      dot: 'true'
+    },
+    {
+      "text": "增加",
+      "iconPath": "/images/cashBook/add.png",
+      "selectedIconPath": "/images/cashBook/add.png",
+      dot: 'true'
+    },
+    {
+      "text": "编辑",
+      "iconPath": "/images/cashBook/update.png",
+      "selectedIconPath": "/images/cashBook/update.png",
+      dot: 'true'
+    },
+    {
+      "text": "删除",
+      "iconPath": "/images/cashBook/delete.png",
+      "selectedIconPath": "/images/cashBook/delete.png",
+      dot: 'true'
+    },
     ],
     icon_path: {
-      "transpotation": "/images/cashBook/transpotation.png",
+      "transportation": "/images/cashBook/transportation.png",
       "financial": "/images/cashBook/financial.png",
       "book": "/images/cashBook/book.png",
       "food": "/images/cashBook/food.png",
@@ -65,6 +77,9 @@ Page({
     chooseList: [],
     tab: -1,
     AATextList: [],
+    updatedObject: undefined,
+    updateDate: undefined,
+    isShowAll: true,
   },
 
   makeList: function (val, groups) {
@@ -123,7 +138,7 @@ Page({
     return ret;
   },
 
-  cancelTheChoice:function(){
+  cancelTheChoice: function () {
     this.data.chooseList.forEach(element => {
       let dataPath = 'show[' + element.outsideIndex + '].detail[' + element.insideIndex + '].isChosen';
       this.setData({
@@ -172,6 +187,9 @@ Page({
       let amountList = [];
       let dateList = [];
       let typeInfo = [];
+      this.data.chooseList.sort(function (a, b) {
+        return (a.outsideIndex != b.outsideIndex) ? b.outsideIndex - a.outsideIndex : b.insideIndex - a.insideIndex;
+      })
       this.data.chooseList.forEach(element => {
         this.findKey(typeInfo, this.data.show[element.outsideIndex].detail[element.insideIndex]);
         if (sumInfo[this.data.show[element.outsideIndex].date]) {
@@ -199,7 +217,227 @@ Page({
         fail: () => { },
         complete: () => { }
       });
+    } else if (e.detail.index == 3) {
+      if (this.data.chooseList.length == 0) {
+        this.setData({
+          tab: -1
+        })
+        wx.showModal({
+          content: '必须要选择一条账单进行编辑',
+          showCancel: false,
+          confirmText: '确定',
+          confirmColor: '#3CC51F',
+          success: (result) => {
+            if (result.confirm) {
+              this.cancelTheChoice();
+            }
+          },
+          fail: () => { },
+          complete: () => { }
+        });
+      } else if (this.data.chooseList.length > 1) {
+        this.setData({
+          tab: -1
+        })
+        wx.showModal({
+          content: '同时只能选择一条账单进行编辑',
+          showCancel: false,
+          confirmText: '确定',
+          confirmColor: '#3CC51F',
+          success: (result) => {
+            if (result.confirm) {
+              this.cancelTheChoice();
+            }
+          },
+          fail: () => { },
+          complete: () => { }
+        });
+      } else {
+        this.setData({
+          tab: 5
+        })
+        let outsideIndex = this.data.chooseList[0].outsideIndex;
+        let insideIndex = this.data.chooseList[0].insideIndex;
+        let object = JSON.parse(JSON.stringify(this.data.show[outsideIndex].detail[insideIndex]));
+        this.setData({
+          inputAmount: object.amount,
+          inputComment: object.comments,
+          inputPayer: object.payer,
+          updateDate: this.data.show[outsideIndex].date,
+          showTime: this.data.show[outsideIndex].date
+        })
+        for (let index = 0; this.data.useList[index]; ++index) {
+          if (this.data.useList[index] == object.usefulness) {
+            this.setData({
+              useIndex: index
+            })
+            break;
+          }
+        }
+        this.setData({
+          updatedObject: object
+        })
+      }
+    } else if (e.detail.index == 4) {
+      if (this.data.chooseList.length == 0) {
+        wx.showModal({
+          content: '必须至少要选择一条账单进行删除',
+          showCancel: false,
+          confirmText: '确定',
+          confirmColor: '#3CC51F',
+          success: (result) => {
+            if (result.confirm) {
+              this.cancelTheChoice();
+            }
+          },
+          fail: () => { },
+          complete: () => { }
+        });
+      } else if (this.data.chooseList.length > 1) {
+        wx.showModal({
+          content: '同时只能选择一条账单进行删除',
+          showCancel: false,
+          confirmText: '确定',
+          confirmColor: '#3CC51F',
+          success: (result) => {
+            if (result.confirm) {
+              this.cancelTheChoice();
+            }
+          },
+          fail: () => { },
+          complete: () => { }
+        });
+      } else {
+        let outsideIndex = this.data.chooseList[0].outsideIndex;
+        let insideIndex = this.data.chooseList[0].insideIndex;
+        console.log(this.data.chooseList);
+        let date = this.data.show[outsideIndex].date;
+        let object = this.data.show[outsideIndex].detail[insideIndex];
+        console.log("object:", object);
+        console.log("groups:", this.data.groups);
+        let position = this.findData(date, object);
+        console.log("position:", position);
+        console.log("deleted data:", this.data.groups[position.outsideIndex].detail[position.insideIndex]);
+        this.data.groups[position.outsideIndex].detail.splice(position.insideIndex, 1);
+        if (this.data.groups[position.outsideIndex].detail.length == 0) {
+          this.delete(this.data.groups[position.outsideIndex]);
+          this.data.groups.splice(position.outsideIndex, 1);
+        } else {
+          this.update(this.data.groups[outsideIndex]);
+          this.refreshSum(position.outsideIndex);
+        }
+        this.refreshShow();
+      }
+      wx.setStorageSync("bills", this.data.groups);
     }
+  },
+
+  findData: function (date, object) {
+    let outsideIndex = 0;
+    let insideIndex = 0;
+    for (outsideIndex = 0; this.data.groups[outsideIndex]; ++outsideIndex) {
+      if (this.data.groups[outsideIndex].date === date) {
+        for (insideIndex = 0; this.data.groups[outsideIndex].detail[insideIndex]; ++insideIndex) {
+          if (object.payer === this.data.groups[outsideIndex].detail[insideIndex].payer &&
+            object.comments === this.data.groups[outsideIndex].detail[insideIndex].comments &&
+            object.amount === this.data.groups[outsideIndex].detail[insideIndex].amount &&
+            object.usefulness === this.data.groups[outsideIndex].detail[insideIndex].usefulness) {
+            return { "outsideIndex": outsideIndex, "insideIndex": insideIndex };
+          }
+        }
+      }
+    }
+    return false;
+  },
+
+  refreshShow: function () {
+    if (this.data.isShowAll == true) {
+      this.setData({
+        show: JSON.parse(JSON.stringify(this.data.groups))
+      })
+      return;
+    }
+    let dateList = [];
+    let show = [];
+    this.data.show.forEach(element => {
+      dateList.push(element.date);
+    })
+    this.data.groups.forEach(element => {
+      if (this.listFind(dateList, element.date) != -1) {
+        show.push(element);
+        this.setData({
+          show: show
+        })
+        return; //暂时只能搜索某一天的数据，故此处查找到之后即可结束
+      }
+    })
+  },
+
+  refreshSum: function (outsideIndex) {
+    this.setData({
+      Expenditrue: this.data.Expenditrue - this.data.groups[outsideIndex].expenditrue,
+      Income: this.data.Income - this.data.groups[outsideIndex].income
+    })
+    let expenditrue = 0;
+    let income = 0;
+    console.log(this.data.groups[outsideIndex]);
+    this.data.groups[outsideIndex].detail.forEach(element => {
+      if (element.amount < 0) {
+        expenditrue += element.amount;
+      } else {
+        income += element.amount;
+      }
+    })
+    this.setData({
+      ['groups[' + outsideIndex + '].expenditrue']: expenditrue,
+      ['groups[' + outsideIndex + '].income']: income,
+      Expenditrue: this.data.Expenditrue + expenditrue,
+      Income: this.data.Income + income
+    })
+  },
+
+  updateBill: function () {
+    console.log("updatedObject:", this.data.updatedObject);
+    this.setData({
+      tab: -1
+    })
+    let newItem = new Object();
+    newItem.usefulness = this.data.useList[this.data.useIndex];
+    newItem.amount = this.data.inputAmount;
+    newItem.comments = this.data.inputComment;
+    newItem.payer = this.data.inputPayer;
+    console.log("newItem", newItem);
+    let position = this.findData(this.data.updateDate, this.data.updatedObject);
+    let outsideIndex = position.outsideIndex;
+    let insideIndex = position.insideIndex;
+    let dataPath = 'groups[' + outsideIndex + '].detail[' + insideIndex + ']';
+    if (this.data.showTime == this.data.updateDate) {
+      this.setData({
+        [dataPath]: newItem
+      })
+      let object = this.data.show[this.data.chooseList[0].outsideIndex];
+      object.detail[this.data.chooseList[0].insideIndex] = newItem;
+      console.log("groups:", this.data.groups);
+      this.update(object);
+    } else {
+      let temp = this.addDataToGroup(newItem);
+      this.data.groups[outsideIndex].detail.splice(insideIndex, 1);
+      if (this.data.groups[outsideIndex].detail.length == 0) {
+        console.log("old data:", this.data.groups[outsideIndex]);
+        this.delete(this.data.groups[outsideIndex]);
+        this.data.groups.splice(outsideIndex, 1);
+        console.log("data deleted:", this.data.groups);
+      } else {
+        this.update(this.data.groups[outsideIndex]);
+        this.refreshSum(this.data.groups[outsideIndex]);
+      }
+      this.updateAndAdd(temp);
+    }
+    console.log(this.data.groups);
+    this.refreshSum(this.data.groups.length - 1);
+    this.data.groups.sort(this.dateCompare);
+    this.refreshShow();
+    wx.setStorageSync("bills", this.data.groups);
   },
 
   findKey: function (list, object) {
@@ -236,17 +474,18 @@ Page({
   },
 
   getSum: function (val) {
-    var Expenditrue = 0;
-    var Income = 0;
-    var expendTemp = 0;
-    var incomeTemp = 0;
-    var str1 = ".expenditrue";
-    var str2 = ".income";
-    var str3 = "groups"
-    var index = 0;
-    var path1 = "";
-    var path2 = "";
-    var basePath = "";
+    let Expenditrue = 0;
+    let Income = 0;
+    let expendTemp = 0;
+    let incomeTemp = 0;
+    let str1 = ".expenditrue";
+    let str2 = ".income";
+    let str3 = "groups"
+    let index = 0;
+    let path1 = "";
+    let path2 = "";
+    let basePath = "";
+    let month = this.getNowMonth();
     val.forEach(element => {
       element.detail.forEach(bill => {
         if (bill.amount < 0) {
@@ -262,7 +501,7 @@ Page({
         [path1]: expendTemp,
         [path2]: incomeTemp
       })
-      if (this.getMonth(element.date) == this.getNowMonth()) {
+      if (this.getMonth(element.date) == month) {
         Expenditrue += expendTemp;
         Income += incomeTemp;
       }
@@ -307,7 +546,6 @@ Page({
   },
 
   bindDateChange(e) {
-    2
     // console.log(e.detail.value);
     this.setData({
       showTime: e.detail.value
@@ -337,6 +575,7 @@ Page({
         return;
       }
     })
+    this.cancelTheChoice();
     console.log('select result', e.detail.item.text)
   },
 
@@ -367,80 +606,74 @@ Page({
     return 0;
   },
 
-  //格式如下:
-  // usefulness: "transpotation",
-  // amount: -15,
-  // comments: "回学校",
-  // payer: "Jankos",
-  // date: "2020-03-09",
-  // income: undefined,
-  // expenditrue: undefined,
-  // detail:[]
-  modalConfirm(e) {
-    this.setData({
-      tab: -1
-    })
-    let newItem = new Object();
-    let temp;
-    newItem.usefulness = this.data.useList[this.data.useIndex];
-    newItem.amount = this.data.inputAmount;
-    newItem.comments = this.data.inputComment;
-    newItem.payer = this.data.inputPayer;
-    let isDateExist = false;
-    console.log("showTime in modalConfirm: ", this.data.showTime);
-    this.data.groups.forEach(element => {
-      if (element.date == this.data.showTime) {
-        element.detail.push(newItem);
-        isDateExist = true;
-        if (newItem.amount < 0) {
-          element.expenditrue += newItem.amount;
+  add: function (object) {
+    object.openId = this.data.openId;
+    wx.request({
+      url: 'http://47.102.203.228:5000/add',
+      data: object,
+      header: { 'content-type': 'application/json' },
+      method: 'PUT',
+      success: (res) => {
+        if (res.statusCode != 200) {
+          console.log(res.message);
         } else {
-          element.income += newItem.amount;
+          console.log("update data successfully");
         }
-        temp = element;
+        console.log(res);
       }
-      this.setData({
-        show: this.data.groups,
-      })
-    })
-    if (isDateExist == false) {
-      let dateBill = new Object();
-      let detail = [];
-      detail.push(newItem);
-      console.log("new showTime in modalConfirm: ", this.data.showTime);
-      dateBill.date = this.data.showTime;
-      dateBill.expenditrue = 0;
-      dateBill.income = 0;
-      if (newItem.amount < 0) {
-        dateBill.expenditrue += newItem.amount;
-      } else {
-        dateBill.income += newItem.amount;
+    });
+  },
+
+  delete: function (object) {
+    object.openId = this.data.openId;
+    wx.request({
+      url: 'http://47.102.203.228:5000/delete',
+      data: object,
+      header: { 'content-type': 'application/json' },
+      method: 'DELETE',
+      success: (res) => {
+        if (res.statusCode != 200) {
+          console.log(res.message);
+        } else {
+          console.log("delete data successfully");
+        }
+        console.log(res);
       }
-      dateBill.detail = detail;
-      this.data.groups.push(dateBill);
-      console.log("groups in modalConfirm: ", this.data.groups);
-      this.data.groups.sort(this.dateCompare);
-      console.log("dateBill in modalConfirm: ", dateBill);
-      this.setData({
-        show: this.data.groups,
-      })
-      temp = dateBill
-    }
-    temp.openId = this.data.openId;
-    //oldDate在该函数中没有意义,只是为了保持格式一致,方便后端api编写。
-    temp.old_date = temp.date;
-    console.log("tempBill: ", temp);
+    });
+  },
+
+  update: function (object) {
+    object.openId = this.data.openId;
     wx.request({
       url: 'http://47.102.203.228:5000/update',
-      data: temp,
+      data: object,
       header: { 'content-type': 'application/json' },
       method: 'PUT',
       success: (result) => {
-        console.log(temp);
+        console.log(object);
+        if (result.statusCode != 200) {
+          console.log(result.message);
+        } else {
+          console.log("update data successfully");
+        }
+        console.log(result);
+      }
+    });
+  },
+
+  updateAndAdd: function (object) {
+    object.openId = this.data.openId;
+    wx.request({
+      url: 'http://47.102.203.228:5000/update',
+      data: object,
+      header: { 'content-type': 'application/json' },
+      method: 'PUT',
+      success: (result) => {
+        console.log(object);
         if (result.statusCode != 200) {
           wx.request({
             url: 'http://47.102.203.228:5000/add',
-            data: temp,
+            data: object,
             header: { 'content-type': 'application/json' },
             method: 'PUT',
             success: (res) => {
@@ -458,6 +691,74 @@ Page({
         console.log(result);
       }
     });
+  },
+
+  addDataToGroup: function (newItem) {
+    let temp;
+    let isDateExist = false;
+    this.data.groups.forEach(element => {
+      if (element.date == this.data.showTime) {
+        element.detail.push(newItem);
+        isDateExist = true;
+        if (newItem.amount < 0) {
+          element.expenditrue += newItem.amount;
+        } else {
+          element.income += newItem.amount;
+        }
+        temp = element;
+      }
+    })
+    if (isDateExist == false) {
+      let dateBill = new Object();
+      let detail = [];
+      detail.push(newItem);
+      console.log("new showTime in modalConfirm: ", this.data.showTime);
+      dateBill.date = this.data.showTime;
+      dateBill.expenditrue = 0;
+      dateBill.income = 0;
+      if (newItem.amount < 0) {
+        dateBill.expenditrue += newItem.amount;
+      } else {
+        dateBill.income += newItem.amount;
+      }
+      dateBill.detail = detail;
+      this.data.groups.push(dateBill);
+      console.log("groups in modalConfirm: ", this.data.groups);
+      console.log("dateBill in modalConfirm: ", dateBill);
+      temp = dateBill
+    }
+    return temp;
+  },
+
+  //格式如下:
+  // usefulness: "transpotation",
+  // amount: -15,
+  // comments: "回学校",
+  // payer: "Jankos",
+  // date: "2020-03-09",
+  // income: undefined,
+  // expenditrue: undefined,
+  // detail:[]
+  modalConfirm(e) {
+    this.setData({
+      tab: -1,
+    })
+    if (this.data.inputPayer.length == 0) {
+      this.setData({
+        inputPayer: "我"
+      })
+    }
+    let newItem = new Object();
+    newItem.usefulness = this.data.useList[this.data.useIndex];
+    newItem.amount = this.data.inputAmount;
+    newItem.comments = this.data.inputComment;
+    newItem.payer = this.data.inputPayer;
+    console.log("showTime in modalConfirm: ", this.data.showTime);
+    let temp = this.addDataToGroup(newItem);
+    this.data.groups.sort(this.dateCompare);
+    this.refreshShow();
+    console.log("tempBill: ", temp);
+    this.updateAndAdd(temp);
     wx.setStorageSync("bills", this.data.groups);
   },
 
@@ -467,7 +768,8 @@ Page({
 
   showAll: function () {
     this.setData({
-      show: this.data.groups
+      show: JSON.parse(JSON.stringify(this.data.groups)),
+      isShowAll: true
     })
   },
 
@@ -502,13 +804,18 @@ Page({
       })
       this.data.chooseList.splice(index, 1);
     }
-    this.setData({
-      show: this.data.show
-    })
     console.log(this.data.show[object.outsideIndex].detail[object.insideIndex]);
     console.log(this.data.chooseList);
   },
 
+  isDulplicatePayer(info, payer) {
+    for (let index = 0; info[index]; ++index) {
+      if (info[index].payer == payer) {
+        return index;
+      }
+    }
+    return -1;
+  },
 
   AAcost: function () {
     let info = [];
@@ -526,7 +833,13 @@ Page({
     this.data.chooseList.forEach(element => {
       name = this.data.show[element.outsideIndex].detail[element.insideIndex].payer;
       amount = this.data.show[element.outsideIndex].detail[element.insideIndex].amount;
-      info.push({ "payer": name, "amount": amount });
+      index = this.isDulplicatePayer(info, name);
+      if (index == -1) {
+        info.push({ "payer": name, "amount": amount });
+      } else {
+        info[index].amount += amount;
+      }
+      console.log(info);
       sum += amount
       if (this.listFind(persons, name) == -1) {
         personNum += 1;
@@ -550,6 +863,7 @@ Page({
         }
       }
     })
+    index = 0;
     collectMoney.forEach(element => {
       while (giveMoney[index]) {
         if (element.amount == 0) {
@@ -580,7 +894,6 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    wx.clearStorageSync();
     this.setData({
       search: this.search.bind(this),
       time: this.timeAssign()
@@ -592,53 +905,19 @@ Page({
    */
   onReady: function () {
     var App = getApp();
-    console.log("App.js:", App.globalData.openId);
     this.setData({
       openId: App.globalData.openId
     })
-    console.log("cashBook.js:", this.data.openId);
     let groups = wx.getStorageSync("bills");
-    if (!groups) {
-      wx.request({
-        url: 'http://47.102.203.228:5000/init',
-        data: { openId: this.data.openId },
-        header: { 'content-type': 'application/json' },
-        method: 'POST',
-        dataType: 'json',
-        success: (result) => {
-          if (result.statusCode != 200) {
-            console.log(result.message);
-          } else {
-            console.log(result.data.data);
-            this.setData({
-              groups: result.data.data,
-            })
-            this.getSum(this.data.groups);
-            console.log(this.data.groups);
-            this.data.groups.sort(this.dateCompare);
-            this.setData({
-              show: this.data.groups
-            })
-            wx.setStorageSync("bills", result.data.data);
-            console.log("Init Successfully");
-          }
-        },
-        fail: function () {
-          console.log("系统错误");
-        }
-      });
-    } else {
-      this.setData({
-        groups: groups,
-      })
-      console.log(this.data.groups);
-      this.getSum(this.data.groups);
-      this.data.groups.sort(this.dateCompare);
-      this.setData({
-        show: this.data.groups
-      })
-      console.log("Init Successfully");
-    }
+    this.setData({
+      groups:groups
+    })
+    this.getSum(this.data.groups);
+    console.log(this.data.groups);
+    this.data.groups.sort(this.dateCompare);
+    this.setData({
+      show: JSON.parse(JSON.stringify(this.data.groups))
+    })
   },
 
   /**

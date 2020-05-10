@@ -172,7 +172,11 @@ function testLet(){
 // list = ["123","456"]
 // console.log(list.indexOf(456))
 
-testLet()
+//testLet()
+for(let index = 0;index<10;++index){
+    console.log(index);
+}
+
 
 
 

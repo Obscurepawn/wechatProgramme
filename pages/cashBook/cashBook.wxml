@@ -43,6 +43,40 @@
 			   <input type="text" class="input" bindinput="inputComment"/>
 		</view>
 	</modal>
+	<modal height='60%' bindcancel="modalCancel" bindconfirm='updateBill' wx:if="{{tab==5}}">
+		<view class="section">
+  			<picker mode="date" value="{{showTime}}" start="1970-1-1" end="{{time}}" bindchange="bindDateChange" style="width:100%;">
+    			<view class="formrow" >
+					  <text class="field" style="font-size:">date:</text>
+					  <text class="field" style="float:right;">{{showTime}}</text>
+    			</view>
+  			</picker>
+		</view>
+		<text>\n</text>
+		<view class="section">
+  			<picker value="{{useIndex}}" range="{{useList}}" bindchange="bindUseChange" style="width:100%;">
+    			<view class="formrow" >
+					  <text class="field" style="font-size:">UseList:</text>  
+					  <text class="field" style="float:right;">{{useList[useIndex]}}</text>
+    			</view>
+  			</picker>
+		</view>
+		<text>\n</text>
+		<view class='formrow'>
+			   <text class="field">amount<text style="color:red">*</text></text> 
+			   <input type="text" class="input" bindinput="inputAmount" placeholder="必填项" value="{{updatedObject.amount}}"/>
+		</view>
+		<text>\n</text>
+		<view class='formrow'>
+			   <text class="field">payer</text> 
+			   <input type="text" class="input" bindinput="inputPayer" value="{{updatedObject.payer}}"/>
+		</view>
+		<text>\n</text>
+		<view class='formrow'>
+			   <text class="field">comment</text> 
+			   <input type="text" class="input" bindinput="inputComment" value="{{updatedObject.comments}}"/>
+		</view>
+	</modal>
 	<view class="bill" wx:for="{{show}}" wx:for-item="item" wx:for-index="index" wx:key="*this">
 		<view class="moneyIO">
 			<text class="sum" style="float: left;height: auto;">{{tools.month(item.date)}}月{{tools.date(item.date)}}日</text>
