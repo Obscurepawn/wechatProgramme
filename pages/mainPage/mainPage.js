@@ -29,6 +29,7 @@ Page({
     // for diary list
     diaryList: []
   },
+  // 设置日记栏高度
   setDiaryHeight() {
     let diaryList = this.data.diaryList
     // 动态设置高度
@@ -36,6 +37,16 @@ Page({
     this.setData({
       defaultDiaryHeight: diaryHeight + "rpx",
       diaryWindowHeight: diaryHeight + "rpx",
+    })
+  },
+  // 设置账单栏高度
+  setCashHeight() {
+    let cashList = this.data.cashList
+    // 动态设置高度
+    var cashHeight = Math.min((1 + cashList.length) * 120, 500);
+    this.setData({
+      defaultCashHeight: cashHeight + "rpx",
+      cashWindowHeight: cashHeight + "rpx",
     })
   },
   /**
@@ -74,7 +85,44 @@ Page({
       }
     });
   },
-
+  // 读取账单
+  getCashListFromDB() {
+    let that = this;
+    let uid = getApp().globalData.openId
+    wx.request({
+      url: 'http://47.102.203.228:5000/init',
+      data: {
+        openId: uid
+      },
+      header: {
+        'content-type': 'application/json'
+      },
+      method: 'POST',
+      dataType: 'json',
+      success: (res) => {
+        if (res.statusCode != 200) {
+          console.log(res.message);
+          return;
+        }
+        let billList = res.data.data
+        let simpleCashLen = Math.min(5, billList[0].detail.length);
+        let simpleCashList = [];
+        var tmp;
+        for (var i = 0; i < simpleCashLen; i++) {
+          tmp = billList[0].detail[i];
+          tmp["time"] = billList[0].date
+          simpleCashList.push(tmp);
+        }
+        that.setData({
+          "cashList": simpleCashList
+        });
+        that.setCashHeight();
+      },
+      fail: function () {
+        console.log("系统错误");
+      }
+    })
+  },
 
   /**
    * 初始化时间
@@ -200,47 +248,35 @@ Page({
     // obtain diary
     this.getDiaryFromDB();
     // obtain part of bills
-    let billList = wx.getStorageSync('bills');
-    let simpleCashLen = Math.min(5, billList[0].detail.length);
-    let simpleCashList = [];
-    var tmp;
-    for (var i = 0; i < simpleCashLen; i++) {
-      tmp = billList[0].detail[i];
-      tmp["time"] = billList[0].date
-      simpleCashList.push(tmp);
-    }
-    this.setData({
-      "cashList": simpleCashList
-    });
-    this.setDiaryHeight()
+    this.getCashListFromDB();
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    this.getDiaryFromDB()
+    ;
   },
 
   /**
    * 生命周期函数--监听页面隐藏
    */
   onHide: function () {
-
+    ;
   },
 
   /**
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
-
+    ;
   },
 
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
-
+    
   },
 
   /**

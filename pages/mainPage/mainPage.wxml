@@ -1,11 +1,11 @@
-<wxs module='color' src='./mainPage.wxs'/>
+<wxs module='color' src='./mainPage.wxs' />
 <!--主界面-->
 <scroll-view class='main-container' scroll-y='true'>
 	<!--头部信息-->
 	<view class="today-container">
 		<text class="today-text">{{today}}</text>
 		<view class='today-chicken-soup'>
-			<text class="today-chicken-text">僕らはまだ、旅の途中にいる.--四月はあなたの嘘</text>
+			<text class="today-chicken-text">我们还在旅途中。--四月是你的谎言</text>
 			<image src='https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=403851007,54579071&fm=26&gp=0.jpg' class='today-picture' />
 		</view>
 	</view>
@@ -47,8 +47,10 @@
 					</view>
 					<view class="axis_content">
 						<view class="axis_time">{{item.time}}</view>
-						<view class="axis_event">{{item.comments}}</view>
-						<view class="axis_money">{{item.amount}}</view>
+						<view class='axis_cash'>
+							<view class="axis_event">{{item.comments}}</view>
+							<view class="axis_money" style="color:{{item.amount < 0? 'red': 'green'}}">{{item.amount}}</view>
+						</view>
 					</view>
 				</view>
 			</block>
@@ -68,7 +70,7 @@
 		</view>
 		<scroll-view wx:if='{{showDiary}}' scroll-y="true" style="height:90%">
 			<block wx:for="{{diaryList}}" wx:key="time">
-			<!--Time Axis-->
+				<!--Time Axis-->
 				<view class='axis_block'>
 					<view class='axis_icon'>
 						<view class='axis_line' wx:if="{{index!=0}}" />
@@ -79,7 +81,7 @@
 					</view>
 					<view class="axis_content" data-id="{{item.did}}" bindtap="gotoDetailDiary">
 						<view class="axis_time" style="display:flex">{{item.time}}</view>
-						<view class="axis_diary">{{item.title}}</view>
+						<view class="axis_diary">《{{item.title}}》</view>
 					</view>
 				</view>
 			</block>
