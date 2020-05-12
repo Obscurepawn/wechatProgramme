@@ -1,4 +1,5 @@
 // pages/mainPage/mainPage.js
+var utils = require("../../utils/util.js")
 Page({
 
   /**
@@ -28,39 +29,48 @@ Page({
     // for diary list
     diaryList: []
   },
+  setDiaryHeight() {
+    let diaryList = this.data.diaryList
+    // 动态设置高度
+    var diaryHeight = Math.min((1 + diaryList.length) * 120, 500);
+    this.setData({
+      defaultDiaryHeight: diaryHeight + "rpx",
+      diaryWindowHeight: diaryHeight + "rpx",
+    })
+  },
   /**
    * 读取数据库
    */
   getDiaryFromDB() {
     var that = this;
     var diaryList = [];
+    var openid = getApp().globalData.openId;
     wx.request({
-      url: 'http://106.15.198.136:8001/v1/diary',
+      url: 'http://106.15.198.136:8001/v1/diary/' + openid,
       method: "GET",
       success: res => {
+        console.log(res)
         // 将服务器返回数据存入到diarylist中
-        for (let i = 0; i < res.data.data.length; i++) {
+        for (let i = 0; i < res.data.diaries.length; i++) {
           var newDiary = {};
-          newDiary["did"] = res.data.data[i].Did;
-          newDiary["title"] = res.data.data[i].Title;
-          newDiary["content"] = res.data.data[i].Content;
+          // newDiary["did"] = res.data.diaries[i].Did;
+          // newDiary["title"] = res.data.diaries[i].Title;
+          // newDiary["content"] = res.data.diaries[i].Content;
+          newDiary = res.data.diaries[i]
+          var d = new Date(res.data.diaries[i].time);
           // 设置时间
-          var d = new Date(res.data.data[i].Time);
-          newDiary["time"] = d.getHours() + ':' + d.getMinutes();
+          newDiary["time"] = d.getHours() + ':' + utils.toDouble(d.getMinutes());
           diaryList.push(newDiary);
         }
+        this.setData({
+          diaryList: diaryList
+        });
         //将日记List存入本地缓存，方便其他页面读取
         wx.setStorage({
-          data: diaryList,
           key: 'diaryList',
+          data: diaryList
         });
-        // 动态设置高度
-        var diaryHeight = Math.min((1 + diaryList.length) * 120, 500);
-        this.setData({
-          diaryList: diaryList,
-          defaultDiaryHeight: diaryHeight + "rpx",
-          diaryWindowHeight: diaryHeight + "rpx",
-        })
+        that.setDiaryHeight();
       }
     });
   },
@@ -194,7 +204,7 @@ Page({
     let simpleCashLen = Math.min(5, billList[0].detail.length);
     let simpleCashList = [];
     var tmp;
-    for(var i = 0;i < simpleCashLen; i++) {
+    for (var i = 0; i < simpleCashLen; i++) {
       tmp = billList[0].detail[i];
       tmp["time"] = billList[0].date
       simpleCashList.push(tmp);
@@ -202,13 +212,14 @@ Page({
     this.setData({
       "cashList": simpleCashList
     });
+    this.setDiaryHeight()
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    this.getDiaryFromDB();
+    getDiaryFromDB()
   },
 
   /**

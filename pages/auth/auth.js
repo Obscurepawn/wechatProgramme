@@ -17,24 +17,20 @@ Page({
    */
   onLoad: function (res) {
     var that = this
-    wx.login({
+    wx.getSetting({
       success: res => {
-        wx.getSetting({
-          success: res => {
-            if (res.authSetting['scope.userInfo']) {
-              wx.getUserInfo({
-                /* 
-                  if successfully get userinfo
-                  jump to mainPage
-                */
-                success: res => {
-                  getApp().userInfo = res.userInfo
-                  that.next()
-                }
-              })
+        if (res.authSetting['scope.userInfo']) {
+          wx.getUserInfo({
+            /* 
+              if successfully get userinfo
+              jump to mainPage
+            */
+            success: res => {
+              getApp().userInfo = res.userInfo
+              that.next()
             }
-          }
-        })
+          })
+        }
       }
     })
   },

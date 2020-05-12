@@ -64,7 +64,7 @@ App({
               })
             },
             fail: function () {
-              console.log('获取用户信息失败');
+              console.log('获取用户信息失败n');
             }
           })
 

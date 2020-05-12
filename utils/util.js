@@ -71,5 +71,6 @@ module.exports = {
   getRequestTimestamp: getRequestTimestamp,
   compareDate: compareDate,
   formatDate: formatDate,
-  getDates: getDates
+  getDates: getDates,
+  toDouble: toDouble
 }
