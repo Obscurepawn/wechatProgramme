@@ -61,7 +61,7 @@ Page({
   saveDiaryContent: function (event) {
     console.log(event);
     this.setData({
-      textareaValue:event.detail.value
+      textareaValue: event.detail.value
     });
     wx.setStorage({
       key: 'diaryContent',
@@ -199,16 +199,15 @@ Page({
       return;
     }
     //存储数据库
-    var date = new Date();
     var newDiary = {};
 
     newDiary["uid"] = getApp().globalData.openId;
     console.log(newDiary["uid"] + " write a new diary");
     newDiary["title"] = this.data.dairyTitle;
     newDiary["content"] = this.data.textareaValue;
-
+    newDiary["time"] = new Date().toString();
     // 日记内容为空，不能上传到服务器
-    if (newDiary.content == undefined || newDiary.content=="") {
+    if (newDiary.content == undefined || newDiary.content == "") {
       wx.showToast({
         title: '日记内容不能为空',
         icon: 'none'
@@ -225,6 +224,11 @@ Page({
         console.log("Success add diary into db", res);
       }
     });
+    // 更新本地日记缓存
+    let diaryList = wx.getStorageSync('diaryList');
+    newDiary.time = new Date().toLocaleTimeString();
+    diaryList.push(newDiary);
+    wx.setStorageSync('diaryList', diaryList);
     // 更新当地缓存(还没想好怎么写),目前暂时清空内容和标题缓存
     wx.setStorage({
       data: undefined,

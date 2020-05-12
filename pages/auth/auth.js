@@ -37,8 +37,7 @@ Page({
   // 点击“授权登录” 获取用户信息并跳转页面
   bindUserInfo(res) {
     let app = getApp();
-    if (res.detail.userInfo == undefined)
-      return
+    let that = this;
     // 登录
     wx.login({
       success: r => {
@@ -65,7 +64,7 @@ Page({
                   if (res.data.return_code == 0) {
                     app.globalData.openId = res.data.data.openId;
                     console.log(app.globalData.openId);
-                    //获取初始账单信息
+                    //5. 获取初始账单信息
                     wx.request({
                       url: 'http://47.102.203.228:5000/init',
                       data: {
@@ -89,12 +88,33 @@ Page({
                         console.log("系统错误");
                       }
                     })
+                    // 6. 请求日记信息
+                    wx.request({
+                      url: 'http://106.15.198.136:8001/v1/diary/'+ app.globalData.openId,
+                      method:'GET',
+                      success: res => {
+                        var diaries = res.data.diaries;
+                        var date;
+                        for(let i in diaries) {
+                          date = new Date(diaries[i].time)
+                          diaries[i].time = date.toLocaleTimeString()
+                        }
+                        wx.setStorageSync('diaryList', diaries);
+                        console.log('Resd diary from server');
+                      },
+                      fail: () => {
+                        console.log('系统错误')
+                      }
+                    })
                     //由于这个是网络请求，所以使用app.js的openId时需要在onReady中使用
                     //这样可确保app的网络请求完成后才进行页面数据通信
                     //也可以使用如下所示的回调函数解决
                     // if (that.userInfoReadyCallback) {
                     //    that.userInfoReadyCallback(res);
                     // }
+
+                    // 成功登录后跳转页面
+                    that.next()
                   } else {
                     console.log('解密失败');
                   }
@@ -113,11 +133,10 @@ Page({
         }
       },
       fail: function () {
-        console.log('登陆失败');
+        console.log('登陆失败了');
+        return;
       }
     });
-    // 成功登录后跳转页面
-    this.next()
   },
   /**
    * 生命周期函数--监听页面初次渲染完成

@@ -20,3 +20,10 @@
   font-size: 33rpx;
   color:#666;
 }
+.delete-icon {
+  position: absolute;
+  bottom:5%;
+  right:5%;
+  width:  80rpx;
+  height: 80rpx;
+}

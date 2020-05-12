@@ -48,6 +48,24 @@ App({
                         console.log("系统错误");
                       }
                     })
+                    // 请求日记
+                    wx.request({
+                      url: 'http://106.15.198.136:8001/v1/diary/'+ that.globalData.openId,
+                      method:'GET',
+                      success: res => {
+                        var diaries = res.data.diaries;
+                        var date;
+                        for(let i in diaries) {
+                          date = new Date(diaries[i].time)
+                          diaries[i].time = date.toLocaleTimeString()
+                        }
+                        wx.setStorageSync('diaryList', diaries);
+                        console.log('Read diary from server');
+                      },
+                      fail: () => {
+                        console.log('系统错误')
+                      }
+                    })
                     //由于这个是网络请求，所以使用app.js的openId时需要在onReady中使用
                     //这样可确保app的网络请求完成后才进行页面数据通信
                     //也可以使用如下所示的回调函数解决
@@ -67,7 +85,6 @@ App({
               console.log('获取用户信息失败n');
             }
           })
-
         } else {
           console.log('获取用户登录态失败！' + r.errMsg);
         }

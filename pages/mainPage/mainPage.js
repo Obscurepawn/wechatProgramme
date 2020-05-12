@@ -16,7 +16,7 @@ Page({
     showCashBook: true,
     showDiary: true,
     // for calender
-    today: "",
+    noMonth: "",
     year: 0,
     month: 0,
     date: ['日', '一', '二', '三', '四', '五', '六'],
@@ -24,14 +24,18 @@ Page({
     isToday: 0,
     isTodayWeek: false,
     todayIndex: 0,
+    today:"",
     // for cashbook list
     cashList: [],
+    cashDate: "",
     // for diary list
     diaryList: []
   },
   // 设置日记栏高度
   setDiaryHeight() {
     let diaryList = this.data.diaryList
+    if(diaryList == undefined)
+      return;
     // 动态设置高度
     var diaryHeight = Math.min((1 + diaryList.length) * 120, 500);
     this.setData({
@@ -42,6 +46,8 @@ Page({
   // 设置账单栏高度
   setCashHeight() {
     let cashList = this.data.cashList
+    if(cashList == undefined)
+      return;
     // 动态设置高度
     var cashHeight = Math.min((1 + cashList.length) * 120, 500);
     this.setData({
@@ -52,76 +58,92 @@ Page({
   /**
    * 读取数据库
    */
-  getDiaryFromDB() {
+  getDiary() {
     var that = this;
-    var diaryList = [];
-    var openid = getApp().globalData.openId;
-    wx.request({
-      url: 'http://106.15.198.136:8001/v1/diary/' + openid,
-      method: "GET",
-      success: res => {
-        console.log(res)
-        // 将服务器返回数据存入到diarylist中
-        for (let i = 0; i < res.data.diaries.length; i++) {
-          var newDiary = {};
-          // newDiary["did"] = res.data.diaries[i].Did;
-          // newDiary["title"] = res.data.diaries[i].Title;
-          // newDiary["content"] = res.data.diaries[i].Content;
-          newDiary = res.data.diaries[i]
-          var d = new Date(res.data.diaries[i].time);
-          // 设置时间
-          newDiary["time"] = d.getHours() + ':' + utils.toDouble(d.getMinutes());
-          diaryList.push(newDiary);
+    var diaryList = wx.getStorageSync('diaryList');
+    console.log(diaryList);
+    // 缓存中没有日记
+    if (diaryList != undefined) {
+      that.setData({
+        diaryList: diaryList
+      });
+    } else {
+      // 从数据库读取
+      var openid = getApp().globalData.openId;
+      wx.request({
+        url: 'http://106.15.198.136:8001/v1/diary/' + openid,
+        method: "GET",
+        success: res => {
+          // 将服务器返回数据存入到diarylist中
+          diaryList = res.data.diaries
+          this.setData({
+            diaryList: diaryList
+          });
+          //将日记List存入本地缓存，方便其他页面读取
+          wx.setStorage({
+            key: 'diaryList',
+            data: diaryList
+          });
+          that.setDiaryHeight();
         }
-        this.setData({
-          diaryList: diaryList
-        });
-        //将日记List存入本地缓存，方便其他页面读取
-        wx.setStorage({
-          key: 'diaryList',
-          data: diaryList
-        });
-        that.setDiaryHeight();
-      }
-    });
+      });
+    }
+    // 设置栏目高度
+    that.setDiaryHeight();
   },
   // 读取账单
-  getCashListFromDB() {
+  getCashList() {
     let that = this;
     let uid = getApp().globalData.openId
-    wx.request({
-      url: 'http://47.102.203.228:5000/init',
-      data: {
-        openId: uid
-      },
-      header: {
-        'content-type': 'application/json'
-      },
-      method: 'POST',
-      dataType: 'json',
-      success: (res) => {
-        if (res.statusCode != 200) {
-          console.log(res.message);
-          return;
-        }
-        let billList = res.data.data
-        let simpleCashLen = Math.min(5, billList[0].detail.length);
-        let simpleCashList = [];
-        var tmp;
-        for (var i = 0; i < simpleCashLen; i++) {
-          tmp = billList[0].detail[i];
-          tmp["time"] = billList[0].date
-          simpleCashList.push(tmp);
-        }
-        that.setData({
-          "cashList": simpleCashList
-        });
-        that.setCashHeight();
-      },
-      fail: function () {
-        console.log("系统错误");
+    let bills = wx.getStorageSync('bills')
+    console.log(bills);
+    var cashList;
+    for(let i in bills) {
+      if ( utils.isToday(bills[i].date) ) {
+        cashList = bills[i];
+        break;
       }
-    })
+    }
+    if (cashList != undefined) {
+      this.setData({
+        cashList: cashList
+      });
+    } else {
+      wx.request({
+        url: 'http://47.102.203.228:5000/init',
+        data: {
+          openId: uid
+        },
+        header: {
+          'content-type': 'application/json'
+        },
+        method: 'POST',
+        dataType: 'json',
+        success: (res) => {
+          if (res.statusCode != 200) {
+            console.log(res.message);
+            return;
+          }
+          let billList = res.data.data
+          var simpleCashList;
+          for(let i in billList) {
+            if( utils.isToday(billList[i].date) ) {
+              simpleCashList = billList[i];
+              break;
+            }
+          }
+          that.setData({
+            "cashList": simpleCashList
+          });
+          that.setCashHeight();
+        },
+        fail: function () {
+          console.log("系统错误");
+        }
+      })
+    }
+    // 设置栏目高度
+    that.setCashHeight();
   },
 
   /**
@@ -197,6 +219,7 @@ Page({
       url: '/pages/diary/diary',
     })
   },
+  // 跳转到具体日记页面
   gotoDetailDiary: event => {
     let url = "/pages/diary/detail/detail"
     var query = "?id=" + event.currentTarget.dataset.id;
@@ -231,12 +254,14 @@ Page({
     let now = new Date();
     let year = now.getFullYear();
     let month = now.getMonth() + 1;
-    let t = year + '年' + month + '月' // for title
+    let nm = year + '年' + month + '月' // for title
+    let today = now.toLocaleDateString()
     this.dateInit();
     this.setData({
-      today: t,
+      noMonth: nm,
       year: year,
       month: month,
+      today:today,
       isToday: '' + year + month + now.getDate(),
     })
   },
@@ -246,16 +271,17 @@ Page({
    */
   onReady: function () {
     // obtain diary
-    this.getDiaryFromDB();
+    this.getDiary();
     // obtain part of bills
-    this.getCashListFromDB();
+    this.getCashList();
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    ;
+    this.getDiary();
+    this.getCashList();
   },
 
   /**
@@ -276,7 +302,7 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
-    
+
   },
 
   /**

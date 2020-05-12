@@ -36,17 +36,17 @@
 		<!--账单缩略-->
 		<scroll-view wx:if='{{showCashBook}}' scroll-y='true' style="height:90%;position=relative">
 			<!--账单模块-->
-			<block wx:for="{{cashList}}" wx:key="*this">
+			<block wx:for="{{cashList.detail}}" wx:key="*this">
 				<view class='axis_block'>
 					<view class='axis_icon'>
 						<view class='axis_line' wx:if="{{index!=0}}" />
 						<view class='axis_line_pad' wx:else />
 						<view class="axis_circle" style="background-color:{{color.randColor()}}" />
-						<view class='axis_line' wx:if="{{index != cashList.length - 1}}" />
+						<view class='axis_line' wx:if="{{index != cashList.detail.length - 1}}" />
 						<view class='axis_line_pad' wx:else />
 					</view>
 					<view class="axis_content">
-						<view class="axis_time">{{item.time}}</view>
+						<view class="axis_time">{{today}}</view>
 						<view class='axis_cash'>
 							<view class="axis_event">{{item.comments}}</view>
 							<view class="axis_money" style="color:{{item.amount < 0? 'red': 'green'}}">{{item.amount}}</view>
