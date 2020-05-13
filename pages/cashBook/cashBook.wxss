@@ -1,7 +1,8 @@
 /* pages/cashBook/cashBook.wxss */
 
 .topBar {
-    background-color: rgb(0, 195, 255);
+    /* background-color: rgb(0, 195, 255); */
+    background-color: rgba(6, 192, 68, 0.616);
     width: auto;
     height: 25px;
     /* text-decoration-color: rgb(255, 255, 255); */
@@ -34,7 +35,7 @@
     width: 60rpx;
     height: 60rpx;
     border: 1px;
-    /* background-color: #f10b2e; */
+    /* background-color: rgba(6, 192, 68, 0.815); */
     border-radius: 100rpx;
     position: relative;
     bottom: 7px;
@@ -55,14 +56,17 @@
     position: relative;
     bottom: 26px;
     margin-top: -20px;
-    font-weight: 600;
-    color: rgb(93, 204, 240);
+    font-weight: 420;
+    
 }
 
 .comment {
     font-size: 13px;
     position: absolute;
     left: 72px;
+    /*备注和用途间最好有点间距*/
+    padding-top: 15rpx;
+    color: rgba(124, 123, 123, 0.993);
 }
 
 .sum {

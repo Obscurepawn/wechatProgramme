@@ -8,7 +8,7 @@ Page({
 
   },
   next: function () {
-    wx.navigateTo({
+    wx.redirectTo({
       url: '/pages/mainPage/mainPage',
     })
   },

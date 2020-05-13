@@ -1,11 +1,22 @@
+// 无情翻译机
+var usefulnessMap = {
+  "学习": "study",
+  "金融理财": "money",
+  "饮食消费": "eat",
+  "住房缴费": "house",
+  "娱乐": "play",
+  "其它": "others",
+  "交通": "traffic"
+}
+
 var month = function (val) {
   if (val.length < 8 || val.length > 10) {
     return "Unknown";
   }
   if (val[5] == "0") {
-      return val[6];
+    return val[6];
   } else {
-      return val.substring(5, 7);
+    return val.substring(5, 7);
   }
   return "Unknown";
 }
@@ -15,9 +26,9 @@ var date = function (val) {
     return "Unknown";
   }
   if (val[val.length - 2] == '0') {
-    return val[val.length-1];
-  }else {
-    return val.substring(val.length-2);
+    return val[val.length - 1];
+  } else {
+    return val.substring(val.length - 2);
   }
 }
 
@@ -32,7 +43,11 @@ var color = function (val) {
 }
 
 var iconPath = function (val) {
-  return "/images/cashBook/" + val.usefulness + ".png";
+  if (!val.usefulness)
+    return "/images/cashBook/other.png";
+  var icon_name = usefulnessMap[val.usefulness];
+  console.log(icon_name);
+  return "/images/cashBook/" + icon_name + ".png";
 }
 
 module.exports.month = month;

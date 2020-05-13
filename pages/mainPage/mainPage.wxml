@@ -34,7 +34,7 @@
 			<image src='{{showCashBook? "/images/mainPage/arrowDown.png": "/images/mainPage/arrowUp.png"}}' class="simple-cashBook-arrow" bindtap="cashBookViewControl" />
 		</view>
 		<!--账单缩略-->
-		<scroll-view wx:if='{{showCashBook}}' scroll-y='true' style="height:90%;position=relative">
+		<scroll-view wx:if='{{showCashBook}}' scroll-y='true' style="height:90%;">
 			<!--账单模块-->
 			<block wx:for="{{cashList.detail}}" wx:key="*this">
 				<view class='axis_block'>

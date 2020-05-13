@@ -49,7 +49,7 @@ Page({
     if(cashList == undefined)
       return;
     // 动态设置高度
-    var cashHeight = Math.min((1 + cashList.length) * 120, 500);
+    var cashHeight = Math.min((1 + cashList.detail.length) * 120, 500);
     this.setData({
       defaultCashHeight: cashHeight + "rpx",
       cashWindowHeight: cashHeight + "rpx",
@@ -61,12 +61,12 @@ Page({
   getDiary() {
     var that = this;
     var diaryList = wx.getStorageSync('diaryList');
-    console.log(diaryList);
     // 缓存中有日记
     if (diaryList != undefined) {
       that.setData({
         diaryList: diaryList
       });
+      that.setDiaryHeight();
     } else {
       // 从数据库读取
       var openid = getApp().globalData.openId;
@@ -96,7 +96,6 @@ Page({
     let that = this;
     let uid = getApp().globalData.openId
     let bills = wx.getStorageSync('bills')
-    console.log(bills);
     var cashList;
     for(let i in bills) {
       if ( utils.isToday(bills[i].date) ) {
@@ -108,6 +107,7 @@ Page({
       this.setData({
         cashList: cashList
       });
+      that.setCashHeight();
     } else {
       wx.request({
         url: 'http://47.102.203.228:5000/init',

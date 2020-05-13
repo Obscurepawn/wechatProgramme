@@ -7,13 +7,13 @@ Page({
    */
   data: {
     useList: [
-      "book",
-      "financial",
-      "food",
-      "house",
-      "play",
-      "other",
-      "transportation",
+      "学习",
+      "金融理财",
+      "饮食消费",
+      "住房缴费",
+      "娱乐",
+      "其它",
+      "交通",
     ],
     openId: undefined,
     useIndex: 0,

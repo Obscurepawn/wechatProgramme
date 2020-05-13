@@ -127,7 +127,6 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (query) {
-    let that = this;
     let buf = wx.getStorageSync('diaryContent') || [];
     wx.setNavigationBarTitle({
       title: 'Diary',
@@ -227,21 +226,25 @@ Page({
         res.data.time = new Date().toLocaleTimeString();
         diaryList.push(res.data);
         wx.setStorageSync('diaryList', diaryList);
+        // 更新当地缓存(还没想好怎么写),目前暂时清空内容和标题缓存
+        wx.setStorage({
+          data: undefined,
+          key: 'diaryTitle',
+        })
+        wx.setStorage({
+          data: undefined,
+          key: 'diaryContent',
+        })
+        this.setData({
+          modalShowStyle: "",
+          dairyTitle: "",
+        })
+        // 添加成功返回上级，同时销毁页面
+        wx.redirectTo({
+          url: '/pages/mainPage/mainPage',
+        });
       }
     });
-    // 更新当地缓存(还没想好怎么写),目前暂时清空内容和标题缓存
-    wx.setStorage({
-      data: undefined,
-      key: 'diaryTitle',
-    })
-    wx.setStorage({
-      data: undefined,
-      key: 'diaryContent',
-    })
-    this.setData({
-      modalShowStyle: "",
-      dairyTitle: "",
-    })
   },
 
   /*点击取消按钮 不存储，输入框消失 */

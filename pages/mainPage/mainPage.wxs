@@ -1,7 +1,7 @@
 function axisGetRandomColor() {
   var color = [
     "red", "blue", "green", "purple", "coral", "yellowgreen",
-    "blueviolet", "aqua", "slateblue", "royalblue", "gold", "brown", "chocolate"
+    "blueviolet", "aqua", "slateblue", "royalblue", "gold", "brown", "chocolate", "burlywood", "darkcyan", "plum"
   ];
   var getRandNum = function (min, max) {
     var r = Math.floor(Math.random() * (max - min + 1) + min);
