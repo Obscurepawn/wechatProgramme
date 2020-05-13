@@ -222,13 +222,13 @@ Page({
       data: newDiary,
       success: res => {
         console.log("Success add diary into db", res);
+        // 更新本地日记缓存
+        let diaryList = wx.getStorageSync('diaryList');
+        res.data.time = new Date().toLocaleTimeString();
+        diaryList.push(res.data);
+        wx.setStorageSync('diaryList', diaryList);
       }
     });
-    // 更新本地日记缓存
-    let diaryList = wx.getStorageSync('diaryList');
-    newDiary.time = new Date().toLocaleTimeString();
-    diaryList.push(newDiary);
-    wx.setStorageSync('diaryList', diaryList);
     // 更新当地缓存(还没想好怎么写),目前暂时清空内容和标题缓存
     wx.setStorage({
       data: undefined,

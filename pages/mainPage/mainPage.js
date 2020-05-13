@@ -62,7 +62,7 @@ Page({
     var that = this;
     var diaryList = wx.getStorageSync('diaryList');
     console.log(diaryList);
-    // 缓存中没有日记
+    // 缓存中有日记
     if (diaryList != undefined) {
       that.setData({
         diaryList: diaryList

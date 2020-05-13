@@ -17,20 +17,22 @@ Page({
       success: res => {
         if (res.confirm) {
           wx.request({
-            url: 'http://106.15.198.136:8007/v1/diary',
+            url: 'http://106.15.198.136:8001/v1/diary',
             header: {
               'content-type': 'application/json'
             },
             method: 'DELETE',
             dataType: 'json',
-            data: this.diary,
+            data: that.data.diary.did,
             //删除成功
             success: res => {
               if (res.statusCode == 200) {
                 // 同时删除缓存中的日记
                 var diaryList = wx.getStorageSync('diaryList');
+                console.log(diaryList);
                 if (diaryList != undefined) {
-                  diaryList = diaryList.splice(that.index, 1);
+                  diaryList.splice(that.data.index, 1);
+                  console.log("After del: ", diaryList);
                   wx.setStorageSync('diaryList', diaryList);
                 }
                 wx.navigateBack({
