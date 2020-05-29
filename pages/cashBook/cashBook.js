@@ -908,7 +908,7 @@ Page({
     })
     let groups = wx.getStorageSync("bills");
     this.setData({
-      groups:groups
+      groups: groups
     })
     this.getSum(this.data.groups);
     console.log(this.data.groups);
