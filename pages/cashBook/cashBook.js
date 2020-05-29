@@ -254,7 +254,7 @@ Page({
         });
       } else {
         this.setData({
-          tab: 5
+          tab: -1
         })
         let outsideIndex = this.data.chooseList[0].outsideIndex;
         let insideIndex = this.data.chooseList[0].insideIndex;
