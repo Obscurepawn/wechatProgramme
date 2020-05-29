@@ -65,11 +65,18 @@ function dateLater(dates, later) {
   return dateObj;
 }
 
+function isToday(time) {
+  let d = new Date(time);
+  let today = new Date();
+  return (d.setHours(0, 0, 0, 0) == today.setHours(0, 0, 0, 0));
+}
 module.exports = {
   formatTime: formatTime,
   dateFormat: dateFormat,
   getRequestTimestamp: getRequestTimestamp,
   compareDate: compareDate,
   formatDate: formatDate,
-  getDates: getDates
+  getDates: getDates,
+  toDouble: toDouble,
+  isToday: isToday
 }

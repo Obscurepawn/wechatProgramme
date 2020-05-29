@@ -7,19 +7,19 @@ Page({
    */
   data: {
     useList: [
-      "book",
-      "financial",
-      "food",
-      "house",
-      "play",
-      "other",
-      "transportation",
+      "学习",
+      "金融理财",
+      "饮食消费",
+      "住房缴费",
+      "娱乐",
+      "其它",
+      "交通",
     ],
     openId: undefined,
     useIndex: 0,
     inputAmount: undefined,
     inputComment: undefined,
-    inputPayer: undefined,
+    inputPayer: "",
     list: [{
       "text": "统计图",
       "iconPath": "/images/cashBook/line-chart.jpg",
@@ -130,7 +130,9 @@ Page({
       element.detail.forEach(bill => {
         temp += bill.comments + ";";
       })
-      ret.push({ text: temp });
+      ret.push({
+        text: temp
+      });
     });
     console.log("ret in makeText: ", ret);
     return ret;

@@ -27,7 +27,7 @@
   width: 38rpx;
 }
 .now-page {
-  background-color: steelblue;
+  background-color: rgb(127, 154, 177);
   height: 50rpx;
   width: 50rpx;
   border-radius: 50%;

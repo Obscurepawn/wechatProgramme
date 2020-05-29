@@ -171,20 +171,25 @@
   margin:0 auto;
 }
 .axis_time{
-  /* width: 20%; */
+  width: 40%;
   color:grey;
   font-size: 27rpx;
   margin:0% 10%;
 }
+.axis_cash{
+  width: 90%;
+  display: inline-flex;
+  flex-direction: row;
+}
 .axis_event{
-  width: 20%;
+  width: 60%;
   color:#666;
   font-size: 30rpx;
   padding-left:5%;
 }
 .axis_money{
+  width:40%;
   font-size: 20rpx;
-  width: 20%;
   color:grey;
   font-size: 35rpx;
   padding-left:5%;
@@ -192,6 +197,7 @@
 .axis_diary{
   font-size: 30rpx;
   padding-left: 5%;
+  width: 90%;
   color: #666;
 }
 /* 简略账单信息 */

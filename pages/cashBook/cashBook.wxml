@@ -13,7 +13,7 @@
 		<view class="section">
   			<picker mode="date" value="{{time}}" start="1970-1-1" end="{{time}}" bindchange="bindDateChange" style="width:100%;">
     			<view class="formrow" >
-					  <text class="field" style="font-size:">date:</text>
+					  <text class="field" style="font-size:">消费日期:</text>
 					  <text class="field" style="float:right;">{{showTime}}</text>
     			</view>
   			</picker>
@@ -22,24 +22,24 @@
 		<view class="section">
   			<picker value="{{useIndex}}" range="{{useList}}" bindchange="bindUseChange" style="width:100%;">
     			<view class="formrow" >
-					  <text class="field" style="font-size:">UseList:</text>  
+					  <text class="field" style="font-size:">消费类型:</text>  
 					  <text class="field" style="float:right;">{{useList[useIndex]}}</text>
     			</view>
   			</picker>
 		</view>
 		<text>\n</text>
 		<view class='formrow'>
-			   <text class="field">amount<text style="color:red">*</text></text> 
+			   <text class="field">消费金额<text style="color:red">*</text></text> 
 			   <input type="text" class="input" bindinput="inputAmount" placeholder="必填项"/>
 		</view>
 		<text>\n</text>
 		<view class='formrow'>
-			   <text class="field">payer</text> 
+			   <text class="field">付款人</text> 
 			   <input type="text" class="input" bindinput="inputPayer" value="我"/>
 		</view>
 		<text>\n</text>
 		<view class='formrow'>
-			   <text class="field">comment</text> 
+			   <text class="field">备注</text> 
 			   <input type="text" class="input" bindinput="inputComment"/>
 		</view>
 	</modal>

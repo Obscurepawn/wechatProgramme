@@ -61,7 +61,7 @@ Page({
   saveDiaryContent: function (event) {
     console.log(event);
     this.setData({
-      textareaValue:event.detail.value
+      textareaValue: event.detail.value
     });
     wx.setStorage({
       key: 'diaryContent',
@@ -127,7 +127,6 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (query) {
-    let that = this;
     let buf = wx.getStorageSync('diaryContent') || [];
     wx.setNavigationBarTitle({
       title: 'Diary',
@@ -199,15 +198,15 @@ Page({
       return;
     }
     //存储数据库
-    var date = new Date();
     var newDiary = {};
-    // 用户ID还没定怎么整,default:wx12345
-    newDiary["uid"] = "wx12345"
+
+    newDiary["uid"] = getApp().globalData.openId;
+    console.log(newDiary["uid"] + " write a new diary");
     newDiary["title"] = this.data.dairyTitle;
     newDiary["content"] = this.data.textareaValue;
-
+    newDiary["time"] = new Date().toString();
     // 日记内容为空，不能上传到服务器
-    if (newDiary.content == undefined || newDiary.content=="") {
+    if (newDiary.content == undefined || newDiary.content == "") {
       wx.showToast({
         title: '日记内容不能为空',
         icon: 'none'
@@ -222,21 +221,30 @@ Page({
       data: newDiary,
       success: res => {
         console.log("Success add diary into db", res);
+        // 更新本地日记缓存
+        let diaryList = wx.getStorageSync('diaryList');
+        res.data.time = new Date().toLocaleTimeString();
+        diaryList.push(res.data);
+        wx.setStorageSync('diaryList', diaryList);
+        // 更新当地缓存(还没想好怎么写),目前暂时清空内容和标题缓存
+        wx.setStorage({
+          data: undefined,
+          key: 'diaryTitle',
+        })
+        wx.setStorage({
+          data: undefined,
+          key: 'diaryContent',
+        })
+        this.setData({
+          modalShowStyle: "",
+          dairyTitle: "",
+        })
+        // 添加成功返回上级，同时销毁页面
+        wx.redirectTo({
+          url: '/pages/mainPage/mainPage',
+        });
       }
     });
-    // 更新当地缓存(还没想好怎么写),目前暂时清空内容和标题缓存
-    wx.setStorage({
-      data: undefined,
-      key: 'diaryTitle',
-    })
-    wx.setStorage({
-      data: undefined,
-      key: 'diaryContent',
-    })
-    this.setData({
-      modalShowStyle: "",
-      dairyTitle: "",
-    })
   },
 
   /*点击取消按钮 不存储，输入框消失 */

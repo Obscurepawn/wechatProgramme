@@ -1,4 +1,5 @@
 // pages/mainPage/mainPage.js
+var utils = require("../../utils/util.js")
 Page({
 
   /**
@@ -15,7 +16,7 @@ Page({
     showCashBook: true,
     showDiary: true,
     // for calender
-    today: "",
+    noMonth: "",
     year: 0,
     month: 0,
     date: ['日', '一', '二', '三', '四', '五', '六'],
@@ -23,63 +24,128 @@ Page({
     isToday: 0,
     isTodayWeek: false,
     todayIndex: 0,
+    today:"",
     // for cashbook list
     cashList: [],
+    cashDate: "",
     // for diary list
     diaryList: []
+  },
+  // 设置日记栏高度
+  setDiaryHeight() {
+    let diaryList = this.data.diaryList
+    if(diaryList == undefined)
+      return;
+    // 动态设置高度
+    var diaryHeight = Math.min((1 + diaryList.length) * 120, 500);
+    this.setData({
+      defaultDiaryHeight: diaryHeight + "rpx",
+      diaryWindowHeight: diaryHeight + "rpx",
+    })
+  },
+  // 设置账单栏高度
+  setCashHeight() {
+    let cashList = this.data.cashList
+    if(cashList == undefined)
+      return;
+    // 动态设置高度
+    var cashHeight = Math.min((1 + cashList.detail.length) * 120, 500);
+    this.setData({
+      defaultCashHeight: cashHeight + "rpx",
+      cashWindowHeight: cashHeight + "rpx",
+    })
   },
   /**
    * 读取数据库
    */
-  getDiaryFromDB() {
+  getDiary() {
     var that = this;
-    var diaryList = [];
-    wx.request({
-      url: 'http://106.15.198.136:8001/v1/diary',
-      method: "GET",
-      success: res => {
-        // 将服务器返回数据存入到diarylist中
-        for (let i = 0; i < res.data.data.length; i++) {
-          var newDiary = {};
-          newDiary["did"] = res.data.data[i].Did;
-          newDiary["color"] = that.axisGetRandomColor();
-          newDiary["title"] = res.data.data[i].Title;
-          newDiary["content"] = res.data.data[i].Content;
-          // 设置时间
-          var d = new Date(res.data.data[i].Time);
-          newDiary["time"] = d.getHours() + ':' + d.getMinutes();
-          diaryList.push(newDiary);
+    var diaryList = wx.getStorageSync('diaryList');
+    // 缓存中有日记
+    if (diaryList != undefined) {
+      that.setData({
+        diaryList: diaryList
+      });
+      that.setDiaryHeight();
+    } else {
+      // 从数据库读取
+      var openid = getApp().globalData.openId;
+      wx.request({
+        url: 'http://106.15.198.136:8001/v1/diary/' + openid,
+        method: "GET",
+        success: res => {
+          // 将服务器返回数据存入到diarylist中
+          diaryList = res.data.diaries
+          this.setData({
+            diaryList: diaryList
+          });
+          //将日记List存入本地缓存，方便其他页面读取
+          wx.setStorage({
+            key: 'diaryList',
+            data: diaryList
+          });
+          that.setDiaryHeight();
         }
-        //将日记List存入本地缓存，方便其他页面读取
-        wx.setStorage({
-          data: diaryList,
-          key: 'dirList',
-        });
-        // 动态设置高度
-        var diaryHeight = Math.min((1 + diaryList.length) * 120, 500);
-        this.setData({
-          diaryList: diaryList,
-          defaultDiaryHeight: diaryHeight + "rpx",
-          diaryWindowHeight: diaryHeight + "rpx",
-        })
-      }
-    });
-
-  },
-  /**
-   * 得到随机时间轴颜色
-   */
-  axisGetRandomColor() {
-    var color = [
-      "red", "blue", "green", "purple", "coral", "yellowgreen",
-      "blueviolet", "aqua", "slateblue", "royalblue", "gold", "brown", "chocolate"
-    ];
-    var getRandNum = (min, max) => {
-      var r = Math.floor(Math.random() * (max - min + 1) + min);
-      return r;
+      });
     }
-    return color[getRandNum(0, color.length - 1)];
+    // 设置栏目高度
+    that.setDiaryHeight();
   },
+  // 读取账单
+  getCashList() {
+    let that = this;
+    let uid = getApp().globalData.openId
+    let bills = wx.getStorageSync('bills')
+    var cashList;
+    for(let i in bills) {
+      if ( utils.isToday(bills[i].date) ) {
+        cashList = bills[i];
+        break;
+      }
+    }
+    if (cashList != undefined) {
+      this.setData({
+        cashList: cashList
+      });
+      that.setCashHeight();
+    } else {
+      wx.request({
+        url: 'http://47.102.203.228:5000/init',
+        data: {
+          openId: uid
+        },
+        header: {
+          'content-type': 'application/json'
+        },
+        method: 'POST',
+        dataType: 'json',
+        success: (res) => {
+          if (res.statusCode != 200) {
+            console.log(res.message);
+            return;
+          }
+          let billList = res.data.data
+          var simpleCashList;
+          for(let i in billList) {
+            if( utils.isToday(billList[i].date) ) {
+              simpleCashList = billList[i];
+              break;
+            }
+          }
+          that.setData({
+            "cashList": simpleCashList
+          });
+          that.setCashHeight();
+        },
+        fail: function () {
+          console.log("系统错误");
+        }
+      })
+    }
+    // 设置栏目高度
+    that.setCashHeight();
+  },
+
   /**
    * 初始化时间
    */
@@ -153,6 +219,7 @@ Page({
       url: '/pages/diary/diary',
     })
   },
+  // 跳转到具体日记页面
   gotoDetailDiary: event => {
     let url = "/pages/diary/detail/detail"
     var query = "?id=" + event.currentTarget.dataset.id;
@@ -184,18 +251,17 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    var that = this;
-    var date = new Date();
     let now = new Date();
     let year = now.getFullYear();
     let month = now.getMonth() + 1;
-    let t = year + '年' + month + '月' // for title
+    let nm = year + '年' + month + '月' // for title
+    let today = now.toLocaleDateString()
     this.dateInit();
-    this.getDiaryFromDB();
     this.setData({
-      today: t,
+      noMonth: nm,
       year: year,
       month: month,
+      today:today,
       isToday: '' + year + month + now.getDate(),
     })
   },
@@ -204,28 +270,32 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-
+    // obtain diary
+    this.getDiary();
+    // obtain part of bills
+    this.getCashList();
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    this.getDiary();
+    this.getCashList();
   },
 
   /**
    * 生命周期函数--监听页面隐藏
    */
   onHide: function () {
-
+    ;
   },
 
   /**
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
-
+    ;
   },
 
   /**
