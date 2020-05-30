@@ -124,7 +124,7 @@ function makeList(val) {
             temp[temp.length - 1].count = count;
         }
     }
-    return temp.sort(function(a,b){return b.count-a.count});
+    return temp.sort(function (a, b) { return b.count - a.count });
 }
 
 function makeText(list) {
@@ -134,7 +134,7 @@ function makeText(list) {
         temp = ""
         temp += element.date + ";";
         for (detail of element.detail) {
-                temp += detail.comments + ";";
+            temp += detail.comments + ";";
         }
         ret.push(temp);
     }
@@ -148,9 +148,9 @@ function testSearch() {
     console.log(str.search(888))
 }
 
-function testLet(){
+function testLet() {
     let temp = 0;
-    if (true){
+    if (true) {
         let kk = new Object();
         kk.oop = 1;
         kk.oob = 2;
@@ -173,7 +173,7 @@ function testLet(){
 // console.log(list.indexOf(456))
 
 //testLet()
-for(let index = 0;index<10;++index){
+for (let index = 0; index < 10; ++index) {
     console.log(index);
 }
 

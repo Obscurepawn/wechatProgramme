@@ -415,7 +415,7 @@ Page({
       this.setData({
         [dataPath]: newItem
       })
-      let object = this.data.show[this.data.chooseList[0].outsideIndex];
+      let object = this.data.show[this.data.chooseList[0].outsideIndex];  
       object.detail[this.data.chooseList[0].insideIndex] = newItem;
       console.log("groups:", this.data.groups);
       this.update(object);
@@ -436,7 +436,6 @@ Page({
     console.log(this.data.groups);
     this.refreshSum(this.data.groups.length - 1);
     this.data.groups.sort(this.dateCompare);
-    this.refreshShow();
     wx.setStorageSync("bills", this.data.groups);
   },
 
