@@ -13,14 +13,14 @@
 		<!-- 日历主体 -->
 		<view class='calendar-box'>
 			<view class='header'>
-				<view wx:for='{{date}}' wx:key='*this' class='{{(index == todayIndex) && isTodayWeek ? "weekMark" : ""}}'>{{item}}
-					<view></view>
+				<view wx:for='{{date}}' wx:key='*this' class='{{(index == todayIndex) ? "weekMark" : ""}}'>{{item}}
+					<view />
 				</view>
 			</view>
 			<view class='date-box'>
 				<block wx:for='{{dateArr}}' wx:key='*this'>
 					<view class='{{isToday == item.isToday ? "nowDay" : "normal-day"}}'>
-						<view class='date-head' data-year='{{year}}' data-month='{{month}}' data-datenum='{{item.dateNum}}'>
+						<view class='date-head' data-year='{{year}}' data-month='{{month}}' data-datenum='{{item.dateNum}}' bindtap='{{item.dateNum == undefined ? "": "switch_day"}}'>
 							<view>{{item.dateNum}}</view>
 						</view>
 					</view>

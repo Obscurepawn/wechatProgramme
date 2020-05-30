@@ -22,7 +22,6 @@ Page({
     date: ['日', '一', '二', '三', '四', '五', '六'],
     dateArr: [],
     isToday: 0,
-    isTodayWeek: false,
     todayIndex: 0,
     today:"",
     // for cashbook list
@@ -46,9 +45,10 @@ Page({
   // 设置账单栏高度
   setCashHeight() {
     let cashList = this.data.cashList
-    if(cashList == undefined)
+    if(cashList == undefined || cashList.length == 0)
       return;
     // 动态设置高度
+    console.log('Cash: ', cashList);
     var cashHeight = Math.min((1 + cashList.detail.length) * 120, 500);
     this.setData({
       defaultCashHeight: cashHeight + "rpx",
@@ -156,10 +156,16 @@ Page({
     let now = setYear ? new Date(setYear, setMonth) : new Date();
     let year = setYear || now.getFullYear();
     let nextYear = 0;
-    let month = setMonth || now.getMonth(); //没有+1方便后面计算当月总天数
+    //没有+1方便后面计算当月总天数
+    let month = setMonth || now.getMonth();
     let nextMonth = (month + 1) > 11 ? 1 : (month + 1);
-    let startWeek = new Date(year + ',' + (month + 1) + ',' + 1).getDay(); //目标月1号对应的星期
-    let dayNums = new Date(year, nextMonth, 0).getDate(); //获取目标月有多少天
+    //本月1号对应的星期
+    let startWeek = new Date(year + ',' + (month + 1) + ',' + 1).getDay();
+    console.log('startweek: ', startWeek);
+     //获取本月有多少天
+    let dayNums = new Date(year, nextMonth, 0).getDate();
+    console.log('dayNums: ', dayNums);
+
     let obj = {};
     let num = 0;
     if (month + 1 > 11) {
@@ -168,38 +174,36 @@ Page({
     }
     arrLen = startWeek + dayNums;
     for (let i = 0; i < arrLen; i++) {
-      if (i >= startWeek) {
-        num = i - startWeek + 1;
-        obj = {
-          isToday: '' + year + (month + 1) + num,
-          dateNum: num,
-          weight: 5
-        }
-      } else {
+      if (i < startWeek) {
         obj = {};
+      } else {
+        num = i - startWeek + 1;
+        console.log("now week" ,i % 7);
+        obj = {
+          isToday: year + (month + 1) + num,
+          isTodayWeek: i % 7,
+          dateNum: num,
+        }
       }
-      dateArr[i] = obj;
+      dateArr.push(obj);
     }
+
     this.setData({
-      dateArr: dateArr
-    })
-    let nowDate = new Date();
-    let nowYear = nowDate.getFullYear();
-    let nowMonth = nowDate.getMonth() + 1;
-    let nowWeek = nowDate.getDay();
-    let getYear = setYear || nowYear;
-    let getMonth = setMonth >= 0 ? (setMonth + 1) : nowMonth;
-    if (nowYear == getYear && nowMonth == getMonth) {
-      this.setData({
-        isTodayWeek: true,
-        todayIndex: nowWeek
-      })
-    } else {
-      this.setData({
-        isTodayWeek: false,
-        todayIndex: -1
-      })
-    }
+      dateArr: dateArr,
+      todayIndex: new Date().getDay()
+    });
+  },
+  switch_day: function(e) {
+    let target_day = e.currentTarget.dataset.datenum;
+    let date = new Date();
+    let day = date.getFullYear() + (date.getMonth() + 1) + target_day;
+    let year = date.getFullYear();
+    let month = date.getMonth();
+    let startWeek = new Date(year + ',' + (month + 1) + ',' + 1).getDay();
+    this.setData({
+      isToday: day,
+      todayIndex: this.data.dateArr[target_day + startWeek - 1].isTodayWeek
+    });
   },
   /** 
    * 页面跳转相关函数
@@ -254,15 +258,13 @@ Page({
     let now = new Date();
     let year = now.getFullYear();
     let month = now.getMonth() + 1;
-    let nm = year + '年' + month + '月' // for title
     let today = now.toLocaleDateString()
     this.dateInit();
     this.setData({
-      noMonth: nm,
       year: year,
       month: month,
       today:today,
-      isToday: '' + year + month + now.getDate(),
+      isToday: year + month + now.getDate(),
     })
   },
 
