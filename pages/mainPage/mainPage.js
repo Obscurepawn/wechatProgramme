@@ -42,7 +42,15 @@ Page({
           return;
         }
         // 将服务器返回数据存入到diarylist中
-        var diaryList = res.data.diaries
+        var diaries = res.data.data;
+        var diaryList = []
+        console.log('diary',diaries)
+        for(let i in diaries) {
+          if(utils.isToday(diaries[i].date)) {
+            diaryList = diaries[i].diaries;
+          }
+        }
+        console.log(diaryList)
         for(let i = 0 ; i < diaryList.length; i++) {
           diaryList[i].time = new Date(diaryList[i].time).toLocaleTimeString();
         }
@@ -51,22 +59,29 @@ Page({
         });
         //将日记List存入本地缓存，方便其他页面读取
         wx.setStorage({
-          key: 'diaryList',
-          data: diaryList
+          key: 'diaries',
+          data: diaries
         });
       }
     });
   },
   getDiary() {
     var that = this;
-    var diaryList = wx.getStorageSync('diaryList');
+    var diaryList = []
+    var diaries = wx.getStorageSync('diaries');
     // 缓存中有日记
-    if (diaryList != undefined) {
+    if (diaryList == undefined) {
+      getDiaryFromServer();
+    } else {
+      for(let i in diaries) {
+        if(utils.isToday(diaries[i].date, that.data.isToday)) {
+          diaryList = diaries[i].diaries;
+          break;
+        }
+      }
       that.setData({
         diaryList: diaryList
       });
-    } else {
-      getDiaryFromServer();
     }
   },
 
@@ -84,6 +99,7 @@ Page({
       method: 'POST',
       dataType: 'json',
       success: (res) => {
+        console.log(res);
         if (res.statusCode != 200) {
           console.log(res.message);
           return;

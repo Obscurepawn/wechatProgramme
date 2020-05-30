@@ -36,7 +36,7 @@
 			</view>
 		</view>
 		<!--账单缩略-->
-		<scroll-view wx:if='{{showCashBook}}' scroll-y='true' style="height:auto">
+		<scroll-view wx:if='{{showCashBook && cashList.length != 0}}' scroll-y='true' style="height:500rpx">
 			<!--账单模块-->
 			<block wx:for="{{cashList.detail}}" wx:key="*this">
 				<view class='axis_block'>
@@ -48,18 +48,18 @@
 						<view class='axis_line_pad' wx:else />
 					</view>
 					<view class="axis_content">
-						<view class="axis_time">{{today}}</view>
+						<!-- <view class="axis_time">{{today}}</view> -->
 						<view class='axis_cash'>
-							<view class="axis_event">{{item.comments}}</view>
+							<view class="axis_event">{{item.comments == undefined? item.usefulness: item.comments}}</view>
 							<view class="axis_money" style="color:{{item.amount < 0? 'red': 'green'}}">{{item.amount}}</view>
 						</view>
 					</view>
 				</view>
 			</block>
-			<view wx:if='{{cashList.length == 0}}'>
+		</scroll-view>
+		<view wx:if='{{cashList.length == 0 && showCashBook}}'>
 				<text style="font-size:30rpx;color:grey;padding-left:50rpx">空空如也...</text>
 			</view>
-		</scroll-view>
 	</view>
 	<!--日记模块-->
 	<view class='simple-diary' >
@@ -72,7 +72,7 @@
 			<image src='{{showDiary? "/images/mainPage/arrowDown.png": "/images/mainPage/arrowUp.png"}}' class="simple-cashBook-arrow" bindtap="diaryViewControl"/>
 			</view>
 		</view>
-		<scroll-view wx:if='{{showDiary}}' scroll-y="true" style="height:auto">
+		<scroll-view wx:if='{{showDiary && diaryList.length != 0}}' scroll-y="true" style="height:500rpx">
 			<block wx:for="{{diaryList}}" wx:key="time">
 				<!--Time Axis-->
 				<view class='axis_block'>
@@ -89,10 +89,10 @@
 					</view>
 				</view>
 			</block>
-			<view wx:if='{{diaryList.length == 0}}'>
+		</scroll-view>
+			<view wx:if='{{diaryList.length == 0 && showDiary}}'>
 				<text style="font-size:30rpx;color:grey;padding-left:50rpx">空空如也...</text>
 			</view>
-		</scroll-view>
 	</view>
 	<view wx:if="{{(!showCashBook) && (!showDiary)}}" class="simple-color-egg">
 		<image src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1590838229145&di=89d2b6deeb139a992bf057a61e3c206d&imgtype=0&src=http%3A%2F%2Fimg2.a0bi.com%2Fupload%2Fttq%2F20151006%2F1444088865033.gif" style="width:500px;height:267px;"/>
