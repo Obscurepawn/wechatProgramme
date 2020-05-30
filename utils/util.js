@@ -70,7 +70,7 @@ function isToday(time1, time2) {
   if(time2 == undefined) {
     var today = new Date();
   } else {
-    var today = new Date(t);
+    var today = new Date(time2);
   }
   return (d.setHours(0, 0, 0, 0) == today.setHours(0, 0, 0, 0));
 }
