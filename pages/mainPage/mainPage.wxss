@@ -18,11 +18,13 @@
 
 .today-text {
   font-size: 45rpx;
-  font-weight: 700;
+  font-weight: 650;
+  font-family: 'Courier New', Courier, monospace;
 }
 .today-chicken-text{
   font-size: 35rpx;
   text-indent:35rpx;
+  font-family: "Comic Sans MS", cursive, sans-serif;
   color: #666;
 }
 .today-chicken-soup{
@@ -171,7 +173,7 @@
   margin:0 auto;
 }
 .axis_time{
-  width: 40%;
+  width: 60%;
   color:grey;
   font-size: 27rpx;
   margin:0% 10%;
@@ -232,6 +234,7 @@
   padding-left: 40rpx;
 }
 .simple-color-egg{
+  margin-top: 10rpx;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -239,7 +242,8 @@
 }
 .simple-color-egg>text {
   font-size: 35rpx;
-  color:goldenrod;
-  background-color: wheat;
+  color: grey;
+  font-family: "Comic Sans MS", fantasy, monospace, serif;
 }
+
 @import "/pages/bottomMenu/bottomMenu"
