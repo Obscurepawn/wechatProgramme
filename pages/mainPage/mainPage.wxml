@@ -28,13 +28,13 @@
 			</view>
 		</view>
 	</view>
-	<view class='simple-cashBook' style="height:{{cashWindowHeight}}">
+	<view class='simple-cashBook' >
 		<view class="simple-panel">
 			<text class = 'simple-text'>今日账单</text>
 			<image src='{{showCashBook? "/images/mainPage/arrowDown.png": "/images/mainPage/arrowUp.png"}}' class="simple-cashBook-arrow" bindtap="cashBookViewControl" />
 		</view>
 		<!--账单缩略-->
-		<scroll-view wx:if='{{showCashBook}}' scroll-y='true' style="height:90%;">
+		<scroll-view wx:if='{{showCashBook}}' scroll-y='true' style="height:{{cashWindowHeight}}">
 			<!--账单模块-->
 			<block wx:for="{{cashList.detail}}" wx:key="*this">
 				<view class='axis_block'>
@@ -60,7 +60,7 @@
 		</scroll-view>
 	</view>
 	<!--日记模块-->
-	<view class='simple-diary' style="height:{{diaryWindowHeight}}">
+	<view class='simple-diary' >
 		<view class='simple-panel'>
 			<view>
 				<text class = 'simple-text'>日记</text>
@@ -68,7 +68,7 @@
 			</view>
 			<image src='{{showDiary? "/images/mainPage/arrowDown.png": "/images/mainPage/arrowUp.png"}}' class="simple-cashBook-arrow" bindtap="diaryViewControl"></image>
 		</view>
-		<scroll-view wx:if='{{showDiary}}' scroll-y="true" style="height:90%">
+		<scroll-view wx:if='{{showDiary}}' scroll-y="true" style="height:{{diaryWindowHeight}}">
 			<block wx:for="{{diaryList}}" wx:key="time">
 				<!--Time Axis-->
 				<view class='axis_block'>

@@ -23,7 +23,7 @@ Page({
     dateArr: [],
     isToday: 0,
     todayIndex: 0,
-    today:"",
+    today: "",
     // for cashbook list
     cashList: [],
     cashDate: "",
@@ -33,7 +33,7 @@ Page({
   // 设置日记栏高度
   setDiaryHeight() {
     let diaryList = this.data.diaryList
-    if(diaryList == undefined)
+    if (diaryList == undefined)
       return;
     // 动态设置高度
     var diaryHeight = Math.min((1 + diaryList.length) * 120, 500);
@@ -45,7 +45,7 @@ Page({
   // 设置账单栏高度
   setCashHeight() {
     let cashList = this.data.cashList
-    if(cashList == undefined || cashList.length == 0)
+    if (cashList == undefined || cashList.length == 0)
       return;
     // 动态设置高度
     console.log('Cash: ', cashList);
@@ -58,6 +58,36 @@ Page({
   /**
    * 读取数据库
    */
+  getDiaryFromServer() {
+    // 从数据库读取
+    var that = this
+    var openid = getApp().globalData.openId;
+    wx.request({
+      url: 'http://106.15.198.136:8001/v1/diary/' + openid,
+      method: "GET",
+      success: res => {
+        if (res.data.status != 0) {
+          console.log(res.msg);
+          return;
+        }
+        // 将服务器返回数据存入到diarylist中
+        var diaryList = res.data.diaries
+        for(let i = 0 ; i < diaryList.length; i++) {
+          diaryList[i].time = new Date(diaryList[i].time).toLocaleTimeString();
+        }
+        console.log("nig:", diaryList);
+        this.setData({
+          diaryList: diaryList
+        });
+        //将日记List存入本地缓存，方便其他页面读取
+        wx.setStorage({
+          key: 'diaryList',
+          data: diaryList
+        });
+        that.setDiaryHeight();
+      }
+    });
+  },
   getDiary() {
     var that = this;
     var diaryList = wx.getStorageSync('diaryList');
@@ -68,37 +98,55 @@ Page({
       });
       that.setDiaryHeight();
     } else {
-      // 从数据库读取
-      var openid = getApp().globalData.openId;
-      wx.request({
-        url: 'http://106.15.198.136:8001/v1/diary/' + openid,
-        method: "GET",
-        success: res => {
-          // 将服务器返回数据存入到diarylist中
-          diaryList = res.data.diaries
-          this.setData({
-            diaryList: diaryList
-          });
-          //将日记List存入本地缓存，方便其他页面读取
-          wx.setStorage({
-            key: 'diaryList',
-            data: diaryList
-          });
-          that.setDiaryHeight();
-        }
-      });
+      getDiaryFromServer();
     }
     // 设置栏目高度
     that.setDiaryHeight();
   },
+
+  getCashListFromServer() {
+    var that = this;
+    let uid = getApp().globalData.openId;
+    wx.request({
+      url: 'http://47.102.203.228:5000/init',
+      data: {
+        openId: uid
+      },
+      header: {
+        'content-type': 'application/json'
+      },
+      method: 'POST',
+      dataType: 'json',
+      success: (res) => {
+        if (res.statusCode != 200) {
+          console.log(res.message);
+          return;
+        }
+        let billList = res.data.data
+        var todayCash;
+        for (let i in billList) {
+          if (utils.isToday(billList[i].date)) {
+            todayCash = billList[i];
+            break;
+          }
+        }
+        that.setData({
+          "cashList": todayCash
+        });
+        that.setCashHeight();
+      },
+      fail: function () {
+        console.log("系统错误");
+      }
+    });
+  },
   // 读取账单
   getCashList() {
-    let that = this;
-    let uid = getApp().globalData.openId
+    var that = this;
     let bills = wx.getStorageSync('bills')
     var cashList;
-    for(let i in bills) {
-      if ( utils.isToday(bills[i].date) ) {
+    for (let i in bills) {
+      if (utils.isToday(bills[i].date)) {
         cashList = bills[i];
         break;
       }
@@ -109,38 +157,7 @@ Page({
       });
       that.setCashHeight();
     } else {
-      wx.request({
-        url: 'http://47.102.203.228:5000/init',
-        data: {
-          openId: uid
-        },
-        header: {
-          'content-type': 'application/json'
-        },
-        method: 'POST',
-        dataType: 'json',
-        success: (res) => {
-          if (res.statusCode != 200) {
-            console.log(res.message);
-            return;
-          }
-          let billList = res.data.data
-          var simpleCashList;
-          for(let i in billList) {
-            if( utils.isToday(billList[i].date) ) {
-              simpleCashList = billList[i];
-              break;
-            }
-          }
-          that.setData({
-            "cashList": simpleCashList
-          });
-          that.setCashHeight();
-        },
-        fail: function () {
-          console.log("系统错误");
-        }
-      })
+      that.getCashListFromServer();
     }
     // 设置栏目高度
     that.setCashHeight();
@@ -162,7 +179,7 @@ Page({
     //本月1号对应的星期
     let startWeek = new Date(year + ',' + (month + 1) + ',' + 1).getDay();
     console.log('startweek: ', startWeek);
-     //获取本月有多少天
+    //获取本月有多少天
     let dayNums = new Date(year, nextMonth, 0).getDate();
     console.log('dayNums: ', dayNums);
 
@@ -178,7 +195,6 @@ Page({
         obj = {};
       } else {
         num = i - startWeek + 1;
-        console.log("now week" ,i % 7);
         obj = {
           isToday: year + (month + 1) + num,
           isTodayWeek: i % 7,
@@ -193,7 +209,7 @@ Page({
       todayIndex: new Date().getDay()
     });
   },
-  switch_day: function(e) {
+  switch_day: function (e) {
     let target_day = e.currentTarget.dataset.datenum;
     let date = new Date();
     let day = date.getFullYear() + (date.getMonth() + 1) + target_day;
@@ -263,7 +279,7 @@ Page({
     this.setData({
       year: year,
       month: month,
-      today:today,
+      today: today,
       isToday: year + month + now.getDate(),
     })
   },
@@ -273,9 +289,9 @@ Page({
    */
   onReady: function () {
     // obtain diary
-    this.getDiary();
+    this.getDiaryFromServer();
     // obtain part of bills
-    this.getCashList();
+    this.getCashListFromServer();
   },
 
   /**

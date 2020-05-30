@@ -67,7 +67,11 @@ function dateLater(dates, later) {
 
 function isToday(time1, time2) {
   let d = new Date(time1);
-  let today = new Date(time2 || "");
+  if(time2 == undefined) {
+    var today = new Date();
+  } else {
+    var today = new Date(t);
+  }
   return (d.setHours(0, 0, 0, 0) == today.setHours(0, 0, 0, 0));
 }
 module.exports = {
