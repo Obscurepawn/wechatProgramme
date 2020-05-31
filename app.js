@@ -53,13 +53,13 @@ App({
                       url: 'http://106.15.198.136:8001/v1/diary/' + that.globalData.openId,
                       method: 'GET',
                       success: res => {
-                        var diaries = res.data.diaries;
+                        var diaries = res.data.data.diaries;
                         var date;
                         for (let i in diaries) {
                           date = new Date(diaries[i].time)
                           diaries[i].time = date.toLocaleTimeString()
                         }
-                        wx.setStorageSync('diaryList', diaries);
+                        wx.setStorageSync('diaries', diaries);
                         console.log('Read diary from server');
                       },
                       fail: () => {

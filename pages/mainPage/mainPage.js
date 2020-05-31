@@ -42,31 +42,52 @@ Page({
           return;
         }
         // 将服务器返回数据存入到diarylist中
-        var diaryList = res.data.diaries
-        for(let i = 0 ; i < diaryList.length; i++) {
-          diaryList[i].time = new Date(diaryList[i].time).toLocaleTimeString();
+        var diaries = res.data.data;
+        var diaryList = []
+        wx.setStorageSync('todayDiary', {
+          "date": that.data.isToday,
+          "diaries": []
+        });
+        for (let i in diaries) {
+          if (utils.isToday(diaries[i].date, that.data.isToday)) {
+            diaryList = diaries[i].diaries;
+            wx.setStorageSync('todayDiary', diaries[i]);
+            break;
+          }
         }
         this.setData({
           diaryList: diaryList
         });
         //将日记List存入本地缓存，方便其他页面读取
         wx.setStorage({
-          key: 'diaryList',
-          data: diaryList
+          key: 'diaries',
+          data: diaries
         });
       }
     });
   },
   getDiary() {
     var that = this;
-    var diaryList = wx.getStorageSync('diaryList');
+    var diaryList = [];
+    var diaries = wx.getStorageSync('diaries');
     // 缓存中有日记
-    if (diaryList != undefined) {
+    if (diaries == undefined) {
+      getDiaryFromServer();
+    } else {
+      wx.setStorageSync('todayDiary', {
+        "date": that.data.isToday,
+        "diaries": []
+      });
+      for (let i in diaries) {
+        if (utils.isToday(diaries[i].date, that.data.isToday)) {
+          diaryList = diaries[i].diaries;
+          wx.setStorageSync('todayDiary', diaries[i]);
+          break;
+        }
+      }
       that.setData({
         diaryList: diaryList
       });
-    } else {
-      getDiaryFromServer();
     }
   },
 
@@ -84,6 +105,7 @@ Page({
       method: 'POST',
       dataType: 'json',
       success: (res) => {
+        console.log(res);
         if (res.statusCode != 200) {
           console.log(res.message);
           return;
@@ -109,7 +131,7 @@ Page({
   getCashList() {
     var that = this;
     let bills = wx.getStorageSync('bills')
-    if(bills == undefined) {
+    if (bills == undefined) {
       that.getCashListFromServer();
       return;
     }
@@ -121,7 +143,7 @@ Page({
       }
     }
     this.setData({
-      cashList:cashList
+      cashList: cashList
     });
   },
 
@@ -158,7 +180,7 @@ Page({
       } else {
         num = i - startWeek + 1;
         obj = {
-          isToday: year + ',' + (month + 1) + ',' + num,
+          isToday: year + "," + (month + 1) + "," + num,
           isTodayWeek: i % 7,
           dateNum: num,
         }

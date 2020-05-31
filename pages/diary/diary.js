@@ -199,12 +199,15 @@ Page({
     }
     //存储数据库
     var newDiary = {};
-
-    newDiary["uid"] = getApp().globalData.openId;
-    console.log(newDiary["uid"] + " write a new diary");
+    let date = new Date();
+    var temp = wx.getStorageSync('todayDiary');
+    temp["uid"] = getApp().globalData.openId;
     newDiary["title"] = this.data.dairyTitle;
     newDiary["content"] = this.data.textareaValue;
-    newDiary["time"] = new Date().toString();
+    newDiary["time"] = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+    console.log("nigger",temp);
+
+    temp.diaries.push(newDiary);
     // 日记内容为空，不能上传到服务器
     if (newDiary.content == undefined || newDiary.content == "") {
       wx.showToast({
@@ -217,15 +220,15 @@ Page({
     // 上传当前日记到服务器
     wx.request({
       url: 'http://106.15.198.136:8001/v1/diary',
-      method: 'POST',
-      data: newDiary,
+      method: 'PUT',
+      dataType:'json',
+      data: temp,
       success: res => {
-        console.log("Success add diary into db", res);
+        if(res.data.status != 0) {
+          console.log(res.data.msg);
+          return;
+        }
         // 更新本地日记缓存
-        let diaryList = wx.getStorageSync('diaryList');
-        res.data.time = new Date().toLocaleTimeString();
-        diaryList.push(res.data);
-        wx.setStorageSync('diaryList', diaryList);
         // 更新当地缓存(还没想好怎么写),目前暂时清空内容和标题缓存
         wx.setStorage({
           data: undefined,
