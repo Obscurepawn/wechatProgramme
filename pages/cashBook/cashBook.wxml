@@ -77,13 +77,13 @@
 			   <input type="text" class="input" bindinput="inputComment" value="{{updatedObject.comments}}"/>
 		</view>
 	</modal>
-	<view class="bill" wx:for="{{show}}" wx:for-item="item" wx:for-index="index" wx:key="*this">
+	<view class="bill" wx:for="{{show}}" wx:for-item="item" wx:for-index="index" wx:key="index">
 		<view class="moneyIO">
-			<text class="sum" style="float: left;height: auto;">{{tools.month(item.date)}}月{{tools.date(item.date)}}日</text>
+			<text class="sum" style="float: left;height: auto;">{{item.date}}</text>
 			<text class="sum" style="float: right;height: auto;">支出:{{item.expenditrue}} 收入:{{item.income}}</text>
 			<text>\n</text>
 		</view>
-		<view class="singleBill" wx:for="{{item.detail}}" wx:for-index="Index" wx:for-item="Item" wx:key="*this" data-insideIndex="{{Index}}" data-outsideIndex="{{index}}" bindtap="chooseBill" >
+		<view class="singleBill" wx:for="{{item.detail}}" wx:for-index="Index" wx:for-item="Item" wx:key="Index" data-insideIndex="{{Index}}" data-outsideIndex="{{index}}" bindtap="chooseBill" >
 		<view class="{{Item.isChosen ? 'isChosen' : ''}}">
 			<text>\n</text>
 			<image src="{{tools.iconPath(Item)}}" class="icon"></image>

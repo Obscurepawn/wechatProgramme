@@ -43,10 +43,10 @@ var color = function (val) {
 }
 
 var iconPath = function (val) {
+  // console.log('iconPathValue :>> ', JSON.stringify(val));
   if (!val.usefulness)
     return "/images/cashBook/other.png";
   var icon_name = usefulnessMap[val.usefulness];
-  console.log(icon_name);
   return "/images/cashBook/" + icon_name + ".png";
 }
 

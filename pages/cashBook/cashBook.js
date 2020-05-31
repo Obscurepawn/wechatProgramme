@@ -177,6 +177,9 @@ Page({
               AATextList: [],
             })
             this.cancelTheChoice();
+            this.setData({
+              tab: -1
+            })
           }
         },
         fail: () => { },
@@ -220,7 +223,7 @@ Page({
     } else if (e.detail.index == 3) {
       if (this.data.chooseList.length == 0) {
         this.setData({
-          tab: -1
+          tab: -1  //此处的5是wxml的触发条件 不能改
         })
         wx.showModal({
           content: '必须要选择一条账单进行编辑',
@@ -228,9 +231,7 @@ Page({
           confirmText: '确定',
           confirmColor: '#3CC51F',
           success: (result) => {
-            if (result.confirm) {
-              this.cancelTheChoice();
-            }
+            if (result.confirm) { }
           },
           fail: () => { },
           complete: () => { }
@@ -245,16 +246,14 @@ Page({
           confirmText: '确定',
           confirmColor: '#3CC51F',
           success: (result) => {
-            if (result.confirm) {
-              this.cancelTheChoice();
-            }
+            if (result.confirm) { }
           },
           fail: () => { },
           complete: () => { }
         });
       } else {
         this.setData({
-          tab: -1
+          tab: 5
         })
         let outsideIndex = this.data.chooseList[0].outsideIndex;
         let insideIndex = this.data.chooseList[0].insideIndex;
@@ -275,7 +274,7 @@ Page({
           }
         }
         this.setData({
-          updatedObject: object
+          updatedObject: object  //将要被改变的对象的原值 
         })
       }
     } else if (e.detail.index == 4) {
@@ -293,39 +292,31 @@ Page({
           fail: () => { },
           complete: () => { }
         });
-      } else if (this.data.chooseList.length > 1) {
-        wx.showModal({
-          content: '同时只能选择一条账单进行删除',
-          showCancel: false,
-          confirmText: '确定',
-          confirmColor: '#3CC51F',
-          success: (result) => {
-            if (result.confirm) {
-              this.cancelTheChoice();
-            }
-          },
-          fail: () => { },
-          complete: () => { }
-        });
       } else {
-        let outsideIndex = this.data.chooseList[0].outsideIndex;
-        let insideIndex = this.data.chooseList[0].insideIndex;
-        console.log(this.data.chooseList);
-        let date = this.data.show[outsideIndex].date;
-        let object = this.data.show[outsideIndex].detail[insideIndex];
-        console.log("object:", object);
-        console.log("groups:", this.data.groups);
-        let position = this.findData(date, object);
-        console.log("position:", position);
-        console.log("deleted data:", this.data.groups[position.outsideIndex].detail[position.insideIndex]);
-        this.data.groups[position.outsideIndex].detail.splice(position.insideIndex, 1);
-        if (this.data.groups[position.outsideIndex].detail.length == 0) {
-          this.delete(this.data.groups[position.outsideIndex]);
-          this.data.groups.splice(position.outsideIndex, 1);
-        } else {
-          this.update(this.data.groups[outsideIndex]);
-          this.refreshSum(position.outsideIndex);
+        for (let index = 0; index < this.data.chooseList.length; index++) {
+          let outsideIndex = this.data.chooseList[index].outsideIndex;
+          let insideIndex = this.data.chooseList[index].insideIndex;
+          console.log(this.data.chooseList);
+          let date = this.data.show[outsideIndex].date;
+          let object = this.data.show[outsideIndex].detail[insideIndex];
+          console.log("object:", object);
+          console.log("groups:", this.data.groups);
+          let position = this.findData(date, object);
+          console.log("position:", position);
+          console.log("deleted data:", this.data.groups[position.outsideIndex].detail[position.insideIndex]);
+          this.data.groups[position.outsideIndex].detail.splice(position.insideIndex, 1);
+          if (this.data.groups[position.outsideIndex].detail.length == 0) {
+            this.delete(this.data.groups[position.outsideIndex]);
+            this.data.groups.splice(position.outsideIndex, 1);
+          } else {
+            this.update(this.data.groups[outsideIndex]);
+            this.refreshSum(position.outsideIndex);
+          }
         }
+        this.setData({
+          tab: -1,
+          chooseList: []
+        });
         this.refreshShow();
       }
       wx.setStorageSync("bills", this.data.groups);
@@ -363,24 +354,31 @@ Page({
       dateList.push(element.date);
     })
     this.data.groups.forEach(element => {
-      if (this.listFind(dateList, element.date) != -1) {
+      let index = this.listFind(dateList, element.date);
+      if (index != -1) {
         show.push(element);
-        this.setData({
-          show: show
-        })
-        return; //暂时只能搜索某一天的数据，故此处查找到之后即可结束
+        dateList.splice(index, 1);
       }
+      if (dateList.length == 0) {
+        return;
+      }
+    })
+    this.setData({
+      show: show
     })
   },
 
   refreshSum: function (outsideIndex) {
-    this.setData({
-      Expenditrue: this.data.Expenditrue - this.data.groups[outsideIndex].expenditrue,
-      Income: this.data.Income - this.data.groups[outsideIndex].income
-    })
+    console.log('index:', outsideIndex);
+    if (outsideIndex === -1) {
+      console.log("can't find data in refreshSum");
+      return;
+    }
     let expenditrue = 0;
     let income = 0;
-    console.log(this.data.groups[outsideIndex]);
+    console.log('changed data:', this.data.groups[outsideIndex]);
+    console.log('old date expenditrue:', this.data.groups[outsideIndex].expenditrue, 'old date income', this.data.groups[outsideIndex].income);
+    console.log('old expenditrue:', this.data.expenditrue, 'old income', this.data.income);
     this.data.groups[outsideIndex].detail.forEach(element => {
       if (element.amount < 0) {
         expenditrue += element.amount;
@@ -388,12 +386,42 @@ Page({
         income += element.amount;
       }
     })
+    if (Number(this.getMonth(this.data.groups[outsideIndex].date)) === this.data.month) {
+      if (this.data.groups[outsideIndex].length != 1) {
+        this.setData({
+          expenditrue: this.data.expenditrue - this.data.groups[outsideIndex].expenditrue + expenditrue,
+          income: this.data.income - this.data.groups[outsideIndex].income + income
+        })
+      } else {
+        this.setData({
+          expenditrue: this.data.expenditrue + expenditrue,
+          income: this.data.income + income
+        })
+      }
+      console.log('new expenditrue value:', this.data.expenditrue - this.data.groups[outsideIndex].expenditrue + expenditrue);
+      console.log('new income value:', this.data.income - this.data.groups[outsideIndex].income + income);
+      console.log('new Count :>>', this.data.expenditrue, this.data.income);
+    }
     this.setData({
       ['groups[' + outsideIndex + '].expenditrue']: expenditrue,
       ['groups[' + outsideIndex + '].income']: income,
-      Expenditrue: this.data.Expenditrue + expenditrue,
-      Income: this.data.Income + income
     })
+  },
+
+  findKey: function (list, object) {
+    if (list.length == 0 && object.amount < 0) {
+      list.push({ "name": object.usefulness, "data": -object.amount });
+      return;
+    }
+    list.forEach(element => {
+      if (element.name == object.usefulness && object.amount < 0) {
+        element.amount -= object.amount;
+        return;
+      }
+    })
+    if (object.amount < 0) {
+      list.push({ "name": object.usefulness, "data": -object.amount });
+    }
   },
 
   updateBill: function () {
@@ -413,12 +441,13 @@ Page({
     let dataPath = 'groups[' + outsideIndex + '].detail[' + insideIndex + ']';
     if (this.data.showTime == this.data.updateDate) {
       this.setData({
-        [dataPath]: newItem
+        [dataPath]: newItem  //改变data.groups
       })
-      let object = this.data.show[this.data.chooseList[0].outsideIndex];  
+      let object = this.data.show[this.data.chooseList[0].outsideIndex];
       object.detail[this.data.chooseList[0].insideIndex] = newItem;
       console.log("groups:", this.data.groups);
       this.update(object);
+      this.refreshSum(outsideIndex);
     } else {
       let temp = this.addDataToGroup(newItem);
       this.data.groups[outsideIndex].detail.splice(insideIndex, 1);
@@ -429,30 +458,15 @@ Page({
         console.log("data deleted:", this.data.groups);
       } else {
         this.update(this.data.groups[outsideIndex]);
-        this.refreshSum(this.data.groups[outsideIndex]);
+        this.refreshSum(outsideIndex);
       }
       this.updateAndAdd(temp);
     }
     console.log(this.data.groups);
-    this.refreshSum(this.data.groups.length - 1);
     this.data.groups.sort(this.dateCompare);
+    this.refreshShow();
     wx.setStorageSync("bills", this.data.groups);
-  },
-
-  findKey: function (list, object) {
-    if (list.length == 0 && object.amount < 0) {
-      list.push({ "name": object.usefulness, "data": -object.amount });
-      return;
-    }
-    list.forEach(element => {
-      if (element.name == object.usefulness && object.amount < 0) {
-        element.amount -= object.amount;
-        return;
-      }
-    })
-    if (object.amount < 0) {
-      list.push({ "name": object.usefulness, "data": -object.amount });
-    }
+    this.cancelTheChoice();
   },
 
   getMonth: function (val) {
@@ -465,11 +479,11 @@ Page({
     return "Unknown";
   },
 
-  getNowMonth: function () {
-    var myDate = new Date();
-    var month = myDate.getMonth();
-    var nowMonth = month + 1;
-    return nowMonth;
+  getYear: function (val) {
+    if (val.length < 8 || val.length > 10) {
+      return "Unknown";
+    }
+    return val.substring(0, 4);
   },
 
   getSum: function (val) {
@@ -484,7 +498,6 @@ Page({
     let path1 = "";
     let path2 = "";
     let basePath = "";
-    let month = this.getNowMonth();
     val.forEach(element => {
       element.detail.forEach(bill => {
         if (bill.amount < 0) {
@@ -500,7 +513,7 @@ Page({
         [path1]: expendTemp,
         [path2]: incomeTemp
       })
-      if (this.getMonth(element.date) == month) {
+      if (this.getMonth(element.date) == this.data.month && this.getYear(element.date) == this.data.year) {
         Expenditrue += expendTemp;
         Income += incomeTemp;
       }
@@ -561,7 +574,7 @@ Page({
   selectResult: function (e) {
     let list = e.detail.item.text.split(";");
     console.log("list in selectResult: ", list);
-    let date = list[0];
+    let date = list[0];  //从解析的字符串中取得日期
     console.log("date in selectResult: ", date);
     let temp = [];
     this.data.groups.forEach(element => {
@@ -699,11 +712,6 @@ Page({
       if (element.date == this.data.showTime) {
         element.detail.push(newItem);
         isDateExist = true;
-        if (newItem.amount < 0) {
-          element.expenditrue += newItem.amount;
-        } else {
-          element.income += newItem.amount;
-        }
         temp = element;
       }
     })
@@ -715,13 +723,9 @@ Page({
       dateBill.date = this.data.showTime;
       dateBill.expenditrue = 0;
       dateBill.income = 0;
-      if (newItem.amount < 0) {
-        dateBill.expenditrue += newItem.amount;
-      } else {
-        dateBill.income += newItem.amount;
-      }
       dateBill.detail = detail;
       this.data.groups.push(dateBill);
+      this.refreshSum(this.data.groups.length - 1); //更新新加进去的元素
       console.log("groups in modalConfirm: ", this.data.groups);
       console.log("dateBill in modalConfirm: ", dateBill);
       temp = dateBill
@@ -754,6 +758,7 @@ Page({
     newItem.payer = this.data.inputPayer;
     console.log("showTime in modalConfirm: ", this.data.showTime);
     let temp = this.addDataToGroup(newItem);
+    this.refreshSum(this.listFind(this.data.groups, temp));
     this.data.groups.sort(this.dateCompare);
     this.refreshShow();
     console.log("tempBill: ", temp);

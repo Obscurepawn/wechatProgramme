@@ -142,7 +142,7 @@ module.exports =
                         },
                         result: {
                             type: Array,
-                            value:[]
+                            value: []
                         }
                     },
                     lastSearch: Date.now(),
@@ -210,7 +210,10 @@ module.exports =
                         selectResult: function selectResult(e) {
                             var index = e.currentTarget.dataset.index;
                             var item = this.data.result[index];
-                            
+                            this.setData({
+                                searchState: false
+                            })
+
                             this.triggerEvent('selectresult', { index: index, item: item });
                         }
                     }
