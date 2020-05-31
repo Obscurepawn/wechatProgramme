@@ -44,15 +44,16 @@ Page({
         // 将服务器返回数据存入到diarylist中
         var diaries = res.data.data;
         var diaryList = []
-        console.log('diary',diaries)
-        for(let i in diaries) {
-          if(utils.isToday(diaries[i].date)) {
+        wx.setStorageSync('todayDiary', {
+          "date": that.data.isToday,
+          "diaries": []
+        });
+        for (let i in diaries) {
+          if (utils.isToday(diaries[i].date, that.data.isToday)) {
             diaryList = diaries[i].diaries;
+            wx.setStorageSync('todayDiary', diaries[i]);
+            break;
           }
-        }
-        console.log(diaryList)
-        for(let i = 0 ; i < diaryList.length; i++) {
-          diaryList[i].time = new Date(diaryList[i].time).toLocaleTimeString();
         }
         this.setData({
           diaryList: diaryList
@@ -67,15 +68,20 @@ Page({
   },
   getDiary() {
     var that = this;
-    var diaryList = []
+    var diaryList = [];
     var diaries = wx.getStorageSync('diaries');
     // 缓存中有日记
-    if (diaryList == undefined) {
+    if (diaries == undefined) {
       getDiaryFromServer();
     } else {
-      for(let i in diaries) {
-        if(utils.isToday(diaries[i].date, that.data.isToday)) {
+      wx.setStorageSync('todayDiary', {
+        "date": that.data.isToday,
+        "diaries": []
+      });
+      for (let i in diaries) {
+        if (utils.isToday(diaries[i].date, that.data.isToday)) {
           diaryList = diaries[i].diaries;
+          wx.setStorageSync('todayDiary', diaries[i]);
           break;
         }
       }
@@ -125,7 +131,7 @@ Page({
   getCashList() {
     var that = this;
     let bills = wx.getStorageSync('bills')
-    if(bills == undefined) {
+    if (bills == undefined) {
       that.getCashListFromServer();
       return;
     }
@@ -137,7 +143,7 @@ Page({
       }
     }
     this.setData({
-      cashList:cashList
+      cashList: cashList
     });
   },
 
@@ -174,7 +180,7 @@ Page({
       } else {
         num = i - startWeek + 1;
         obj = {
-          isToday: year + ',' + (month + 1) + ',' + num,
+          isToday: year + "," + (month + 1) + "," + num,
           isTodayWeek: i % 7,
           dateNum: num,
         }

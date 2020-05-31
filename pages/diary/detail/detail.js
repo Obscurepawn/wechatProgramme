@@ -5,8 +5,8 @@ Page({
    * 页面的初始数据
    */
   data: {
-    index: -1,
-    diary: []
+    diary: [],
+    index: -1
   },
 
   delDiary() {
@@ -16,29 +16,36 @@ Page({
       cancelColor: 'red',
       success: res => {
         if (res.confirm) {
+          var temp = wx.getStorageSync('todayDiary');
+          temp["uid"] = getApp().globalData.openId;
+          temp.diaries.splice(that.data.index, 1);
+          console.log('After:', temp);
           wx.request({
             url: 'http://106.15.198.136:8001/v1/diary',
             header: {
               'content-type': 'application/json'
             },
-            method: 'DELETE',
+            method: 'put',
             dataType: 'json',
-            data: that.data.diary.did,
+            data: temp,
             //删除成功
             success: res => {
-              if (res.statusCode == 200) {
-                // 同时删除缓存中的日记
-                var diaryList = wx.getStorageSync('diaryList');
-                console.log(diaryList);
-                if (diaryList != undefined) {
-                  diaryList.splice(that.data.index, 1);
-                  console.log("After del: ", diaryList);
-                  wx.setStorageSync('diaryList', diaryList);
+                if(res.data.status != 0) {
+                  console.log("Error:",res.data.msg);
+                  return;
+                }
+                wx.setStorageSync('todayDiary', temp);
+                var list = wx.getStorageSync('diaries');
+                for(let i in list) {
+                  if(list[i].date == temp.date) {
+                      list[i] = temp;
+                      wx.setStorageSync('diaries', list)
+                      break;
+                  }
                 }
                 wx.navigateBack({
                   complete: (res) => {},
                 })
-              }
             },
             fail: () => {
               wx.showToast({
@@ -57,14 +64,19 @@ Page({
    */
   onLoad: function (options) {
     let id = options.id;
-    var dirList = wx.getStorageSync('diaryList');
-    var dir = [];
-    for (var i = 0; i < dirList.length; i++) {
-      if (dirList[i].did == id) {
-        dir = dirList[i];
-        break;
-      }
+    var dirList = wx.getStorageSync('todayDiary');
+    if(dirList == undefined) {
+      wx.showToast({
+        title: '未知错误',
+        icon: 'none',
+        duration: 2000
+      });
+      wx.navigateBack({
+        complete: (res) => {},
+      });    
     }
+    var dir = dirList.diaries[id];
+    
     if (dir == []) {
       wx.showToast({
         title: '未知错误',
@@ -75,10 +87,9 @@ Page({
         complete: (res) => {},
       });
     }
-    console.log(i);
     this.setData({
-      index: i,
-      diary: dir
+      diary: dir,
+      index: id
     });
   },
 
