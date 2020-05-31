@@ -26,10 +26,10 @@ Page({
               jump to mainPage
             */
             success: res => {
-              getApp().userInfo = res.userInfo
+              getApp().globalData.userInfo = res.userInfo
               that.next()
             }
-          })
+          });
         }
       }
     })
