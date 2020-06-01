@@ -4,6 +4,7 @@
   display: flex;
   box-sizing: border-box;
   background-color: #EDEDED;
+  /* background-color: rgba(6, 192, 68, 0.616); */
   -webkit-text-size-adjust: 100%;
   align-items: center
 }

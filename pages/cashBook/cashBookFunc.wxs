@@ -32,6 +32,13 @@ var date = function (val) {
   }
 }
 
+var get_Year_Month = function (val) {
+  if (val.length < 8 || val.length > 10) {
+    return "Unknown";
+  }
+  return val.substring(0,7);
+}
+
 var color = function (val) {
   if (val < 0) {
     return "red";
@@ -54,3 +61,4 @@ module.exports.month = month;
 module.exports.date = date;
 module.exports.color = color;
 module.exports.iconPath = iconPath;
+module.exports.get_Year_Month = get_Year_Month;

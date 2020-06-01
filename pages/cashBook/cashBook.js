@@ -62,6 +62,7 @@ Page({
     year: new Date().getFullYear(),
     month: new Date().getMonth() + 1,
     date: new Date().getDate(),
+    countMonth: undefined,
     time: undefined,
     showTime: undefined,
     expenditrue: 0,
@@ -621,7 +622,7 @@ Page({
   add: function (object) {
     object.openId = this.data.openId;
     wx.request({
-      url: 'http://47.102.203.228:5000/add',
+      url: 'https://47.102.203.228:5000/add',
       data: object,
       header: { 'content-type': 'application/json' },
       method: 'PUT',
@@ -639,7 +640,7 @@ Page({
   delete: function (object) {
     object.openId = this.data.openId;
     wx.request({
-      url: 'http://47.102.203.228:5000/delete',
+      url: 'https://47.102.203.228:5000/delete',
       data: object,
       header: { 'content-type': 'application/json' },
       method: 'DELETE',
@@ -657,7 +658,7 @@ Page({
   update: function (object) {
     object.openId = this.data.openId;
     wx.request({
-      url: 'http://47.102.203.228:5000/update',
+      url: 'https://47.102.203.228:5000/update',
       data: object,
       header: { 'content-type': 'application/json' },
       method: 'PUT',
@@ -676,7 +677,7 @@ Page({
   updateAndAdd: function (object) {
     object.openId = this.data.openId;
     wx.request({
-      url: 'http://47.102.203.228:5000/update',
+      url: 'https://47.102.203.228:5000/update',
       data: object,
       header: { 'content-type': 'application/json' },
       method: 'PUT',
@@ -684,7 +685,7 @@ Page({
         console.log(object);
         if (result.statusCode != 200) {
           wx.request({
-            url: 'http://47.102.203.228:5000/add',
+            url: 'https://47.102.203.228:5000/add',
             data: object,
             header: { 'content-type': 'application/json' },
             method: 'PUT',
@@ -910,7 +911,8 @@ Page({
   onReady: function () {
     var App = getApp();
     this.setData({
-      openId: App.globalData.openId
+      openId: App.globalData.openId,
+      countMonth:this.data.year + '-0' + this.data.month
     })
     let groups = wx.getStorageSync("bills");
     this.setData({

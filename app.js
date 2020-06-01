@@ -17,7 +17,7 @@ App({
             success: function (res) {
               //3.请求自己的服务器，解密用户信息 获取unionId等加密信息
               wx.request({
-                url: 'http://47.102.203.228:5000/openId',//自己的服务接口地址
+                url: 'https://47.102.203.228:5000/openId',//自己的服务接口地址
                 method: 'post',
                 header: {
                   'content-type': 'application/json'
@@ -30,7 +30,7 @@ App({
                     console.log(that.globalData.openId);
                     //获取初始账单信息
                     wx.request({
-                      url: 'http://47.102.203.228:5000/init',
+                      url: 'https://47.102.203.228:5000/init',
                       data: { openId: that.globalData.openId },
                       header: { 'content-type': 'application/json' },
                       method: 'POST',
@@ -50,7 +50,7 @@ App({
                     })
                     // 请求日记
                     wx.request({
-                      url: 'http://106.15.198.136:8001/v1/diary/' + that.globalData.openId,
+                      url: 'https://106.15.198.136:8001/v1/diary/' + that.globalData.openId,
                       method: 'GET',
                       success: res => {
                         var diaries = res.data.data.diaries;

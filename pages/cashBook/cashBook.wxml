@@ -2,11 +2,17 @@
 <!-- <text>pages/cashBook/cashBook.wxml</text> -->
 <wxs module="tools" src="./cashBookFunc.wxs"></wxs>
 <view class="page" hover-class="none" hover-stop-propagation="false">
-	<view class="topBar" hover-class="none" hover-stop-propagation="false">
-		<text style="float: left;height: 25px;color:white;">{{time}}</text>
-		<text style="float: right;height: 25px;color:white;" space="ensp">本月 支出:{{expenditrue}} 收入:{{income}}</text>
+	<view class="count" hover-class="none" hover-stop-propagation="false">
+		<!-- <text style="float: left;height: 25px;color:white;">{{time}}</text>
+		<text style="float: right;height: 25px;color:white;" space="ensp">本月 支出:{{expenditrue}} 收入:{{income}}</text> -->
+		<picker mode="date" value="{{countMonth}}" start="1970-1" end="{{time}}" bindchange="" fields="month" style="width:100%;">
+			<view class="counMonthButton" style="width:{{countMonth==tools.get_Year_Month(time)?'70px':'80px'}}">
+				{{countMonth==tools.get_Year_Month(time)?'本月':countMonth}}
+				<image id="invertedTriangle" src="/images/cashBook/invertedTriangle.png" mode="aspectFit|aspectFill|widthFix" lazy-load="false" binderror="" bindload=""></image>
+			</view>
+  		</picker>
 	</view>
-	<view class="page__bd">
+	<view>
 		<mp-searchbar bindselectresult="selectResult" search="{{search}}" bindcancel="showAll" style="width:100%" ></mp-searchbar>
 	</view>
 	<modal height='60%' bindcancel="modalCancel" bindconfirm='modalConfirm' wx:if="{{tab==2}}">
