@@ -487,7 +487,16 @@ Page({
     return val.substring(0, 4);
   },
 
-  getSum: function (val) {
+  sumChange: function (e) {
+    this.setData({
+      year: e.detail.value.substring(0, 4),
+      month: e.detail.value.substring(5),
+      countMonth:e.detail.value
+    })
+    this.getSum(this.data.groups,false);
+  },
+
+  getSum: function (val, isCalDetail) {
     let Expenditrue = 0;
     let Income = 0;
     let expendTemp = 0;
@@ -499,31 +508,40 @@ Page({
     let path1 = "";
     let path2 = "";
     let basePath = "";
-    val.forEach(element => {
-      element.detail.forEach(bill => {
-        if (bill.amount < 0) {
-          expendTemp += bill.amount;
-        } else if (bill.amount > 0) {
-          incomeTemp += bill.amount;
+    if (isCalDetail === true) {
+      val.forEach(element => {
+        element.detail.forEach(bill => {
+          if (bill.amount < 0) {
+            expendTemp += bill.amount;
+          } else if (bill.amount > 0) {
+            incomeTemp += bill.amount;
+          }
+        });
+        basePath = str3 + '[' + index + ']' + '.';
+        path1 = basePath + str1;
+        path2 = basePath + str2;
+        this.setData({
+          [path1]: expendTemp,
+          [path2]: incomeTemp
+        })
+        if (this.getMonth(element.date) == this.data.month && this.getYear(element.date) == this.data.year) {
+          Expenditrue += expendTemp;
+          Income += incomeTemp;
         }
-      });
-      basePath = str3 + '[' + index + ']' + '.';
-      path1 = basePath + str1;
-      path2 = basePath + str2;
-      this.setData({
-        [path1]: expendTemp,
-        [path2]: incomeTemp
+        expendTemp = 0;
+        incomeTemp = 0;
+        index += 1
       })
-      if (this.getMonth(element.date) == this.data.month && this.getYear(element.date) == this.data.year) {
-        Expenditrue += expendTemp;
-        Income += incomeTemp;
-      }
-      expendTemp = 0;
-      incomeTemp = 0;
-      index += 1
-    })
-    console.log("expenditure in getSum: ", Expenditrue);
-    console.log("income in getSum: ", Income);
+      console.log("expenditure in getSum: ", Expenditrue);
+      console.log("income in getSum: ", Income);
+    } else {
+      val.forEach(element => {
+        if (this.getMonth(element.date) == this.data.month && this.getYear(element.date) == this.data.year) {
+          Expenditrue += element.expenditrue;
+          Income += element.income;
+        }
+      })
+    }
     this.setData({
       expenditrue: Expenditrue,
       income: Income
@@ -622,7 +640,7 @@ Page({
   add: function (object) {
     object.openId = this.data.openId;
     wx.request({
-      url: 'https://47.102.203.228:5000/add',
+      url: 'https://uestczyj.com:5000/add',
       data: object,
       header: { 'content-type': 'application/json' },
       method: 'PUT',
@@ -640,7 +658,7 @@ Page({
   delete: function (object) {
     object.openId = this.data.openId;
     wx.request({
-      url: 'https://47.102.203.228:5000/delete',
+      url: 'https://uestczyj.com:5000/delete',
       data: object,
       header: { 'content-type': 'application/json' },
       method: 'DELETE',
@@ -658,7 +676,7 @@ Page({
   update: function (object) {
     object.openId = this.data.openId;
     wx.request({
-      url: 'https://47.102.203.228:5000/update',
+      url: 'https://uestczyj.com:5000/update',
       data: object,
       header: { 'content-type': 'application/json' },
       method: 'PUT',
@@ -677,7 +695,7 @@ Page({
   updateAndAdd: function (object) {
     object.openId = this.data.openId;
     wx.request({
-      url: 'https://47.102.203.228:5000/update',
+      url: 'https://uestczyj.com:5000/update',
       data: object,
       header: { 'content-type': 'application/json' },
       method: 'PUT',
@@ -685,7 +703,7 @@ Page({
         console.log(object);
         if (result.statusCode != 200) {
           wx.request({
-            url: 'https://47.102.203.228:5000/add',
+            url: 'https://uestczyj.com:5000/add',
             data: object,
             header: { 'content-type': 'application/json' },
             method: 'PUT',
@@ -912,13 +930,13 @@ Page({
     var App = getApp();
     this.setData({
       openId: App.globalData.openId,
-      countMonth:this.data.year + '-0' + this.data.month
+      countMonth: this.data.year + '-0' + this.data.month
     })
     let groups = wx.getStorageSync("bills");
     this.setData({
       groups: groups
     })
-    this.getSum(this.data.groups);
+    this.getSum(this.data.groups,true);
     console.log(this.data.groups);
     this.data.groups.sort(this.dateCompare);
     this.setData({

@@ -30,7 +30,7 @@ Page({
       title: '正在查询',
     });
     wx.request({
-      url: 'http://route.showapi.com/119-42',
+      url: 'https://route.showapi.com/119-42',
       data: {
         date: date,
         showapi_appid: "68354",

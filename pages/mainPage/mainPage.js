@@ -34,7 +34,7 @@ Page({
     var that = this
     var openid = getApp().globalData.openId;
     wx.request({
-      url: 'http://106.15.198.136:8001/v1/diary/' + openid,
+      url: 'https://uestcml.com:8010/v1/diary/' + openid,
       method: "GET",
       success: res => {
         if (res.data.status != 0) {
@@ -95,7 +95,7 @@ Page({
     var that = this;
     let uid = getApp().globalData.openId;
     wx.request({
-      url: 'http://47.102.203.228:5000/init',
+      url: 'https://uestczyj.com:5000/init',
       data: {
         openId: uid
       },

@@ -49,7 +49,7 @@ Page({
             success: function (res) {
               //3.请求自己的服务器，解密用户信息 获取unionId等加密信息
               wx.request({
-                url: 'http://47.102.203.228:5000/openId', //自己的服务接口地址
+                url: 'https://47.102.203.228:5000/openId', //自己的服务接口地址
                 method: 'post',
                 header: {
                   'content-type': 'application/json'
@@ -66,7 +66,7 @@ Page({
                     console.log(app.globalData.openId);
                     //5. 获取初始账单信息
                     wx.request({
-                      url: 'http://47.102.203.228:5000/init',
+                      url: 'https://47.102.203.228:5000/init',
                       data: {
                         openId: app.globalData.openId
                       },
@@ -90,7 +90,7 @@ Page({
                     })
                     // 6. 请求日记信息
                     wx.request({
-                      url: 'http://106.15.198.136:8001/v1/diary/'+ app.globalData.openId,
+                      url: 'httpss://uestcml.com:8010/v1/diary/'+ app.globalData.openId,
                       method:'GET',
                       success: res => {
                         var diaries = res.data.data.diaries;
