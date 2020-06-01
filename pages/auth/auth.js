@@ -90,7 +90,7 @@ Page({
                     })
                     // 6. 请求日记信息
                     wx.request({
-                      url: 'http://106.15.198.136:8001/v1/diary/'+ app.globalData.openId,
+                      url: 'https://uestcml.com:8010/v1/diary/'+ app.globalData.openId,
                       method:'GET',
                       success: res => {
                         var diaries = res.data.data.diaries;

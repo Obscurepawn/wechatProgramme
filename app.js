@@ -50,7 +50,7 @@ App({
                     })
                     // 请求日记
                     wx.request({
-                      url: 'http://106.15.198.136:8001/v1/diary/' + that.globalData.openId,
+                      url: 'https://uestcml.com:8010/v1/diary/' + that.globalData.openId,
                       method: 'GET',
                       success: res => {
                         var diaries = res.data.data.diaries;

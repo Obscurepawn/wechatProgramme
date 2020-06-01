@@ -219,7 +219,7 @@ Page({
     console.log(newDiary);
     // 上传当前日记到服务器
     wx.request({
-      url: 'http://106.15.198.136:8001/v1/diary',
+      url: 'https://uestcml.com:8010/v1/diary',
       method: 'PUT',
       dataType:'json',
       data: temp,
