@@ -38,7 +38,6 @@ Page({
       method: "GET",
       success: res => {
         if (res.data.status != 0) {
-          console.log(res.msg);
           return;
         }
         // 将服务器返回数据存入到diarylist中
@@ -105,7 +104,6 @@ Page({
       method: 'POST',
       dataType: 'json',
       success: (res) => {
-        console.log(res);
         if (res.statusCode != 200) {
           console.log(res.message);
           return;
@@ -162,11 +160,8 @@ Page({
     let nextMonth = (month + 1) > 11 ? 1 : (month + 1);
     //本月1号对应的星期
     let startWeek = new Date(year + ',' + (month + 1) + ',' + 1).getDay();
-    console.log('startweek: ', startWeek);
     //获取本月有多少天
     let dayNums = new Date(year, nextMonth, 0).getDate();
-    console.log('dayNums: ', dayNums);
-
     let obj = {};
     let num = 0;
     if (month + 1 > 11) {
@@ -220,10 +215,10 @@ Page({
       url: '/pages/hisSearch/hisSearch',
     })
   },
-  gotoDiary: function () {
+  gotoUser: function () {
     wx.navigateTo({
-      url: '/pages/diary/diary',
-    })
+      url: '/pages/login/login',
+    });
   },
   // 跳转到具体日记页面
   gotoDetailDiary: event => {
@@ -265,9 +260,9 @@ Page({
       isToday: year + ',' + month + ',' + now.getDate(),
     });
     // obtain diary
-    this.getDiaryFromServer();
+    // this.getDiaryFromServer();
     // obtain part of bills
-    this.getCashListFromServer();
+    this.getCashList();
   },
 
   /**

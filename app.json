@@ -1,7 +1,7 @@
 {
-  "pages": [  
-    "pages/auth/auth",  
+  "pages": [
     "pages/mainPage/mainPage",
+    "pages/login/login",
     "pages/hisSearch/hisSearch",
     "pages/bottomMenu/bottomMenu",
     "pages/history/history",

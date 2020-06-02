@@ -22,7 +22,7 @@
   height: 38rpx;
   width: 38rpx;
 }
-.diaryButton{
+.userButton{
   height: 38rpx;
   width: 38rpx;
 }

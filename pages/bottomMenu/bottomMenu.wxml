@@ -9,7 +9,7 @@
 	<view class='{{inHistory? "now-page": "normal-page"}}'>
 	<image src='/images/bottomMenu/history.png' class="historyButton" bindtap="gotoHistory"/>
 	</view>
-	<!-- <view class='{{inDiary? "now-page": "normal-page"}}'>
-	<image src='/images/bottomMenu/diary.png' class="diaryButton" bindtap="gotoDiary"/>
-	</view> -->
+	<view class='{{inUser? "now-page": "normal-page"}}'>
+	<image src='/images/bottomMenu/User.png' class="userButton" bindtap="gotoUser"/>
+	</view>
 </view>

@@ -1,10 +1,6 @@
 //app.js
 App({
   onLaunch: function () {
-    // 展示本地存储能力
-    var logs = wx.getStorageSync('logs') || []
-    logs.unshift(Date.now())
-    wx.setStorageSync('logs', logs)
     let that = this;
     // 登录
     wx.login({
@@ -15,6 +11,7 @@ App({
           //2、调用获取用户信息接口
           wx.getUserInfo({
             success: function (res) {
+              that.globalData.userInfo = res.userInfo;
               //3.请求自己的服务器，解密用户信息 获取unionId等加密信息
               wx.request({
                 url: 'https://uestczyj.com:5000/openId',//自己的服务接口地址
@@ -47,34 +44,7 @@ App({
                       fail: function () {
                         console.log("系统错误");
                       }
-                    })
-                    // // 请求日记
-                    // wx.request({
-                    //   url: 'https://uestcml.com:8010/v1/diary/' + that.globalData.openId,
-                    //   method: 'GET',
-                    //   success: res => {
-                    //     if (res.data.status != 0) {
-                    //       console.log(res.msg);
-                    //       return;
-                    //     }
-                    //     // 将服务器返回数据存入到diarylist中
-                    //     var diaries = res.data.data;
-                    //     //将日记List存入本地缓存，方便其他页面读取
-                    //     wx.setStorage({
-                    //       key: 'diaries',
-                    //       data: diaries
-                    //     });
-                    //   },
-                    //   fail: () => {
-                    //     console.log('系统错误')
-                    //   }
-                    // });
-                    //由于这个是网络请求，所以使用app.js的openId时需要在onReady中使用
-                    //这样可确保app的网络请求完成后才进行页面数据通信
-                    //也可以使用如下所示的回调函数解决
-                    // if (that.userInfoReadyCallback) {
-                    //    that.userInfoReadyCallback(res);
-                    // }
+                    });
                   } else {
                     console.log('解密失败');
                   }
@@ -85,7 +55,30 @@ App({
               })
             },
             fail: function () {
-              console.log('获取用户信息失败n');
+              let d = new Date();
+              let today = d.getFullYear() + '-' + (d.getMonth()+1) + '-' + d.getDate();
+              let example_bills = [];
+              let example = {
+                "date": today,
+                "detail": [
+                  {
+                  "amount": 20,
+                  "comments": "买书",
+                  "payer": "我",
+                  "usefulness": "学习"
+                  },
+                  {
+                    "amount": 32,
+                    "comments": "吃肯德基",
+                    "payer": "我",
+                    "usefulness": "饮食消费"
+                  }
+                ],
+                "expenditrue":52,
+                "income":0
+              }
+              example_bills.push(example);
+              wx.setStorageSync('bills', example_bills);
             }
           })
         } else {

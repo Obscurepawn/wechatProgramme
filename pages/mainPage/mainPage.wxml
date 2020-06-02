@@ -51,7 +51,7 @@
 						<!-- <view class="axis_time">{{today}}</view> -->
 						<view class='axis_cash'>
 							<view class="axis_event">{{item.comments == undefined? item.usefulness: item.comments}}</view>
-							<view class="axis_money" style="color:{{item.amount < 0? 'red': 'green'}}">{{item.amount}}</view>
+							<view class="axis_money" style="color:{{item.amount > 0? 'red': 'green'}}">{{item.amount > 0? "消费": "盈利"}}{{item.amount}}元</view>
 						</view>
 					</view>
 				</view>
