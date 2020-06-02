@@ -33,7 +33,7 @@ Page({
       dot: 'true'
     },
     {
-      "text": "增加",
+      "text": "添加",
       "iconPath": "/images/cashBook/add.png",
       "selectedIconPath": "/images/cashBook/add.png",
       dot: 'true'
@@ -164,8 +164,9 @@ Page({
       this.AAcost();
       let content = "";
       this.data.AATextList.forEach(element => {
-        content += element + "\n";
+        content += element + "\r\n";
       })
+      console.log(content);
       wx.showModal({
         title: 'AA分账',
         content: content,
@@ -426,7 +427,12 @@ Page({
   },
 
   updateBill: function () {
-    if (this.data.inputAmount === NaN || this.data.inputAmount === null) {
+    if (this.data.inputAmount === NaN || this.data.inputAmount === null || this.data.inputAmount === undefined) {
+      wx.showToast({
+        title: '金额必须填入一个数字',
+        icon: 'none',
+        duration: 1000
+      })
       return;
     }
     console.log("updatedObject:", this.data.updatedObject);
@@ -771,7 +777,12 @@ Page({
   // expenditrue: undefined,
   // detail:[]
   modalConfirm(e) {
-    if (this.data.inputAmount === NaN || this.data.inputAmount === null) {
+    if (this.data.inputAmount === NaN || this.data.inputAmount === null || this.data.inputAmount === undefined) {
+      wx.showToast({
+        title: '金额必须填入一个数字',
+        icon: 'none',
+        duration: 1000
+      })
       return;
     }
     this.setData({
@@ -920,7 +931,7 @@ Page({
       }
     })
     collect_give.forEach(element => {
-      this.data.AATextList.push(element.payer + "---" + element.amount + "--->" + element.collector);
+      this.data.AATextList.push(element.payer + "---" + element.amount.toFixed(2) + "-->" + element.collector);
     })
     console.log("TextList:", this.data.AATextList);
   },

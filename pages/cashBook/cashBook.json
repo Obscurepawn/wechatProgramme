@@ -1,8 +1,7 @@
 {
   "usingComponents": {
     "mp-searchbar":"./searchbar/searchbar",
-    "mp-tabbar":"./tabbar/tabbar",
-    "mp-table":"../../miniprogram_npm/miniprogram-table-component"
+    "mp-tabbar":"./tabbar/tabbar"
   },
   "navigationBarTitleText": ""
 }
