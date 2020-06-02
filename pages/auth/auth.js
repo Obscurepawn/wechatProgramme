@@ -88,26 +88,26 @@ Page({
                       }
                     })
                     // 6. 请求日记信息
-                    wx.request({
-                      url: 'httpss://uestcml.com:8010/v1/diary/'+ app.globalData.openId,
-                      method:'GET',
-                      success: res => {
-                        if (res.data.status != 0) {
-                          console.log(res.msg);
-                          return;
-                        }
-                        // 将服务器返回数据存入到diarylist中
-                        var diaries = res.data.data;
-                        //将日记List存入本地缓存，方便其他页面读取
-                        wx.setStorage({
-                          key: 'diaries',
-                          data: diaries
-                        });
-                      },
-                      fail: () => {
-                        console.log('系统错误')
-                      }
-                    })
+                    // wx.request({
+                    //   url: 'httpss://uestcml.com:8010/v1/diary/'+ app.globalData.openId,
+                    //   method:'GET',
+                    //   success: res => {
+                    //     if (res.data.status != 0) {
+                    //       console.log(res.msg);
+                    //       return;
+                    //     }
+                    //     // 将服务器返回数据存入到diarylist中
+                    //     var diaries = res.data.data;
+                    //     //将日记List存入本地缓存，方便其他页面读取
+                    //     wx.setStorage({
+                    //       key: 'diaries',
+                    //       data: diaries
+                    //     });
+                    //   },
+                    //   fail: () => {
+                    //     console.log('系统错误')
+                    //   }
+                    // });
                     //由于这个是网络请求，所以使用app.js的openId时需要在onReady中使用
                     //这样可确保app的网络请求完成后才进行页面数据通信
                     //也可以使用如下所示的回调函数解决

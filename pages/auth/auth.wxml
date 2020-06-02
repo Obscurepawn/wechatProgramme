@@ -1,6 +1,6 @@
 <!--pages/auth/auth.wxml-->
 <view class="logoBox">
-	<image src="https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1857328491,3331274923&fm=26&gp=0.jpg" class="logo"></image>
+	<image src="/images/auth/logo.jpg" class="logo"></image>
 	<text class = "logoText">My Time Capsule</text>
 </view>
 <view class="line" style="margin-top: 50rpx;"></view>
@@ -8,7 +8,7 @@
 <view class='intro-info'>
 	<text>清晰直观的日历，让你跟上时间的脚步</text>
 	<text>我的钱都到哪里去了？让聪明的记账本来告诉您</text>
-	<text>定个小目标？让好习惯伴随您的时光</text>
+	<text>AA付款怎么分？让账本帮您记！</text>
 </view>
 <view class="line"></view>
 <view class="warn-info">

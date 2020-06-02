@@ -3,11 +3,9 @@
     "pages/auth/auth",  
     "pages/mainPage/mainPage",
     "pages/hisSearch/hisSearch",
-    "pages/diary/diary",
     "pages/bottomMenu/bottomMenu",
     "pages/history/history",
     "pages/cashBook/cashBook",
-    "pages/diary/detail/detail",
     "pages/cashBook/charts/charts"
   ],
   "window": {
