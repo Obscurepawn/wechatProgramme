@@ -37,12 +37,12 @@
 		</view>
 		<text>\n</text>
 		<view class='formrow'>
-			   <text class="field">消费金额<text style="color:red">*</text></text> 
+			   <text class="field">金额<text style="color:red">*</text></text> 
 			   <input type="text" class="input" bindinput="inputAmount" placeholder="必填项"/>
 		</view>
 		<text>\n</text>
 		<view class='formrow'>
-			   <text class="field">付款人</text> 
+			   <text class="field">付款/收益人</text> 
 			   <input type="text" class="input" bindinput="inputPayer" value="我"/>
 		</view>
 		<text>\n</text>
