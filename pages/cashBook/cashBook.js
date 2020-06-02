@@ -19,7 +19,7 @@ Page({
     useIndex: 0,
     inputAmount: undefined,
     inputComment: undefined,
-    inputPayer: "",
+    inputPayer: "我",
     list: [{
       "text": "统计图",
       "iconPath": "/images/cashBook/line-chart.jpg",
@@ -426,6 +426,9 @@ Page({
   },
 
   updateBill: function () {
+    if (this.data.inputAmount === NaN || this.data.inputAmount === null) {
+      return;
+    }
     console.log("updatedObject:", this.data.updatedObject);
     this.setData({
       tab: -1
@@ -435,6 +438,11 @@ Page({
     newItem.amount = this.data.inputAmount;
     newItem.comments = this.data.inputComment;
     newItem.payer = this.data.inputPayer;
+    this.setData({
+      inputAmount: undefined,
+      inputComment: undefined,
+      inputPayer: "我"
+    })
     console.log("newItem", newItem);
     let position = this.findData(this.data.updateDate, this.data.updatedObject);
     let outsideIndex = position.outsideIndex;
@@ -491,9 +499,9 @@ Page({
     this.setData({
       year: e.detail.value.substring(0, 4),
       month: e.detail.value.substring(5),
-      countMonth:e.detail.value
+      countMonth: e.detail.value
     })
-    this.getSum(this.data.groups,false);
+    this.getSum(this.data.groups, false);
   },
 
   getSum: function (val, isCalDetail) {
@@ -558,7 +566,7 @@ Page({
   inputAmount(e) {
     // console.log(e.detail.value)
     this.setData({
-      inputAmount: Number(e.detail.value)
+      inputAmount: e.detail.value.length != 0 ? Number(e.detail.value) : null
     })
   },
 
@@ -601,7 +609,8 @@ Page({
       if (element.date == date) {
         temp.push(element);
         this.setData({
-          show: temp
+          show: temp,
+          isShowAll: false
         });
         return;
       }
@@ -762,19 +771,22 @@ Page({
   // expenditrue: undefined,
   // detail:[]
   modalConfirm(e) {
+    if (this.data.inputAmount === NaN || this.data.inputAmount === null) {
+      return;
+    }
     this.setData({
       tab: -1,
     })
-    if (this.data.inputPayer.length == 0) {
-      this.setData({
-        inputPayer: "我"
-      })
-    }
     let newItem = new Object();
     newItem.usefulness = this.data.useList[this.data.useIndex];
     newItem.amount = this.data.inputAmount;
     newItem.comments = this.data.inputComment;
     newItem.payer = this.data.inputPayer;
+    this.setData({
+      inputAmount: null,
+      inputComment: null,
+      inputPayer: "我"
+    })
     console.log("showTime in modalConfirm: ", this.data.showTime);
     let temp = this.addDataToGroup(newItem);
     this.refreshSum(this.listFind(this.data.groups, temp));
@@ -936,7 +948,7 @@ Page({
     this.setData({
       groups: groups
     })
-    this.getSum(this.data.groups,true);
+    this.getSum(this.data.groups, true);
     console.log(this.data.groups);
     this.data.groups.sort(this.dateCompare);
     this.setData({
