@@ -134,7 +134,7 @@ module.exports =
                         },
                         cancelText: {
                             type: String,
-                            value: '取消'
+                            value: '显示全部'
                         },
                         cancel: {
                             type: Boolean,
