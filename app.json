@@ -1,9 +1,9 @@
 {
-  "pages": [
-    "pages/auth/auth",
+  "pages": [  
+    "pages/auth/auth",  
+    "pages/mainPage/mainPage",
     "pages/hisSearch/hisSearch",
     "pages/diary/diary",
-    "pages/mainPage/mainPage",
     "pages/bottomMenu/bottomMenu",
     "pages/history/history",
     "pages/cashBook/cashBook",

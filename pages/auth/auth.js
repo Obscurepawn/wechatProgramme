@@ -27,7 +27,6 @@ Page({
             */
             success: res => {
               getApp().globalData.userInfo = res.userInfo
-              that.next()
             }
           });
         }

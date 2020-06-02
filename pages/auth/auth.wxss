@@ -1,7 +1,7 @@
 /* pages/auth/auth.wxss */
 
-.logoBox{
-  margin-top:10%;
+.logoBox {
+  margin-top: 10%;
   margin-left: 4%;
   margin-right: 4%;
   display: flex;
@@ -9,28 +9,56 @@
   justify-content: center;
   align-items: center;
 }
-.logo{
+
+.logo {
   background-color: #e5e5e5;
   height: 300rpx;
   width: 300rpx;
 }
-.logoText{
-  font-size:50rpx;
+
+.logoText {
+  font-size: 50rpx;
   font-weight: 1200;
   font-family: 'Times New Roman', Times, serif;
 }
-.buttonBox{
-  margin-top: 45%;
-  margin-left:4%;
-  margin-right:4%;
+
+.buttonBox {
+  margin-top: 50rpx;
+  margin-left: 4%;
+  margin-right: 4%;
 }
-.authButton{
+
+.authButton {
   background-color: #e5e5e5;
-  width:250rpx;
+  width: 250rpx;
   height: 150rpx;
   display: flex;
   justify-content: center;
-  align-items:center;
+  align-items: center;
   font-size: large;
   border-radius: 30rpx;
+}
+
+.intro-info {
+  font-size: 35rpx;
+  padding: 30rpx 0rpx;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center; 
+  font-family: "Comic Sans MS", cursive, sans-serif;
+}
+
+.warn-info{
+  padding-top: 30rpx;
+  display: flex;
+  flex-direction: column;
+  padding-left: 50rpx;
+}
+
+.line {
+  width: 100%;
+  background-color: silver;
+  height: 1px;
+  margin: 30rpx 0;
 }

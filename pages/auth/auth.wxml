@@ -3,6 +3,18 @@
 	<image src="https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1857328491,3331274923&fm=26&gp=0.jpg" class="logo"></image>
 	<text class = "logoText">My Time Capsule</text>
 </view>
+<view class="line" style="margin-top: 50rpx;"></view>
+<text style='font-family: "Comic Sans MS", cursive, sans-serif;'>What can My Time Capsule do? </text>
+<view class='intro-info'>
+	<text>清晰直观的日历，让你跟上时间的脚步</text>
+	<text>我的钱都到哪里去了？让聪明的记账本来告诉您</text>
+	<text>定个小目标？让好习惯伴随您的时光</text>
+</view>
+<view class="line"></view>
+<view class="warn-info">
+	<text style="font-size:30rpx;">为了更好的进行数据同步，请确认授权以下信息：</text>
+	<text style="color:#678;font-size:25rpx;">● 获得您的公开信息（名称、头像等）</text>
+</view>
 <view class='buttonBox'>
-	<button open-type="getUserInfo" bindgetuserinfo="bindUserInfo" class="authButton">授权登录</button>
+	<button open-type="getUserInfo" bindgetuserinfo="bindUserInfo" class="authButton">登录</button>
 </view>
