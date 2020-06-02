@@ -1,0 +1,11 @@
+<view wx:if='{{refused}}' class="refused-msg">亲，世界这么美好，为什么拒绝人家呢？</view>
+<view class='title'>My Time Capsule</view>
+<view class='userinfo-container' wx:if='{{canIUse}}'>
+	<image src= '{{userInfo == undefined? "/images/login/default.jpg": userInfo.avatarUrl}}' class='user-avatar'></image>
+	<text>{{userInfo == undefined? "游客账号": userInfo.nickName}}</text>
+  <button open-type="getUserInfo" bindgetuserinfo="bindUser" class="auth-button" wx:if='{{!hasLogin}}'>登录</button>
+</view>
+<view wx:else>
+	<text>大侠，更新微信版本即可享用该程序</text>
+</view>
+<include src='/pages/bottomMenu/bottomMenu'/>
