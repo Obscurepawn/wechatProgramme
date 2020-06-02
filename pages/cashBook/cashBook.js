@@ -167,7 +167,7 @@ Page({
         content += element + "\n";
       })
       wx.showModal({
-        title: 'AA大法好',
+        title: 'AA分账',
         content: content,
         showCancel: false,
         confirmText: '确定',

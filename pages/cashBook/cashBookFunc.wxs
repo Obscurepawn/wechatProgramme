@@ -33,6 +33,8 @@ var date = function (val) {
 }
 
 var get_Year_Month = function (val) {
+  if(val == undefined)
+    return "Unknown";
   if (val.length < 8 || val.length > 10) {
     return "Unknown";
   }

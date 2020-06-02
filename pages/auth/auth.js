@@ -49,7 +49,7 @@ Page({
             success: function (res) {
               //3.请求自己的服务器，解密用户信息 获取unionId等加密信息
               wx.request({
-                url: 'https://47.102.203.228:5000/openId', //自己的服务接口地址
+                url: 'https://uestczyj.com:5000/openId', //自己的服务接口地址
                 method: 'post',
                 header: {
                   'content-type': 'application/json'
@@ -66,7 +66,7 @@ Page({
                     console.log(app.globalData.openId);
                     //5. 获取初始账单信息
                     wx.request({
-                      url: 'https://47.102.203.228:5000/init',
+                      url: 'https://uestczyj.com:5000/init',
                       data: {
                         openId: app.globalData.openId
                       },
@@ -93,14 +93,17 @@ Page({
                       url: 'httpss://uestcml.com:8010/v1/diary/'+ app.globalData.openId,
                       method:'GET',
                       success: res => {
-                        var diaries = res.data.data.diaries;
-                        var date;
-                        for(let i in diaries) {
-                          date = new Date(diaries[i].time)
-                          diaries[i].time = date.toLocaleTimeString()
+                        if (res.data.status != 0) {
+                          console.log(res.msg);
+                          return;
                         }
-                        wx.setStorageSync('diaries', diaries);
-                        console.log('Resd diary from server');
+                        // 将服务器返回数据存入到diarylist中
+                        var diaries = res.data.data;
+                        //将日记List存入本地缓存，方便其他页面读取
+                        wx.setStorage({
+                          key: 'diaries',
+                          data: diaries
+                        });
                       },
                       fail: () => {
                         console.log('系统错误')
