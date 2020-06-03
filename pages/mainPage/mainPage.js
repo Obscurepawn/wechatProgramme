@@ -148,18 +148,18 @@ Page({
   /**
    * 初始化时间
    */
-  dateInit: function (setYear, setMonth) {
+  dateInit: function () {
     //全部时间的月份都是按0~11基准,显示月份才+1
     let dateArr = []; //需要遍历的日历数组数据
     let arrLen = 0; //dateArr的数组长度
-    let now = setYear ? new Date(setYear, setMonth) : new Date();
-    let year = setYear || now.getFullYear();
+    let now =  new Date();
+    let year = now.getFullYear();
     let nextYear = 0;
     //没有+1方便后面计算当月总天数
-    let month = setMonth || now.getMonth();
+    let month = now.getMonth();
     let nextMonth = (month + 1) > 11 ? 1 : (month + 1);
     //本月1号对应的星期
-    let startWeek = new Date(year + ',' + (month + 1) + ',' + 1).getDay();
+    let startWeek = new Date(year + '/' + (month + 1) + '/' + 1).getDay();
     //获取本月有多少天
     let dayNums = new Date(year, nextMonth, 0).getDate();
     let obj = {};
@@ -175,14 +175,13 @@ Page({
       } else {
         num = i - startWeek + 1;
         obj = {
-          isToday: year + "," + (month + 1) + "," + num,
+          isToday: year + "/" + (month + 1) + "/" + num,
           isTodayWeek: i % 7,
           dateNum: num,
         }
       }
       dateArr.push(obj);
     }
-
     this.setData({
       dateArr: dateArr,
       todayIndex: new Date().getDay()
@@ -193,8 +192,8 @@ Page({
     let date = new Date();
     let year = date.getFullYear();
     let month = date.getMonth();
-    let day = year + ',' + (month + 1) + ',' + target_day;
-    let startWeek = new Date(year + ',' + (month + 1) + ',' + 1).getDay();
+    let day = year + '/' + (month + 1) + '/' + target_day;
+    let startWeek = new Date(year + '/' + (month + 1) + '/' + 1).getDay();
     this.setData({
       isToday: day,
       todayIndex: this.data.dateArr[target_day + startWeek - 1].isTodayWeek,
@@ -257,7 +256,7 @@ Page({
       year: year,
       month: month,
       today: today,
-      isToday: year + ',' + month + ',' + now.getDate(),
+      isToday: year + '/' + month + '/' + now.getDate(),
     });
     // obtain diary
     // this.getDiaryFromServer();

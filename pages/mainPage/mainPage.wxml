@@ -1,6 +1,6 @@
 <wxs module='util' src='./mainPage.wxs' />
 <!--主界面-->
-<scroll-view class='main-container' scroll-y='true'>
+<view class='main-container' enable-flex='true'>
 	<!--头部信息-->
 	<view class="today-container">
 		<text class="today-text">Today: {{today}}</text>
@@ -17,14 +17,14 @@
 					<view />
 				</view>
 			</view>
-			<view class='date-box'>
-				<block wx:for='{{dateArr}}' wx:key='*this'>
+			<view class="date-box">
+				<view wx:for="{{dateArr}}" wx:key="dateNum">
 					<view class='{{isToday == item.isToday ? "nowDay" : "normal-day"}}'>
-						<view class='date-head' data-year='{{year}}' data-month='{{month}}' data-datenum='{{item.dateNum}}' bindtap='{{item.dateNum == undefined ? "": "switch_day"}}'>
+						<view class='date-head' data-datenum='{{item.dateNum}}' bindtap='{{item.dateNum == undefined ? "": "switch_day"}}'>
 							<view>{{item.dateNum}}</view>
 						</view>
 					</view>
-				</block>
+				</view>
 			</view>
 		</view>
 	</view>
@@ -38,7 +38,7 @@
 		<!--账单缩略-->
 		<scroll-view wx:if='{{showCashBook && cashList.detail.length != 0}}' scroll-y='true' style="height:{{util.min(500, cashList.detail.length * 120)+'rpx'}}">
 			<!--账单模块-->
-			<block wx:for="{{cashList.detail}}" wx:key="*this">
+			<view wx:for="{{cashList.detail}}" wx:key="date">
 				<view class='axis_block'>
 					<view class='axis_icon'>
 						<view class='axis_line' wx:if="{{index!=0}}" />
@@ -55,7 +55,7 @@
 						</view>
 					</view>
 				</view>
-			</block>
+			</view>
 		</scroll-view>
 		<view wx:if='{{cashList.length == 0 && showCashBook}}'>
 			<text style="font-size:30rpx;color:grey;padding-left:50rpx">空空如也...</text>
@@ -102,5 +102,6 @@
 		<image src="/images/mainPage/downimg.gif" style="width:500px;height:267px;" />
 		<text>感受时光静谧</text>
 	</view>
-</scroll-view>
+</view>
+<view style="height:150rpx;"></view>
 <include src='/pages/bottomMenu/bottomMenu' />
