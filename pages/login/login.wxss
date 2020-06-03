@@ -6,8 +6,9 @@
   text-align: center;
 }
 .refused-msg {
-  background-color: #fff;
+  background-color: rgba(39, 184, 87, 0.616);
   font-size: 35rpx;
+  color: #fff;
   font-family: 'Times New Roman', Times, serif;
   text-align: center;
 }
@@ -31,4 +32,91 @@
 .userinfo-container button {
   margin-top: 50rpx;
   background-color: #ddd;
+}
+
+.login-modal {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.login-modal image{ 
+  height: 250rpx;
+  width: 250rpx;
+}
+
+.logoText {
+  font-size: 50rpx;
+  font-weight: 1200;
+  font-family: 'Times New Roman', Times, serif;
+}
+
+.buttonBox {
+  margin-top: 50rpx;
+  margin-left: 4%;
+  margin-right: 4%;
+}
+
+.authButton {
+  background-color: #e5e5e5;
+  width: 250rpx;
+  height: 150rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: large;
+  border-radius: 30rpx;
+}
+
+.intro-info {
+  font-size: 35rpx;
+  padding: 30rpx 0rpx;
+  color: #666;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-family: "Comic Sans MS", cursive, sans-serif;
+}
+
+.warn-info{
+  padding-top: 15rpx;
+  display: flex;
+  flex-direction: column;
+  padding-left: 10rpx;
+}
+
+.line {
+  width: 100%;
+  background-color: silver;
+  height: 1px;
+  margin: 15rpx 0;
+}
+
+.mask{
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0,0,0,0.4);
+  z-index: 9999;
+}
+
+.login-modal{
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+  background-color: #fff;
+  border-radius: 10rpx;
+}
+
+.login-buttons{
+  margin-top:50rpx;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  border-top: 2rpx solid rgba(7,17,27,0.1);
 }

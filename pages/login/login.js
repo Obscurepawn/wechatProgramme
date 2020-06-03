@@ -10,20 +10,21 @@ Page({
     userInfo: undefined,
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
     hasLogin:false,
-    refused: false
+    refused: false,
+    showModal:false,
   },
   gotoCashBook: function () {
-    wx.redirectTo({
+    wx.navigateTo({
       url: '/pages/cashBook/cashBook',
     })
   },
   gotoHistory: function () {
-    wx.redirectTo({
+    wx.navigateTo({
       url: '/pages/hisSearch/hisSearch',
     })
   },
   gotoHomePage: function () {
-    wx.redirectTo({
+    wx.navigateTo({
       url: '/pages/mainPage/mainPage',
     });
   },
@@ -31,8 +32,9 @@ Page({
     var that = this;
     // 用户点击不允许
     if (!e.detail.userInfo) {
-      that.setData({
-        refused: true
+      this.setData({
+        refused:true,
+        showModal:false
       });
       return;
     }
@@ -43,9 +45,22 @@ Page({
     var userInfo = e.detail.userInfo;
     that.setData({
       userInfo: userInfo,
-      hasLogin:true
+      hasLogin:true,
+      refused:false,
+      showModal:false
     });
-
+  },
+  tryLogin() {
+    this.setData({
+      refused:false,
+      showModal:true
+    });
+  },
+  cancel() {
+    this.setData({
+      refused:true,
+      showModal:false
+    });
   },
   do_login() {
     var that = this;
