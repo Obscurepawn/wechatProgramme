@@ -2,41 +2,6 @@
 App({
   onLaunch: function () {
     let that = this;
-    // 登录
-    let d = new Date();
-    let today = d.getFullYear() + '-' + (d.getMonth()+1) + '-' + d.getDate();
-    let example = [{
-      "date": today,
-      "detail": [
-        {
-        "amount": -20,
-        "comments": "买书",
-        "payer": "我",
-        "usefulness": "学习"
-        },
-        {
-          "amount": -32,
-          "comments": "吃肯德基",
-          "payer": "我",
-          "usefulness": "饮食消费"
-        },
-        {
-          "amount": -45,
-          "comments": "聚餐",
-          "payer": "小张",
-          "usefulness": "饮食消费"
-        },
-        {
-          "amount": 200,
-          "comments": "基金",
-          "payer": "我",
-          "usefulness": "金融理财"
-        },
-      ],
-      "expenditrue":0,
-      "income":0
-    }];
-    wx.setStorageSync('bills', example);
     wx.login({
       success: r => {
         //  // 发送 res.code 到后台换取 openId, sessionKey, unionId

@@ -230,6 +230,7 @@
 }
 .simple-diary{
   margin-top: 25rpx;
+  height: 100%;
 }
 .simple-diary-add{
   width:30rpx;

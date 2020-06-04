@@ -62,32 +62,56 @@ Page({
           key: 'diaries',
           data: diaries
         });
+      },
+      complete: () => {
+        wx.hideLoading({
+          complete: (res) => {},
+        });
       }
     });
   },
   getDiary() {
     var that = this;
     var diaryList = [];
-    var diaries = wx.getStorageSync('diaries');
-    // 缓存中有日记
-    if (diaries == undefined) {
-      getDiaryFromServer();
-    } else {
-      wx.setStorageSync('todayDiary', {
-        "date": that.data.isToday,
-        "diaries": []
-      });
-      for (let i in diaries) {
-        if (utils.isToday(diaries[i].date, that.data.isToday)) {
-          diaryList = diaries[i].diaries;
-          wx.setStorageSync('todayDiary', diaries[i]);
-          break;
+    var diaries = [];
+    wx.showLoading({
+      title: '加载中',
+    });
+    //var diaries = wx.getStorageSync('diaries');
+    wx.getStorage({
+      key: 'diaries',
+      success: res => {
+        diaries = res.data;
+        wx.setStorageSync('todayDiary', {
+          "date": that.data.isToday,
+          "diaries": []
+        });
+        for (let i in diaries) {
+          if (utils.isToday(diaries[i].date, that.data.isToday)) {
+            diaryList = diaries[i].diaries;
+            wx.setStorageSync('todayDiary', diaries[i]);
+            break;
+          }
         }
+        console.log("list", diaryList);
+        that.setData({
+          diaryList: diaryList
+        });
+        wx.hideLoading({
+          complete: (res) => {},
+        });
+      },
+      fail: () => {
+        console.log('fail');
+        if (getApp().globalData.openId != undefined) {
+          that.getDiaryFromServer();
+        }
+        wx.hideLoading({
+          complete: (res) => {},
+        });
       }
-      that.setData({
-        diaryList: diaryList
-      });
-    }
+    });
+    return;
   },
 
   getCashListFromServer() {
@@ -128,21 +152,73 @@ Page({
   // 读取账单
   getCashList() {
     var that = this;
-    let bills = wx.getStorageSync('bills')
-    if (bills == undefined) {
-      that.getCashListFromServer();
-      return;
-    }
-    var cashList = [];
-    for (let i in bills) {
-      if (utils.isToday(bills[i].date, that.data.isToday)) {
-        cashList = bills[i];
-        break;
-      }
-    }
-    this.setData({
-      cashList: cashList
+    var bills;
+    wx.showLoading({
+      title: '',
     });
+    //var bills = wx.getStorageSync('bills');
+    wx.getStorage({
+      key: 'bills',
+      success: res => {
+        bills = res.data;
+        console.log('bills', bills);
+        var cashList = [];
+        for (let i in bills) {
+          if (utils.isToday(bills[i].date, that.data.isToday)) {
+            cashList = bills[i];
+            break;
+          }
+        }
+        this.setData({
+          cashList: cashList
+        });
+      },
+      fail: () => {
+        let d = new Date();
+        let today = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
+        let example = [{
+          "date": today,
+          "detail": [{
+              "amount": -20,
+              "comments": "买书",
+              "payer": "我",
+              "usefulness": "学习"
+            },
+            {
+              "amount": -32,
+              "comments": "吃肯德基",
+              "payer": "我",
+              "usefulness": "饮食消费"
+            },
+            {
+              "amount": -45,
+              "comments": "聚餐",
+              "payer": "小张",
+              "usefulness": "饮食消费"
+            },
+            {
+              "amount": 200,
+              "comments": "基金",
+              "payer": "我",
+              "usefulness": "金融理财"
+            },
+          ],
+          "expenditrue": 0,
+          "income": 0
+        }];
+        wx.setStorageSync('bills', example);
+        that.setData({
+          cashList: example[0]
+        });
+        if (getApp().globalData.openId != undefined) {
+          that.getCashListFromServer();
+        }
+        wx.hideLoading({
+          complete: (res) => {},
+        });
+      }
+    });
+    return;
   },
 
   /**
@@ -152,7 +228,7 @@ Page({
     //全部时间的月份都是按0~11基准,显示月份才+1
     let dateArr = []; //需要遍历的日历数组数据
     let arrLen = 0; //dateArr的数组长度
-    let now =  new Date();
+    let now = new Date();
     let year = now.getFullYear();
     let nextYear = 0;
     //没有+1方便后面计算当月总天数
@@ -199,7 +275,7 @@ Page({
       todayIndex: this.data.dateArr[target_day + startWeek - 1].isTodayWeek,
     });
     this.getCashList();
-    //this.getDiary();
+    this.getDiary();
   },
   /** 
    * 页面跳转相关函数
@@ -219,7 +295,7 @@ Page({
       url: '/pages/login/login',
     });
   },
-  gotoDiary: function() {
+  gotoDiary: function () {
     wx.navigateTo({
       url: '/pages/diary/diary',
     });
@@ -266,16 +342,13 @@ Page({
     // obtain diary
     // this.getDiaryFromServer();
     // obtain part of bills
-    this.getCashList();
-    this.getDiary();
   },
 
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-    this.getCashListFromServer();
-    this.getDiary();
+
   },
 
   /**

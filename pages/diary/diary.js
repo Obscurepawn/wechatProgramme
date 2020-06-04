@@ -232,11 +232,20 @@ Page({
         wx.setStorage({
           data: undefined,
           key: 'diaryTitle',
-        })
+        });
         wx.setStorage({
           data: undefined,
           key: 'diaryContent',
-        })
+        });
+        wx.setStorageSync('todayDiary', temp);
+        var list = wx.getStorageSync('diaries');
+        for(let i in list) {
+          if(list[i].date == temp.date) {
+              list[i] = temp;
+              wx.setStorageSync('diaries', list)
+              break;
+          }
+        }
         this.setData({
           modalShowStyle: "",
           dairyTitle: "",
