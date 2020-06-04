@@ -45,22 +45,22 @@ App({
                       }
                     });
                     //  获得日记
-                    wx.request({
-                      url: 'https://uestcml.com:8010/v1/diary/' + getApp().globalData.openId,
-                      method: "GET",
-                      success: res => {
-                        if (res.data.status != 0) {
-                          return;
-                        }
-                        // 将服务器返回数据存入到diarylist中
-                        var diaries = res.data.data;
-                        //将日记List存入本地缓存，方便其他页面读取
-                        wx.setStorage({
-                          key: 'diaries',
-                          data: diaries
-                        });
-                      }
-                    });
+                    // wx.request({
+                    //   url: 'https://uestcml.com:8010/v1/diary/' + getApp().globalData.openId,
+                    //   method: "GET",
+                    //   success: res => {
+                    //     if (res.data.status != 0) {
+                    //       return;
+                    //     }
+                    //     // 将服务器返回数据存入到diarylist中
+                    //     var diaries = res.data.data;
+                    //     //将日记List存入本地缓存，方便其他页面读取
+                    //     wx.setStorage({
+                    //       key: 'diaries',
+                    //       data: diaries
+                    //     });
+                    //   }
+                    // });
                   } else {
                     console.log('解密失败');
                   }
