@@ -219,6 +219,11 @@ Page({
       url: '/pages/login/login',
     });
   },
+  gotoDiary: function() {
+    wx.navigateTo({
+      url: '/pages/diary/diary',
+    });
+  },
   // 跳转到具体日记页面
   gotoDetailDiary: event => {
     let url = "/pages/diary/detail/detail"
@@ -262,20 +267,22 @@ Page({
     // this.getDiaryFromServer();
     // obtain part of bills
     this.getCashList();
+    this.getDiary();
   },
 
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-    
+    this.getCashListFromServer();
+    this.getDiary();
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    //this.getDiary();
+    this.getDiary();
     this.getCashList();
   },
 

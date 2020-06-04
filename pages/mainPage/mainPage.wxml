@@ -62,7 +62,7 @@
 		</view>
 	</view>
 	<!--日记模块-->
-	<!-- <view class='simple-diary'>
+	<view class='simple-diary'>
 		<view class='simple-panel'>
 			<view>
 				<text class = 'simple-text'>日记</text>
@@ -92,16 +92,15 @@
 		<view wx:if='{{diaryList.length == 0 && showDiary}}'>
 		<text style="font-size:30rpx;color:grey;padding-left:50rpx">空空如也...</text>
 		</view>
-	</view> -->
-	<!-- <view wx:if="{{(!showCashBook) && (!showDiary)}}" class="simple-color-egg">
-		<image src="/images/mainPage/downimg.gif" style="width:500px;height:267px;" />
-		<text>感受时光静谧</text>
-	</view> -->
-	<!-- 1.0.0版本（无D） -->
-	<view class="simple-color-egg">
+	</view>
+	<view wx:if="{{(!showCashBook) && (!showDiary)}}" class="simple-color-egg">
 		<image src="/images/mainPage/downimg.gif" style="width:500px;height:267px;" />
 		<text>感受时光静谧</text>
 	</view>
+	<!-- <view class="simple-color-egg">
+		<image src="/images/mainPage/downimg.gif" style="width:500px;height:267px;" />
+		<text>感受时光静谧</text>
+	</view> -->
 </view>
 <view style="height:150rpx;"></view>
 <include src='/pages/bottomMenu/bottomMenu' />

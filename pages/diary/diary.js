@@ -205,7 +205,6 @@ Page({
     newDiary["title"] = this.data.dairyTitle;
     newDiary["content"] = this.data.textareaValue;
     newDiary["time"] = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
-    console.log("nigger",temp);
 
     temp.diaries.push(newDiary);
     // 日记内容为空，不能上传到服务器
