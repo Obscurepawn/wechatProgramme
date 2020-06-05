@@ -93,7 +93,6 @@ Page({
             break;
           }
         }
-        console.log("list", diaryList);
         that.setData({
           diaryList: diaryList
         });
