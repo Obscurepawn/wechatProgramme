@@ -172,6 +172,9 @@ Page({
         this.setData({
           cashList: cashList
         });
+        wx.hideLoading({
+          complete: (res) => {},
+        });
       },
       fail: () => {
         let d = new Date();
@@ -275,7 +278,7 @@ Page({
       todayIndex: this.data.dateArr[target_day + startWeek - 1].isTodayWeek,
     });
     this.getCashList();
-    this.getDiary();
+     // this.getDiary();
   },
   /** 
    * 页面跳转相关函数
@@ -355,7 +358,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    this.getDiary();
+    // this.getDiary();
     this.getCashList();
   },
 
