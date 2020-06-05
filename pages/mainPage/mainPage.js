@@ -102,6 +102,22 @@ Page({
       },
       fail: () => {
         console.log('fail');
+        let d = new Date();
+        let today = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
+        let time = d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();
+        let example = [{
+          "date": today,
+          "diaries": [{
+            "title": "My时光胶囊",
+            "content": "My时光胶囊，记录您的美好回忆",
+            "time": time,
+          }, ],
+        }];
+        that.setData({
+          diaryList: example[0].diaries
+        });
+        wx.setStorageSync('diaries', example);
+        wx.setStorageSync('todayDiary', example[0]);
         if (getApp().globalData.openId != undefined) {
           that.getDiaryFromServer();
         }
