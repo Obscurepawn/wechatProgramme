@@ -146,6 +146,11 @@ Page({
       },
       fail: function () {
         console.log("系统错误");
+      },
+      complete: () => {
+        wx.hideLoading({
+          complete: (res) => {},
+        });
       }
     });
   },
@@ -172,6 +177,9 @@ Page({
         this.setData({
           cashList: cashList
         });
+        wx.hideLoading({
+          complete: (res) => {},
+        })
       },
       fail: () => {
         let d = new Date();
