@@ -32,7 +32,7 @@
 		<view class="simple-panel">
 			<text class = 'simple-text'>今日账单</text>
 			<view style="width:50rpx;height:50rpx;margin-right:30rpx;" bindtap="cashBookViewControl">
-				<image src='{{showCashBook? "/images/mainPage/arrowDown.png": "/images/mainPage/arrowUp.png"}}' class="simple-cashBook-arrow" />
+				<image src='/images/mainPage/arrowDown.png' class="simple-cashBook-arrow" animation='{{rotateCash}}' />
 			</view>
 		</view>
 		<!--账单缩略-->
@@ -62,14 +62,14 @@
 		</view>
 	</view>
 	<!--日记模块-->
-	<!-- <view class='simple-diary'>
+	<view class='simple-diary'>
 		<view class='simple-panel'>
 			<view>
 				<text class = 'simple-text'>日记</text>
 				<image src='/images/mainPage/add.png' bindtap="gotoDiary" class="simple-diary-add" />
 			</view>
 			<view style="width:50rpx;height:50rpx;margin-right:30rpx;" bindtap="diaryViewControl">
-				<image src='{{showDiary? "/images/mainPage/arrowDown.png": "/images/mainPage/arrowUp.png"}}' class="simple-cashBook-arrow" />
+				<image src='/images/mainPage/arrowDown.png' class="simple-cashBook-arrow" animation='{{rotateDiary}}' />
 			</view>
 		</view>
 		<scroll-view wx:if='{{showDiary && diaryList.length != 0}}' scroll-y="true" style="height:{{util.min(500, diaryList.length * 200) + 'rpx'}}">
@@ -92,15 +92,15 @@
 		<view wx:if='{{diaryList.length == 0 && showDiary}}'>
 			<text style="font-size:30rpx;color:grey;padding-left:50rpx">空空如也...</text>
 		</view>
-	</view> -->
-	<!-- <view wx:if="{{(!showCashBook) && (!showDiary)}}" class="simple-color-egg">
-		<image src="/images/mainPage/downimg.gif" style="width:500px;height:267px;" />
-		<text>感受时光静谧</text>
-	</view> -->
-	<view class="simple-color-egg">
+	</view>
+	<view wx:if="{{(!showCashBook) && (!showDiary)}}" class="simple-color-egg">
 		<image src="/images/mainPage/downimg.gif" style="width:500px;height:267px;" />
 		<text>感受时光静谧</text>
 	</view>
+	<!-- <view class="simple-color-egg">
+		<image src="/images/mainPage/downimg.gif" style="width:500px;height:267px;" />
+		<text>感受时光静谧</text>
+	</view> -->
 </view>
 <view style="height:150rpx;"></view>
 <include src='/pages/bottomMenu/bottomMenu' />

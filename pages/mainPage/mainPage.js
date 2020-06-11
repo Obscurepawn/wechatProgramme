@@ -156,7 +156,6 @@ Page({
     wx.showLoading({
       title: '',
     });
-    //var bills = wx.getStorageSync('bills');
     wx.getStorage({
       key: 'bills',
       success: res => {
@@ -278,7 +277,7 @@ Page({
       todayIndex: this.data.dateArr[target_day + startWeek - 1].isTodayWeek,
     });
     this.getCashList();
-     // this.getDiary();
+    this.getDiary();
   },
   /** 
    * 页面跳转相关函数
@@ -317,14 +316,28 @@ Page({
    */
   cashBookViewControl: function () {
     let nextCond = !this.data.showCashBook;
+    var anime = wx.createAnimation({
+      duration: 600,
+      timingFunction: "linear"
+    });
+    let scale = nextCond? 0: 180;
+    anime.rotate(scale).step();
     this.setData({
       showCashBook: nextCond,
+      rotateCash: anime.export()
     });
   },
   diaryViewControl: function () {
     let nextCond = !this.data.showDiary;
+    var anime = wx.createAnimation({
+      duration: 600,
+      timingFunction: "linear"
+    });
+    let scale = nextCond? 0: 180;
+    anime.rotate(scale).step();
     this.setData({
       showDiary: nextCond,
+      rotateDiary: anime.export()
     });
   },
   /**
@@ -358,7 +371,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    // this.getDiary();
+    this.getDiary();
     this.getCashList();
   },
 
