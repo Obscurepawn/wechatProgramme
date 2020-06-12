@@ -7,7 +7,8 @@ Page({
    */
   data: {
     //page style
-    inHomePage: true, // this is for bottom menu
+    // this is for bottom menu
+    inHomePage: true,
     // whether to show diary of cashBook
     showCashBook: true,
     showDiary: true,
@@ -331,22 +332,24 @@ Page({
   cashBookViewControl: function () {
     let nextCond = !this.data.showCashBook;
     var anime = wx.createAnimation({
-      duration: 600,
+      duration: 400,
       timingFunction: "linear"
     });
+    // rotate anime
     let scale = nextCond? 0: 180;
     anime.rotate(scale).step();
     this.setData({
       showCashBook: nextCond,
-      rotateCash: anime.export()
+      rotateCash: anime.export(),
     });
   },
   diaryViewControl: function () {
     let nextCond = !this.data.showDiary;
     var anime = wx.createAnimation({
-      duration: 600,
+      duration: 400,
       timingFunction: "linear"
     });
+    // rotate anime
     let scale = nextCond? 0: 180;
     anime.rotate(scale).step();
     this.setData({
@@ -369,9 +372,27 @@ Page({
       today: today,
       isToday: year + '/' + month + '/' + now.getDate(),
     });
-    // obtain diary
-    // this.getDiaryFromServer();
-    // obtain part of bills
+    // slide right anime
+    var anime = wx.createAnimation({
+      duration: 600,
+      timingFunction: "ease"
+    });
+    anime.translateX(200).opacity(0.6).step();
+    anime.opacity(1).step();
+    this.setData({
+      slideRightAnime: anime.export()
+    });
+
+    // slide up anime
+    var slide_anime = wx.createAnimation({
+      duration: 600,
+      timingFunction: "ease"
+    });
+    slide_anime.translateY(-200).opacity(0.6).step();
+    slide_anime.opacity(1).step();
+    this.setData({
+      slideUpAnime:slide_anime.export()
+    });
   },
 
   /**
@@ -387,6 +408,7 @@ Page({
   onShow: function () {
     this.getDiary();
     this.getCashList();
+
   },
 
   /**

@@ -11,6 +11,8 @@
 }
 /* today */
 .today-container {
+  position: relative;
+  top:200px;
   margin-left: 0%;
   margin-right: 0%;
   padding-left: 3%;
@@ -35,6 +37,8 @@
 }
 /* 日历 */
 .calender {
+  position: relative;
+  right: 200px;
   display: flex;
   flex-direction: column;
   border-bottom: 1px solid #e7e7e7;
@@ -206,6 +210,8 @@
 }
 /* 简略账单信息 */
 .simple-cashBook{
+  position: relative;
+  top: 200px;
   margin-top: 25rpx;
   height: 100%;
   border-bottom: 2px solid #e7e7e7
@@ -229,6 +235,8 @@
   height: 25rpx;
 }
 .simple-diary{
+  position: relative;
+  top: 200px;
   margin-top: 25rpx;
   height: 100%;
 }

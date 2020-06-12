@@ -2,14 +2,14 @@
 <!--主界面-->
 <view class='main-container' enable-flex='true'>
 	<!--头部信息-->
-	<view class="today-container">
+	<view class="today-container" animation="{{slideUpAnime}}">
 		<text class="today-text">Today: {{today}}</text>
 		<view class='today-chicken-soup'>
 			<text class="today-chicken-text">我们还在旅途中。--四月是你的谎言</text>
 			<image src='/images/mainPage/upimg.jpg' class='today-picture' />
 		</view>
 	</view>
-	<view class='calender'>
+	<view class='calender' animation='{{slideRightAnime}}'>
 		<!-- 日历主体 -->
 		<view class='calendar-box'>
 			<view class='header'>
@@ -28,15 +28,15 @@
 			</view>
 		</view>
 	</view>
-	<view class='simple-cashBook'>
+	<!--账单缩略-->
+	<view class='simple-cashBook' animation='{{slideUpAnime}}'>
 		<view class="simple-panel">
 			<text class = 'simple-text'>今日账单</text>
 			<view style="width:50rpx;height:50rpx;margin-right:30rpx;" bindtap="cashBookViewControl">
 				<image src='/images/mainPage/arrowDown.png' class="simple-cashBook-arrow" animation='{{rotateCash}}' />
 			</view>
 		</view>
-		<!--账单缩略-->
-		<scroll-view wx:if='{{showCashBook && cashList.detail.length != 0}}' scroll-y='true' style="height:{{util.min(500, cashList.detail.length * 120)+'rpx'}}">
+		<scroll-view wx:if='{{showCashBook && cashList.detail.length != 0}}' scroll-y='true' style="height:{{util.min(500, cashList.detail.length * 120)+'rpx'}}" >
 			<!--账单模块-->
 			<view wx:for="{{cashList.detail}}" wx:key="date">
 				<view class='axis_block'>
@@ -62,7 +62,7 @@
 		</view>
 	</view>
 	<!--日记模块-->
-	<view class='simple-diary'>
+	<view class='simple-diary' animation='{{slideUpAnime}}'>
 		<view class='simple-panel'>
 			<view>
 				<text class = 'simple-text'>日记</text>
@@ -74,7 +74,7 @@
 		</view>
 		<scroll-view wx:if='{{showDiary && diaryList.length != 0}}' scroll-y="true" style="height:{{util.min(500, diaryList.length * 200) + 'rpx'}}">
 			<block wx:for="{{diaryList}}" wx:key="time">
-				<view class='axis_block'>
+				<view class='axis_block' >
 					<view class='axis_icon'>
 						<view class='axis_line' wx:if="{{index!=0}}" />
 						<view class='axis_line_pad' wx:else />
@@ -93,7 +93,7 @@
 			<text style="font-size:30rpx;color:grey;padding-left:50rpx">空空如也...</text>
 		</view>
 	</view>
-	<view wx:if="{{(!showCashBook) && (!showDiary)}}" class="simple-color-egg">
+	<view wx:if="{{(!showCashBook) && (!showDiary)}}" class="simple-color-egg" >
 		<image src="/images/mainPage/downimg.gif" style="width:500px;height:267px;" />
 		<text>感受时光静谧</text>
 	</view>

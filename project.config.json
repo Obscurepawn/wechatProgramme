@@ -12,7 +12,7 @@
 		"minified": true,
 		"newFeature": true,
 		"coverView": true,
-		"nodeModules": false,
+		"nodeModules": true,
 		"autoAudits": true,
 		"showShadowRootInWxmlPanel": true,
 		"scopeDataCheck": true,
