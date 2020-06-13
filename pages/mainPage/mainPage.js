@@ -174,7 +174,6 @@ Page({
       key: 'bills',
       success: res => {
         bills = res.data;
-        console.log('bills', bills);
         var cashList = [];
         for (let i in bills) {
           if (utils.isToday(bills[i].date, that.data.isToday)) {
