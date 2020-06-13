@@ -215,15 +215,15 @@ Page({
       });
       return;
     }
-    console.log(newDiary);
+    console.log(temp);
     // 上传当前日记到服务器
     wx.request({
       url: 'https://uestcml.com:8010/v1/diary',
       method: 'PUT',
-      dataType:'json',
+      dataType: 'json',
       data: temp,
       success: res => {
-        if(res.data.status != 0) {
+        if (res.data.status != 0) {
           console.log(res.data.msg);
           return;
         }
@@ -239,11 +239,20 @@ Page({
         });
         wx.setStorageSync('todayDiary', temp);
         var list = wx.getStorageSync('diaries');
-        for(let i in list) {
-          if(list[i].date == temp.date) {
+        if (list == undefined) {
+          list = [];
+          list.push(temp);
+          wx.setStorageSync('diaries', list)
+        } else {
+          for (var i in list) {
+            if (list[i].date == temp.date) {
               list[i] = temp;
               wx.setStorageSync('diaries', list)
               break;
+            }
+          }
+          if (i >= list.length) {
+            list.push(temp);
           }
         }
         this.setData({
@@ -254,7 +263,7 @@ Page({
         wx.redirectTo({
           url: '/pages/mainPage/mainPage',
         });
-      }
+      },
     });
   },
 

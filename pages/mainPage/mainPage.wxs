@@ -14,7 +14,8 @@ function min(x, y) {
   return Math.min(x, y);
 }
 
+
 module.exports = {
   'randColor':axisGetRandomColor,
-  'min':min
+  'min':min,
 }

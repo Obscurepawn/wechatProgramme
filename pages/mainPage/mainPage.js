@@ -78,7 +78,6 @@ Page({
     wx.showLoading({
       title: '加载中',
     });
-    //var diaries = wx.getStorageSync('diaries');
     wx.getStorage({
       key: 'diaries',
       success: res => {

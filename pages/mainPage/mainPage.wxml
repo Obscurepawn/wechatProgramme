@@ -66,7 +66,7 @@
 		<view class='simple-panel'>
 			<view>
 				<text class = 'simple-text'>日记</text>
-				<image src='/images/mainPage/add.png' bindtap="gotoDiary" class="simple-diary-add" />
+				<image src='/images/mainPage/add.png' bindtap="gotoDiary" class="simple-diary-add" wx:if='{{isToday == today}}'/>
 			</view>
 			<view style="width:50rpx;height:50rpx;margin-right:30rpx;" bindtap="diaryViewControl">
 				<image src='/images/mainPage/arrowDown.png' class="simple-cashBook-arrow" animation='{{rotateDiary}}' />
