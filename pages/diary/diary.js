@@ -258,7 +258,10 @@ Page({
           url: '/pages/mainPage/mainPage',
         });
       },
-    });
+      fail: () => {
+        console.log("add error");
+      }
+    })
   },
 
   /*点击取消按钮 不存储，输入框消失 */
