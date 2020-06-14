@@ -103,7 +103,7 @@ Page({
       fail: () => {
         console.log('fail');
         let d = new Date();
-        let today = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
+        let today = d.getFullYear() + '/' + (d.getMonth() + 1) + '/' + d.getDate();
         let time = d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();
         let example = [{
           "date": today,
@@ -190,7 +190,7 @@ Page({
       },
       fail: () => {
         let d = new Date();
-        let today = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
+        let today = d.getFullYear() + '/' + (d.getMonth() + 1) + '/' + d.getDate();
         let example = [{
           "date": today,
           "detail": [{
@@ -266,7 +266,7 @@ Page({
       } else {
         num = i - startWeek + 1;
         obj = {
-          isToday: year + "/" + (month + 1) + "/" + num,
+          isToday: year + '/' + (month + 1) + '/' + num,
           isTodayWeek: i % 7,
           dateNum: num,
         }
@@ -362,7 +362,7 @@ Page({
     let now = new Date();
     let year = now.getFullYear();
     let month = now.getMonth() + 1;
-    let today = now.toLocaleDateString()
+    let today = now.getFullYear() + '/' + (now.getMonth() + 1) + '/' + now.getDate();
     this.dateInit();
     this.setData({
       year: year,

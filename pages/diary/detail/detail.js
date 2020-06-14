@@ -12,8 +12,8 @@ Page({
   delDiary() {
     let that = this
     wx.showModal({
-      title: '确定删除该日记吗?',
-      cancelColor: 'red',
+      title: '提示',
+      content: '确认删除日记吗？',
       success: res => {
         if (res.confirm) {
           var temp = wx.getStorageSync('todayDiary');
