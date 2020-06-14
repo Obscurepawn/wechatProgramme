@@ -56,16 +56,16 @@ App({
             },
             fail: function () {
               let d = new Date();
-              let today = d.getFullYear() + '-' + (d.getMonth()+1) + '-' + d.getDate();
+              let today = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
               let example_bills = [];
               let example = {
                 "date": today,
                 "detail": [
                   {
-                  "amount": 20,
-                  "comments": "买书",
-                  "payer": "我",
-                  "usefulness": "学习"
+                    "amount": 20,
+                    "comments": "买书",
+                    "payer": "我",
+                    "usefulness": "学习"
                   },
                   {
                     "amount": 32,
@@ -74,8 +74,8 @@ App({
                     "usefulness": "饮食消费"
                   }
                 ],
-                "expenditrue":52,
-                "income":0
+                "expenditrue": 52,
+                "income": 0
               }
               example_bills.push(example);
               wx.setStorageSync('bills', example_bills);
