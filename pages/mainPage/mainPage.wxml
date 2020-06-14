@@ -1,15 +1,15 @@
 <wxs module='util' src='./mainPage.wxs' />
 <!--主界面-->
-<scroll-view class='main-container' scroll-y='true'>
+<view class='main-container' enable-flex='true'>
 	<!--头部信息-->
-	<view class="today-container">
+	<view class="today-container" animation="{{slideUpAnime}}">
 		<text class="today-text">Today: {{today}}</text>
 		<view class='today-chicken-soup'>
 			<text class="today-chicken-text">我们还在旅途中。--四月是你的谎言</text>
 			<image src='/images/mainPage/upimg.jpg' class='today-picture' />
 		</view>
 	</view>
-	<view class='calender'>
+	<view class='calender' animation='{{slideRightAnime}}'>
 		<!-- 日历主体 -->
 		<view class='calendar-box'>
 			<view class='header'>
@@ -17,28 +17,28 @@
 					<view />
 				</view>
 			</view>
-			<view class='date-box'>
-				<block wx:for='{{dateArr}}' wx:key='*this'>
+			<view class="date-box">
+				<view wx:for="{{dateArr}}" wx:key="dateNum">
 					<view class='{{isToday == item.isToday ? "nowDay" : "normal-day"}}'>
-						<view class='date-head' data-year='{{year}}' data-month='{{month}}' data-datenum='{{item.dateNum}}' bindtap='{{item.dateNum == undefined ? "": "switch_day"}}'>
+						<view class='date-head' data-datenum='{{item.dateNum}}' bindtap='{{item.dateNum == undefined ? "": "switch_day"}}'>
 							<view>{{item.dateNum}}</view>
 						</view>
 					</view>
-				</block>
+				</view>
 			</view>
 		</view>
 	</view>
-	<view class='simple-cashBook'>
+	<!--账单缩略-->
+	<view class='simple-cashBook' animation='{{slideUpAnime}}'>
 		<view class="simple-panel">
 			<text class = 'simple-text'>今日账单</text>
 			<view style="width:50rpx;height:50rpx;margin-right:30rpx;" bindtap="cashBookViewControl">
-				<image src='{{showCashBook? "/images/mainPage/arrowDown.png": "/images/mainPage/arrowUp.png"}}' class="simple-cashBook-arrow" />
+				<image src='/images/mainPage/arrowDown.png' class="simple-cashBook-arrow" animation='{{rotateCash}}' />
 			</view>
 		</view>
-		<!--账单缩略-->
-		<scroll-view wx:if='{{showCashBook && cashList.detail.length != 0}}' scroll-y='true' style="height:{{util.min(500, cashList.detail.length * 120)+'rpx'}}">
+		<scroll-view wx:if='{{showCashBook && cashList.detail.length != 0}}' scroll-y='true' style="height:{{util.min(500, cashList.detail.length * 120)+'rpx'}}" >
 			<!--账单模块-->
-			<block wx:for="{{cashList.detail}}" wx:key="*this">
+			<view wx:for="{{cashList.detail}}" wx:key="date">
 				<view class='axis_block'>
 					<view class='axis_icon'>
 						<view class='axis_line' wx:if="{{index!=0}}" />
@@ -50,31 +50,31 @@
 					<view class="axis_content">
 						<!-- <view class="axis_time">{{today}}</view> -->
 						<view class='axis_cash'>
-							<view class="axis_event">{{item.comments == undefined? item.usefulness: item.comments}}</view>
-							<view class="axis_money" style="color:{{item.amount > 0? 'red': 'green'}}">{{item.amount > 0? "消费": "盈利"}}{{item.amount}}元</view>
+							<view class="axis_event">{{item.comments == undefined? item.usefulness: item.comments}} {{item.payer == '我'?'':'(付款人:'+item.payer+')'}}</view>
+							<view class="axis_money" style="color:{{item.amount < 0? '  rgb(151, 56, 64);': 'green'}}">{{item.amount < 0? "消费": "盈利"}}{{item.amount}}元</view>
 						</view>
 					</view>
 				</view>
-			</block>
+			</view>
 		</scroll-view>
 		<view wx:if='{{cashList.length == 0 && showCashBook}}'>
 			<text style="font-size:30rpx;color:grey;padding-left:50rpx">空空如也...</text>
 		</view>
 	</view>
 	<!--日记模块-->
-	<!-- <view class='simple-diary'>
+	<view class='simple-diary' animation='{{slideUpAnime}}'>
 		<view class='simple-panel'>
 			<view>
 				<text class = 'simple-text'>日记</text>
-				<image src='/images/mainPage/add.png' bindtap="gotoDiary" class="simple-diary-add" />
+				<image src='/images/mainPage/add.png' bindtap="gotoDiary" class="simple-diary-add" wx:if='{{isToday == today}}'/>
 			</view>
-			<view style="width:50rpx;height:50rpx;margin-right:30rpx;" bindtap="diaryViewControl" >
-				<image src='{{showDiary? "/images/mainPage/arrowDown.png": "/images/mainPage/arrowUp.png"}}' class="simple-cashBook-arrow" />
+			<view style="width:50rpx;height:50rpx;margin-right:30rpx;" bindtap="diaryViewControl">
+				<image src='/images/mainPage/arrowDown.png' class="simple-cashBook-arrow" animation='{{rotateDiary}}' />
 			</view>
 		</view>
 		<scroll-view wx:if='{{showDiary && diaryList.length != 0}}' scroll-y="true" style="height:{{util.min(500, diaryList.length * 200) + 'rpx'}}">
 			<block wx:for="{{diaryList}}" wx:key="time">
-				<view class='axis_block'>
+				<view class='axis_block' >
 					<view class='axis_icon'>
 						<view class='axis_line' wx:if="{{index!=0}}" />
 						<view class='axis_line_pad' wx:else />
@@ -88,19 +88,19 @@
 					</view>
 				</view>
 			</block>
-		</scroll-view> 
+		</scroll-view>
 		<view wx:if='{{diaryList.length == 0 && showDiary}}'>
-		<text style="font-size:30rpx;color:grey;padding-left:50rpx">空空如也...</text>
+			<text style="font-size:30rpx;color:grey;padding-left:50rpx">空空如也...</text>
 		</view>
-	</view> -->
-	<!-- <view wx:if="{{(!showCashBook) && (!showDiary)}}" class="simple-color-egg">
-		<image src="/images/mainPage/downimg.gif" style="width:500px;height:267px;" />
-		<text>感受时光静谧</text>
-	</view> -->
-	<!-- 1.0.0版本（无D） -->
-		<view  class="simple-color-egg">
+	</view>
+	<view wx:if="{{(!showCashBook) && (!showDiary)}}" class="simple-color-egg" >
 		<image src="/images/mainPage/downimg.gif" style="width:500px;height:267px;" />
 		<text>感受时光静谧</text>
 	</view>
-</scroll-view>
+	<!-- <view class="simple-color-egg">
+		<image src="/images/mainPage/downimg.gif" style="width:500px;height:267px;" />
+		<text>感受时光静谧</text>
+	</view> -->
+</view>
+<view style="height:150rpx;"></view>
 <include src='/pages/bottomMenu/bottomMenu' />

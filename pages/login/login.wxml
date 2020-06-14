@@ -1,11 +1,31 @@
-<view wx:if='{{refused}}' class="refused-msg">亲，世界这么美好，为什么拒绝人家呢？</view>
+<view wx:if='{{refused}}' class="refused-msg">亲，登录后才能享受完整体验哦</view>
 <view class='title'>My Time Capsule</view>
 <view class='userinfo-container' wx:if='{{canIUse}}'>
-	<image src= '{{userInfo == undefined? "/images/login/default.jpg": userInfo.avatarUrl}}' class='user-avatar'></image>
+	<image src='{{userInfo == undefined? "/images/login/default.jpg": userInfo.avatarUrl}}' class='user-avatar'></image>
 	<text>{{userInfo == undefined? "游客账号": userInfo.nickName}}</text>
-  <button open-type="getUserInfo" bindgetuserinfo="bindUser" class="auth-button" wx:if='{{!hasLogin}}'>登录</button>
+	<button bindtap='tryLogin' class="auth-button" wx:if='{{!hasLogin}}'>登录</button>
 </view>
 <view wx:else>
 	<text>大侠，更新微信版本即可享用该程序</text>
 </view>
-<include src='/pages/bottomMenu/bottomMenu'/>
+<view class="mask" wx:if='{{showModal}}'>
+	<view class="login-modal">
+		<image src='/images/auth/logo.jpg' style='padding-top:30rpx;'/>
+		<view class='intro-info' style="padding-top:80rpx">
+			<text>● 清晰直观的日历，让你跟上时间的脚步</text>
+			<text>● 我的钱都到哪里去了？聪明的记账本来告诉您</text>
+			<text>● AA付款怎么分？让账本帮您记!</text>
+		</view>
+		<view class="line"></view>
+		<view class="warn-info">
+			<text style="font-size:30rpx;">为了更好的进行数据同步，请确认授权以下信息：</text>
+			<text style="color:#678;font-size:25rpx;">● 获得您的公开信息（名称、头像等）</text>
+		</view>
+		<text style="color:red; padding-top:15rpx;">登录后解锁完整体验</text>
+		<view class="login-buttons">
+			<button bindtap="cancel">取消</button>
+			<button open-type="getUserInfo" bindgetuserinfo="bindUser" style="color:green">确认</button>
+		</view>
+		</view>
+</view>
+<include src='/pages/bottomMenu/bottomMenu' />

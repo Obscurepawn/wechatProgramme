@@ -59,7 +59,6 @@ Page({
 
   /*日记内容存储 */
   saveDiaryContent: function (event) {
-    console.log(event);
     this.setData({
       textareaValue: event.detail.value
     });
@@ -72,7 +71,6 @@ Page({
   /*点击Tt按钮后触发该事件 */
   changeFont: function (event) {
     // let that=this;
-    console.log(event.currentTarget);
     // let i=event.currentTarget.id;
     // this.data.sizes[i].selected = true;
     for (var i = 0; i < this.data.sizes.length; i++) {
@@ -159,7 +157,6 @@ Page({
       sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
       success: function (res) {
         // 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片
-        console.log(res);
         that.setData({
           imgFilePaths: res.tempFilePaths
         });
@@ -187,7 +184,7 @@ Page({
 
   /*点击确定按钮 先将标题存储，然后输入框消失 */
   touchAddNew: function (event) {
-    console.log(this.data.dairyTitle);
+    var util = require('../../utils/util');
     // 检查标题是否为空
     if (this.data.dairyTitle == "") {
       wx.showToast({
@@ -204,8 +201,7 @@ Page({
     temp["uid"] = getApp().globalData.openId;
     newDiary["title"] = this.data.dairyTitle;
     newDiary["content"] = this.data.textareaValue;
-    newDiary["time"] = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
-    console.log("nigger",temp);
+    newDiary["time"] = date.getHours() + ":" + util.toDouble(date.getMinutes()) + ":" + util.toDouble(date.getSeconds());
 
     temp.diaries.push(newDiary);
     // 日记内容为空，不能上传到服务器
@@ -216,15 +212,14 @@ Page({
       });
       return;
     }
-    console.log(newDiary);
     // 上传当前日记到服务器
     wx.request({
       url: 'https://uestcml.com:8010/v1/diary',
       method: 'PUT',
-      dataType:'json',
+      dataType: 'json',
       data: temp,
       success: res => {
-        if(res.data.status != 0) {
+        if (res.data.status != 0) {
           console.log(res.data.msg);
           return;
         }
@@ -233,11 +228,27 @@ Page({
         wx.setStorage({
           data: undefined,
           key: 'diaryTitle',
-        })
+        });
         wx.setStorage({
           data: undefined,
           key: 'diaryContent',
-        })
+        });
+        var list = wx.getStorageSync('diaries');
+        if (list.length == 0) {
+          list.push(temp);
+          wx.setStorageSync('diaries', list)
+        } else {
+          for (var i in list) {
+            if (list[i].date == temp.date) {
+              list[i] = temp;
+              wx.setStorageSync('diaries', list)
+              break;
+            }
+          }
+          if (i >= list.length) {
+            list.push(temp);
+          }
+        }
         this.setData({
           modalShowStyle: "",
           dairyTitle: "",
@@ -246,7 +257,7 @@ Page({
         wx.redirectTo({
           url: '/pages/mainPage/mainPage',
         });
-      }
+      },
     });
   },
 

@@ -10,20 +10,21 @@ Page({
     userInfo: undefined,
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
     hasLogin:false,
-    refused: false
+    refused: false,
+    showModal:false,
   },
   gotoCashBook: function () {
-    wx.redirectTo({
+    wx.navigateTo({
       url: '/pages/cashBook/cashBook',
     })
   },
   gotoHistory: function () {
-    wx.redirectTo({
+    wx.navigateTo({
       url: '/pages/hisSearch/hisSearch',
     })
   },
   gotoHomePage: function () {
-    wx.redirectTo({
+    wx.navigateTo({
       url: '/pages/mainPage/mainPage',
     });
   },
@@ -31,8 +32,9 @@ Page({
     var that = this;
     // 用户点击不允许
     if (!e.detail.userInfo) {
-      that.setData({
-        refused: true
+      this.setData({
+        refused:true,
+        showModal:false
       });
       return;
     }
@@ -43,9 +45,22 @@ Page({
     var userInfo = e.detail.userInfo;
     that.setData({
       userInfo: userInfo,
-      hasLogin:true
+      hasLogin:true,
+      refused:false,
+      showModal:false
     });
-
+  },
+  tryLogin() {
+    this.setData({
+      refused:false,
+      showModal:true
+    });
+  },
+  cancel() {
+    this.setData({
+      refused:true,
+      showModal:false
+    });
   },
   do_login() {
     var that = this;
@@ -97,6 +112,23 @@ Page({
                       },
                       fail: function () {
                         console.log("系统错误");
+                      }
+                    });
+                    // 获得日记
+                    wx.request({
+                      url: 'https://uestcml.com:8010/v1/diary/' + getApp().globalData.openId,
+                      method: "GET",
+                      success: res => {
+                        if (res.data.status != 0) {
+                          return;
+                        }
+                        // 将服务器返回数据存入到diarylist中
+                        var diaries = res.data.data;
+                        //将日记List存入本地缓存，方便其他页面读取
+                        wx.setStorage({
+                          key: 'diaries',
+                          data: diaries
+                        });
                       }
                     });
                     that.setData({

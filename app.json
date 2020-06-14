@@ -1,7 +1,8 @@
 {
-  "pages": [
+  "pages": [   
     "pages/mainPage/mainPage",
     "pages/login/login",
+    "pages/diary/diary",
     "pages/hisSearch/hisSearch",
     "pages/bottomMenu/bottomMenu",
     "pages/history/history",

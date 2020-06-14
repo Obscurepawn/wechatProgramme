@@ -2,7 +2,6 @@
 App({
   onLaunch: function () {
     let that = this;
-    // 登录
     wx.login({
       success: r => {
         //  // 发送 res.code 到后台换取 openId, sessionKey, unionId
@@ -45,6 +44,23 @@ App({
                         console.log("系统错误");
                       }
                     });
+                    // 获得日记
+                    // wx.request({
+                    //   url: 'https://uestcml.com:8010/v1/diary/' + getApp().globalData.openId,
+                    //   method: "GET",
+                    //   success: res => {
+                    //     if (res.data.status != 0) {
+                    //       return;
+                    //     }
+                    //     // 将服务器返回数据存入到diarylist中
+                    //     var diaries = res.data.data;
+                    //     //将日记List存入本地缓存，方便其他页面读取
+                    //     wx.setStorage({
+                    //       key: 'diaries',
+                    //       data: diaries
+                    //     });
+                    //   }
+                    // });
                   } else {
                     console.log('解密失败');
                   }
@@ -54,33 +70,7 @@ App({
                 }
               })
             },
-            fail: function () {
-              let d = new Date();
-              let today = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
-              let example_bills = [];
-              let example = {
-                "date": today,
-                "detail": [
-                  {
-                    "amount": 20,
-                    "comments": "买书",
-                    "payer": "我",
-                    "usefulness": "学习"
-                  },
-                  {
-                    "amount": 32,
-                    "comments": "吃肯德基",
-                    "payer": "我",
-                    "usefulness": "饮食消费"
-                  }
-                ],
-                "expenditrue": 52,
-                "income": 0
-              }
-              example_bills.push(example);
-              wx.setStorageSync('bills', example_bills);
-            }
-          })
+          });
         } else {
           console.log('获取用户登录态失败！' + r.errMsg);
         }

@@ -1,16 +1,18 @@
 /* pages/mainPage/mainPage.wxss */
 .main-container {
-  top: 0%;
-  height: 90%;
+  height: 50%;
   width: 96%;
   margin-left: 2%;
   margin-right: 2%;
   display: flex;
   flex-direction: column;
-  position: absolute;
+  position: relative;
+  overflow-x:hidden;
 }
 /* today */
 .today-container {
+  position: relative;
+  top:200px;
   margin-left: 0%;
   margin-right: 0%;
   padding-left: 3%;
@@ -35,6 +37,8 @@
 }
 /* 日历 */
 .calender {
+  position: relative;
+  right: 200px;
   display: flex;
   flex-direction: column;
   border-bottom: 1px solid #e7e7e7;
@@ -55,6 +59,7 @@
 }
 
 .calendar-box {
+  height:100%;
   width: 100%;
   margin-top: 20rpx;
   background: #fff;
@@ -62,11 +67,12 @@
   border-bottom-left-radius: 20rpx;
   padding: 0 0 20rpx;
   font-family: FZZhunYuan-M02S;
+  height:auto;
 }
 
 .header {
-  font-size: 0;
   width: 100%;
+  height: 10%;
   margin: 0 auto;
 }
 
@@ -95,10 +101,10 @@
 }
 
 .date-box {
-  font-size: 0;
   padding: 10rpx 0;
   width: 100%;
   margin: 0 auto;
+  height:90%;
 }
 
 .date-box>view {
@@ -204,7 +210,10 @@
 }
 /* 简略账单信息 */
 .simple-cashBook{
+  position: relative;
+  top: 200px;
   margin-top: 25rpx;
+  height: 100%;
   border-bottom: 2px solid #e7e7e7
 }
 .simple-text {
@@ -226,7 +235,10 @@
   height: 25rpx;
 }
 .simple-diary{
+  position: relative;
+  top: 200px;
   margin-top: 25rpx;
+  height: 100%;
 }
 .simple-diary-add{
   width:30rpx;
@@ -234,6 +246,7 @@
   padding-left: 40rpx;
 }
 .simple-color-egg{
+  height: 100%;
   margin-top: 10rpx;
   display: flex;
   flex-direction: column;

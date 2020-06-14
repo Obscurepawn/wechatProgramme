@@ -12,8 +12,8 @@ Page({
   delDiary() {
     let that = this
     wx.showModal({
-      title: '确定删除该日记吗?',
-      cancelColor: 'red',
+      title: '提示',
+      content: '确认删除日记吗？',
       success: res => {
         if (res.confirm) {
           var temp = wx.getStorageSync('todayDiary');
@@ -21,7 +21,7 @@ Page({
           temp.diaries.splice(that.data.index, 1);
           console.log('After:', temp);
           wx.request({
-            url: 'http://106.15.198.136:8001/v1/diary',
+            url: 'https://uestcml.com:8010/v1/diary',
             header: {
               'content-type': 'application/json'
             },

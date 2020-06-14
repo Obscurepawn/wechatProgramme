@@ -7,7 +7,8 @@ Page({
    */
   data: {
     //page style
-    inHomePage: true, // this is for bottom menu
+    // this is for bottom menu
+    inHomePage: true,
     // whether to show diary of cashBook
     showCashBook: true,
     showDiary: true,
@@ -62,34 +63,71 @@ Page({
           key: 'diaries',
           data: diaries
         });
+      },
+      complete: () => {
+        wx.hideLoading({
+          complete: (res) => {},
+        });
       }
     });
   },
   getDiary() {
     var that = this;
     var diaryList = [];
-    var diaries = wx.getStorageSync('diaries');
-    // 缓存中有日记
-    if (diaries == undefined) {
-      getDiaryFromServer();
-    } else {
-      wx.setStorageSync('todayDiary', {
-        "date": that.data.isToday,
-        "diaries": []
-      });
-      for (let i in diaries) {
-        if (utils.isToday(diaries[i].date, that.data.isToday)) {
-          diaryList = diaries[i].diaries;
-          wx.setStorageSync('todayDiary', diaries[i]);
-          break;
+    var diaries = [];
+    wx.showLoading({
+      title: '加载中',
+    });
+    wx.getStorage({
+      key: 'diaries',
+      success: res => {
+        diaries = res.data;
+        wx.setStorageSync('todayDiary', {
+          "date": that.data.isToday,
+          "diaries": []
+        });
+        for (let i in diaries) {
+          if (utils.isToday(diaries[i].date, that.data.isToday)) {
+            diaryList = diaries[i].diaries;
+            wx.setStorageSync('todayDiary', diaries[i]);
+            break;
+          }
         }
+        that.setData({
+          diaryList: diaryList
+        });
+        wx.hideLoading({
+          complete: (res) => {},
+        });
+      },
+      fail: () => {
+        console.log('fail');
+        let d = new Date();
+        let today = d.getFullYear() + '/' + (d.getMonth() + 1) + '/' + d.getDate();
+        let time = d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();
+        let example = [{
+          "date": today,
+          "diaries": [{
+            "title": "My时光胶囊",
+            "content": "My时光胶囊，记录您的美好回忆",
+            "time": time,
+          }, ],
+        }];
+        that.setData({
+          diaryList: example[0].diaries
+        });
+        wx.setStorageSync('diaries', example);
+        wx.setStorageSync('todayDiary', example[0]);
+        if (getApp().globalData.openId != undefined) {
+          that.getDiaryFromServer();
+        }
+        wx.hideLoading({
+          complete: (res) => {},
+        });
       }
-      that.setData({
-        diaryList: diaryList
-      });
-    }
+    });
+    return;
   },
-
   getCashListFromServer() {
     var that = this;
     let uid = getApp().globalData.openId;
@@ -128,38 +166,91 @@ Page({
   // 读取账单
   getCashList() {
     var that = this;
-    let bills = wx.getStorageSync('bills')
-    if (bills == undefined) {
-      that.getCashListFromServer();
-      return;
-    }
-    var cashList = [];
-    for (let i in bills) {
-      if (utils.isToday(bills[i].date, that.data.isToday)) {
-        cashList = bills[i];
-        break;
-      }
-    }
-    this.setData({
-      cashList: cashList
+    var bills;
+    wx.showLoading({
+      title: '',
     });
+    wx.getStorage({
+      key: 'bills',
+      success: res => {
+        bills = res.data;
+        var cashList = [];
+        for (let i in bills) {
+          if (utils.isToday(bills[i].date, that.data.isToday)) {
+            cashList = bills[i];
+            break;
+          }
+        }
+        this.setData({
+          cashList: cashList
+        });
+        wx.hideLoading({
+          complete: (res) => {},
+        });
+      },
+      fail: () => {
+        let d = new Date();
+        let today = d.getFullYear() + '/' + (d.getMonth() + 1) + '/' + d.getDate();
+        let example = [{
+          "date": today,
+          "detail": [{
+              "amount": -20,
+              "comments": "买书",
+              "payer": "我",
+              "usefulness": "学习"
+            },
+            {
+              "amount": -32,
+              "comments": "吃肯德基",
+              "payer": "我",
+              "usefulness": "饮食消费"
+            },
+            {
+              "amount": -45,
+              "comments": "聚餐",
+              "payer": "小张",
+              "usefulness": "饮食消费"
+            },
+            {
+              "amount": 200,
+              "comments": "基金",
+              "payer": "我",
+              "usefulness": "金融理财"
+            },
+          ],
+          "expenditrue": 0,
+          "income": 0
+        }];
+        wx.setStorageSync('bills', example);
+        that.setData({
+          cashList: example[0]
+        });
+        if (getApp().globalData.openId != undefined) {
+          that.getCashListFromServer();
+        }
+        wx.hideLoading({
+          complete: (res) => {},
+        });
+      }
+    });
+    return;
   },
 
   /**
    * 初始化时间
    */
-  dateInit: function (setYear, setMonth) {
+  dateInit: function () {
     //全部时间的月份都是按0~11基准,显示月份才+1
     let dateArr = []; //需要遍历的日历数组数据
     let arrLen = 0; //dateArr的数组长度
-    let now = setYear ? new Date(setYear, setMonth) : new Date();
-    let year = setYear || now.getFullYear();
+    let now = new Date();
+    let year = now.getFullYear();
     let nextYear = 0;
     //没有+1方便后面计算当月总天数
-    let month = setMonth || now.getMonth();
+    let month = now.getMonth();
     let nextMonth = (month + 1) > 11 ? 1 : (month + 1);
     //本月1号对应的星期
-    let startWeek = new Date(year + ',' + (month + 1) + ',' + 1).getDay();
+    let startWeek = new Date(year + '/' + (month + 1) + '/' + 1).getDay();
     //获取本月有多少天
     let dayNums = new Date(year, nextMonth, 0).getDate();
     let obj = {};
@@ -175,14 +266,13 @@ Page({
       } else {
         num = i - startWeek + 1;
         obj = {
-          isToday: year + "," + (month + 1) + "," + num,
+          isToday: year + '/' + (month + 1) + '/' + num,
           isTodayWeek: i % 7,
           dateNum: num,
         }
       }
       dateArr.push(obj);
     }
-
     this.setData({
       dateArr: dateArr,
       todayIndex: new Date().getDay()
@@ -193,14 +283,14 @@ Page({
     let date = new Date();
     let year = date.getFullYear();
     let month = date.getMonth();
-    let day = year + ',' + (month + 1) + ',' + target_day;
-    let startWeek = new Date(year + ',' + (month + 1) + ',' + 1).getDay();
+    let day = year + '/' + (month + 1) + '/' + target_day;
+    let startWeek = new Date(year + '/' + (month + 1) + '/' + 1).getDay();
     this.setData({
       isToday: day,
       todayIndex: this.data.dateArr[target_day + startWeek - 1].isTodayWeek,
     });
     this.getCashList();
-    //this.getDiary();
+    this.getDiary();
   },
   /** 
    * 页面跳转相关函数
@@ -220,6 +310,11 @@ Page({
       url: '/pages/login/login',
     });
   },
+  gotoDiary: function () {
+    wx.navigateTo({
+      url: '/pages/diary/diary',
+    });
+  },
   // 跳转到具体日记页面
   gotoDetailDiary: event => {
     let url = "/pages/diary/detail/detail"
@@ -234,14 +329,30 @@ Page({
    */
   cashBookViewControl: function () {
     let nextCond = !this.data.showCashBook;
+    var anime = wx.createAnimation({
+      duration: 400,
+      timingFunction: "linear"
+    });
+    // rotate anime
+    let scale = nextCond? 0: 180;
+    anime.rotate(scale).step();
     this.setData({
       showCashBook: nextCond,
+      rotateCash: anime.export(),
     });
   },
   diaryViewControl: function () {
     let nextCond = !this.data.showDiary;
+    var anime = wx.createAnimation({
+      duration: 400,
+      timingFunction: "linear"
+    });
+    // rotate anime
+    let scale = nextCond? 0: 180;
+    anime.rotate(scale).step();
     this.setData({
       showDiary: nextCond,
+      rotateDiary: anime.export()
     });
   },
   /**
@@ -251,32 +362,51 @@ Page({
     let now = new Date();
     let year = now.getFullYear();
     let month = now.getMonth() + 1;
-    let today = now.toLocaleDateString()
+    let today = now.getFullYear() + '/' + (now.getMonth() + 1) + '/' + now.getDate();
     this.dateInit();
     this.setData({
       year: year,
       month: month,
       today: today,
-      isToday: year + ',' + month + ',' + now.getDate(),
+      isToday: year + '/' + month + '/' + now.getDate(),
     });
-    // obtain diary
-    // this.getDiaryFromServer();
-    // obtain part of bills
-    this.getCashList();
+    // slide right anime
+    var anime = wx.createAnimation({
+      duration: 600,
+      timingFunction: "ease"
+    });
+    anime.translateX(200).opacity(0.6).step();
+    anime.opacity(1).step();
+    this.setData({
+      slideRightAnime: anime.export()
+    });
+
+    // slide up anime
+    var slide_anime = wx.createAnimation({
+      duration: 600,
+      timingFunction: "ease"
+    });
+    slide_anime.translateY(-200).opacity(0.6).step();
+    slide_anime.opacity(1).step();
+    this.setData({
+      slideUpAnime:slide_anime.export()
+    });
   },
 
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
+
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    //this.getDiary();
+    this.getDiary();
     this.getCashList();
+
   },
 
   /**
