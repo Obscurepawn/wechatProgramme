@@ -211,7 +211,6 @@
 /* 简略账单信息 */
 .simple-cashBook{
   position: relative;
-  top: 200px;
   margin-top: 25rpx;
   height: 100%;
   border-bottom: 2px solid #e7e7e7
@@ -236,7 +235,6 @@
 }
 .simple-diary{
   position: relative;
-  top: 200px;
   margin-top: 25rpx;
   height: 100%;
 }
