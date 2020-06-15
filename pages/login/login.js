@@ -14,17 +14,17 @@ Page({
     showModal:false,
   },
   gotoCashBook: function () {
-    wx.navigateTo({
+    wx.redirectTo({
       url: '/pages/cashBook/cashBook',
     })
   },
   gotoHistory: function () {
-    wx.navigateTo({
+    wx.redirectTo({
       url: '/pages/hisSearch/hisSearch',
     })
   },
   gotoHomePage: function () {
-    wx.navigateTo({
+    wx.redirectTo({
       url: '/pages/mainPage/mainPage',
     });
   },

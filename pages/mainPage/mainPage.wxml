@@ -29,7 +29,7 @@
 		</view>
 	</view>
 	<!--账单缩略-->
-	<view class='simple-cashBook' animation='{{slideUpAnime}}'>
+	<view class='simple-cashBook'>
 		<view class="simple-panel">
 			<text class = 'simple-text'>今日账单</text>
 			<view style="width:50rpx;height:50rpx;margin-right:30rpx;" bindtap="cashBookViewControl">
@@ -62,7 +62,7 @@
 		</view>
 	</view>
 	<!--日记模块-->
-	<view class='simple-diary' animation='{{slideUpAnime}}'>
+	<view class='simple-diary'>
 		<view class='simple-panel'>
 			<view>
 				<text class = 'simple-text'>日记</text>

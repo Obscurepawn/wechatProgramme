@@ -296,17 +296,17 @@ Page({
    * 页面跳转相关函数
    */
   gotoCashBook: function () {
-    wx.navigateTo({
+    wx.redirectTo({
       url: '/pages/cashBook/cashBook',
     })
   },
   gotoHistory: function () {
-    wx.navigateTo({
+    wx.redirectTo({
       url: '/pages/hisSearch/hisSearch',
     })
   },
   gotoUser: function () {
-    wx.navigateTo({
+    wx.redirectTo({
       url: '/pages/login/login',
     });
   },
