@@ -6,7 +6,7 @@
 		<text class="today-text">Today: {{today}}</text>
 		<view class='today-chicken-soup'>
 			<text class="today-chicken-text">我们还在旅途中。--四月是你的谎言</text>
-			<image src='/images/mainPage/upimg.jpg' class='today-picture' />
+			<image src='/images/mainPage/upimg.jpg' class='today-picture' style="border-radius:10px 10px 10px 10px;" />
 		</view>
 	</view>
 	<view class='calender' animation='{{slideRightAnime}}'>

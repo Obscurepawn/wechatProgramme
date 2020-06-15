@@ -37,7 +37,6 @@ Page({
     var d=(date.getDate()<10? '0'+(date.getDate()) :date.getDate());
     var m=(date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1):date.getMonth()+1);
     var y=date.getFullYear();
-    /*获取周几 */
     let time = util.formatDate(new Date());
     let dateArray = util.getDates(7, time);
     var weekString=dateArray[0].week;

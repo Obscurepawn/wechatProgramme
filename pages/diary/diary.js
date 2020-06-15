@@ -5,46 +5,46 @@ Page({
    */
   data: {
     sizes: [{
-        index: 0,
-        size: "12px",
-        selected: false
-      },
-      {
-        index: 1,
-        size: "14px",
-        selected: false
-      },
-      {
-        index: 2,
-        size: "16px",
-        selected: false
-      },
-      {
-        index: 3,
-        size: "18px",
-        selected: false
-      }
+      index: 0,
+      size: "12px",
+      selected: false
+    },
+    {
+      index: 1,
+      size: "14px",
+      selected: false
+    },
+    {
+      index: 2,
+      size: "16px",
+      selected: false
+    },
+    {
+      index: 3,
+      size: "18px",
+      selected: false
+    }
     ],
     color: [{
-        index: 0,
-        color: "#000",
-        selected: false
-      },
-      {
-        index: 1,
-        color: "#f00",
-        selected: false
-      },
-      {
-        index: 2,
-        color: "#00ac00",
-        selected: false
-      },
-      {
-        index: 3,
-        color: "#ffa0c1",
-        selected: false
-      }
+      index: 0,
+      color: "#000",
+      selected: false
+    },
+    {
+      index: 1,
+      color: "#f00",
+      selected: false
+    },
+    {
+      index: 2,
+      color: "#00ac00",
+      selected: false
+    },
+    {
+      index: 3,
+      color: "#ffa0c1",
+      selected: false
+    }
     ],
     dairyTitle: '',
     fontColor: '',
@@ -183,7 +183,7 @@ Page({
   },
 
   /*点击确定按钮 先将标题存储，然后输入框消失 */
-  touchAddNew: function (event) {
+  touchAddNew: function () {
     var util = require('../../utils/util');
     // 检查标题是否为空
     if (this.data.dairyTitle == "") {
@@ -215,10 +215,12 @@ Page({
     // 上传当前日记到服务器
     wx.request({
       url: 'https://uestcml.com:8010/v1/diary',
+      header: { 'content-type': 'application/json' },
       method: 'PUT',
-      dataType: 'json',
+      // dataType: 'json',
       data: temp,
       success: res => {
+        console.log("Request Successfully!");
         if (res.data.status != 0) {
           console.log(res.data.msg);
           return;
@@ -258,6 +260,8 @@ Page({
           url: '/pages/mainPage/mainPage',
         });
       },
+      fail: (res) => { console.log("fail",res) },
+      complete: (responseText) => { console.log("complete") }
     });
   },
 

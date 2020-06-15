@@ -1,3 +1,4 @@
+<view class="background">
   <view class="date">
     <view class="dateDetail">
       <view>{{month}}/{{day}}</view>
@@ -11,39 +12,35 @@
       </view>
     </view>
   </view>
-
   <view class="line"></view>
-
-  <view class="swiper"> 
+  <view class="swiper">
     <swiper autoplay interval="1000" circular style='width:90%'>
-      <swiper-item mode='widthFix' wx:for="{{list}}" wx:key="{{key}}" wx:if="{{item.img.length>0}}"> 
-          <image src="{{item.img}}"></image>
+      <swiper-item mode='widthFix' wx:for="{{list}}" wx:key="{{key}}" wx:if="{{item.img.length>0}}">
+        <image src="{{item.img}}" style="border-radius:20px 20px 20px 20px;"></image>
       </swiper-item>
     </swiper>
   </view>
-
-<view class="holContainer">
-  <view class="leftText">节日</view>
-  <view class="holiday">
-    <view class="dot"></view>
-    <view class="content">无</view>
+  <view class="holContainer">
+    <view class="leftText">节日</view>
+    <view class="holiday">
+      <view class="dot"></view>
+      <view class="content">无</view>
+    </view>
   </view>
+  <block wx:if="list.length > 0">
+    <view class="resultPanel" wx:for="{{list}}" wx:key="{{key}}">
+      <!-- 左边子容器 -->
+      <view class="leftIcon">
+        <view class="topLine" wx:if="{{item.day!=0}}"></view>
+        <view class="dot" wx:if="{{item.day!=0}}" style='background:{{item.month}}'></view>
+        <view class="dotFirst" wx:if="{{item.day==0}}"></view>
+        <view class="bottomLine"></view>
+      </view>
+      <!-- 右边子容器 -->
+      <view class="resultDesc">
+        <view class="resultDate">{{item.year}}</view>
+        <view class="resultTitle">{{item.title}}</view>
+      </view>
+    </view>
+  </block>
 </view>
-
-<block wx:if="list.length > 0">
-  <view class="resultPanel" wx:for="{{list}}" wx:key="{{key}}">
-  <!--左边子容器-->
-    <view class="leftIcon">
-      <view class="topLine" wx:if="{{item.day!=0}}"></view>
-      <view class="dot" wx:if="{{item.day!=0}}" style='background:{{item.month}}'></view>
-      <view class="dotFirst" wx:if="{{item.day==0}}"></view>
-      <view class="bottomLine"></view>
-    </view>
-  <!--右边子容器-->
-    <view class="resultDesc">
-      <view class="resultDate">{{item.year}}</view>
-      <view class="resultTitle">{{item.title}}</view>
-    </view>
-
-  </view>
-</block>
