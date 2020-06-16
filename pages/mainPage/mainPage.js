@@ -406,7 +406,6 @@ Page({
   onShow: function () {
     this.getDiary();
     this.getCashList();
-
   },
 
   /**
