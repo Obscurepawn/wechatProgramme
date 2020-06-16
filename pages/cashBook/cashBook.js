@@ -289,6 +289,9 @@ Page({
           success: (result) => {
             if (result.confirm) {
               this.cancelTheChoice();
+              this.setData({
+                tab:-1
+              })
             }
           },
           fail: () => { },
@@ -307,12 +310,12 @@ Page({
           console.log("position:", position);
           console.log("deleted data:", this.data.groups[position.outsideIndex].detail[position.insideIndex]);
           this.data.groups[position.outsideIndex].detail.splice(position.insideIndex, 1);
+          this.refreshSum(position.outsideIndex);
           if (this.data.groups[position.outsideIndex].detail.length == 0) {
             this.delete(this.data.groups[position.outsideIndex]);
             this.data.groups.splice(position.outsideIndex, 1);
           } else {
             this.update(this.data.groups[outsideIndex]);
-            this.refreshSum(position.outsideIndex);
           }
         }
         this.setData({
@@ -572,7 +575,7 @@ Page({
   inputAmount(e) {
     // console.log(e.detail.value)
     this.setData({
-      inputAmount: e.detail.value.length != 0 ? Number(e.detail.value) : null
+      inputAmount: e.detail.value.length != 0 && !isNaN(Number(e.detail.value)) ? Number(e.detail.value) : null
     })
   },
 
@@ -777,7 +780,7 @@ Page({
   // expenditrue: undefined,
   // detail:[]
   modalConfirm(e) {
-    if (this.data.inputAmount === NaN || this.data.inputAmount === null || this.data.inputAmount === undefined) {
+    if (this.data.inputAmount===NaN || this.data.inputAmount === null || this.data.inputAmount === undefined) {
       wx.showToast({
         title: '金额必须填入一个数字',
         icon: 'none',
@@ -795,7 +798,7 @@ Page({
     newItem.payer = this.data.inputPayer;
     this.setData({
       inputAmount: null,
-      inputComment: null,
+      inputComment: "",
       inputPayer: "我"
     })
     console.log("showTime in modalConfirm: ", this.data.showTime);
