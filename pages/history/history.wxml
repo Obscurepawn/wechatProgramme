@@ -15,8 +15,8 @@
   <view class="line"></view>
   <view class="swiper">
     <swiper autoplay interval="1000" circular style='width:90%'>
-      <swiper-item mode='widthFix' wx:for="{{list}}" wx:key="{{key}}" wx:if="{{item.img.length>0}}">
-        <image src="{{item.img}}" style="border-radius:20px 20px 20px 20px;"></image>
+      <swiper-item mode='widthFix' style="overflow:hidden;border-radius:20rpx"  wx:for="{{list}}" wx:key="{{key}}" wx:if="{{item.img.length>0}}">
+        <image src="{{item.img}}"></image>
       </swiper-item>
     </swiper>
   </view>
