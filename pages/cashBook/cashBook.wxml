@@ -71,17 +71,17 @@
 		</view>
 		<text>\n</text>
 		<view class='formrow'>
-			   <text class="field">amount<text style="color:red">*</text></text> 
+			   <text class="field">金额<text style="color:red">*</text></text> 
 			   <input type="text" class="input" bindinput="inputAmount" placeholder="必填项" value="{{updatedObject.amount}}"/>
 		</view>
 		<text>\n</text>
 		<view class='formrow'>
-			   <text class="field">payer</text> 
+			   <text class="field">付款/收益人</text> 
 			   <input type="text" class="input" bindinput="inputPayer" value="{{updatedObject.payer}}"/>
 		</view>
 		<text>\n</text>
 		<view class='formrow'>
-			   <text class="field">comment</text> 
+			   <text class="field">备注</text> 
 			   <input type="text" class="input" bindinput="inputComment" value="{{updatedObject.comments}}"/>
 		</view>
 	</modal>

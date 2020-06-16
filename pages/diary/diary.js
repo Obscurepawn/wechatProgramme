@@ -260,16 +260,10 @@ Page({
           url: '/pages/mainPage/mainPage',
         });
       },
-<<<<<<< HEAD
-      fail: (res) => { console.log("fail",res) },
-      complete: (responseText) => { console.log("complete") }
-    });
-=======
       fail: () => {
         console.log("add error");
       }
     })
->>>>>>> 04ab20b15cca127b0fbea7b2d3d750102755e75f
   },
 
   /*点击取消按钮 不存储，输入框消失 */
