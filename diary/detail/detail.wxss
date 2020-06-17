@@ -1,0 +1,29 @@
+/* pages/diary/detail/detail.wxss */
+.time{
+  width:100%;
+  font-size: 50rpx;
+  color: black;
+}
+.title{
+  width: 100%;
+  text-align: center; 
+  font-size: xx-large;
+  color: #645e5e;
+}
+.content_box{
+  width:96%;
+  margin-left:2%;
+  margin-right:2%;
+  /* text-indent: 35rpx; */
+}
+.content_box text{
+  font-size: 33rpx;
+  color:#666;
+}
+.delete-icon {
+  position: absolute;
+  bottom:5%;
+  right:5%;
+  width:  80rpx;
+  height: 80rpx;
+}

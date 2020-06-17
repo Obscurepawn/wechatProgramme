@@ -1,0 +1,104 @@
+<!--小马哥，主页上内个 日记 改成 时光手帐 咋样嘞，感觉日记就显得太普通了哈哈-->
+<view class="container">
+<!--上面的5个字体、颜色等图标-->
+  <view class="operation-list flex">
+    <view class="item" bindtap="showFont">
+      <image src="/images/diary/font.png"></image>
+    </view>
+    <view class="item" bindtap="showColor">
+      <image src="/images/diary/color.png"></image>
+    </view>
+    <view class="item" bindtap="insPic">
+      <image src="/images/diary/picture.png"></image>
+    </view>
+    <view class="item" style='width:44rpx;height:44rpx;' bindtap='voice'>
+      <image bindtap='modalinput' mode='aspectFill' src="/images/diary/record.png"></image>
+    </view>
+    <view class="item" bindtap="showSave">
+      <image src="/images/diary/sure.png"></image>
+    </view>
+
+  </view>
+
+<!--日记的文字输入框-->
+  <view class="inputBox">
+    <form bindsubmit="save">
+      <!--日记内容输入，我存储到textareaValue里了，不知道行不行，小马哥你看看-->
+      <textarea value="{{textareaValue}}" placeholder="记录美好的一天" style="font-size:{{fontSize}};color:{{fontColor}};height:200px" bindinput="saveDiaryContent">
+      </textarea>
+      <image src="{{imgFilePaths}}" style="width: 250px; height: 250px;" mode="aspectFit"></image>
+    </form>
+  </view>
+<!--字体选择-->
+  <view class="font-box" style="{{fontBoxStyle}}">
+    <view>
+      <view class="font">
+        <text>字号</text>
+        <view class="size">
+          <block wx:for="{{sizes}}" wx:key="item">
+            <view class="size-item">
+              <view class="fontSize" id="{{item.index}}" bindtap="changeFont" data-fontsize="{{item.size}}" style="font-size:{{item.size}}">Aa</view>
+            </view>
+          </block>
+        </view>
+      </view>
+    </view>
+  </view>
+
+<!--颜色选择框-->
+  <view class="color-box" style="{{colorBoxStyle}}">
+    <view>
+      <view class="font2">
+        <text>颜色</text>
+        <view class="color">
+          <block wx:for="{{color}}" wx:key="item">
+            <view class="color-item">
+              <view class="fontColor" id="{{index}}" bindtap="changeColor" data-color="{{item.color}}" style="background-color: {{item.color}};"></view>
+            </view>
+          </block>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!--点击确定按钮输入文章标题-->
+  <view class="modal" style="{{modalShowStyle}}">
+      <view class="dialog">
+          <view class="modal-item" style="display:flex;justify-content:center;align-items:center;">
+          请输入日记标题
+          </view>
+          <view class="modal-item" style="margin:0 auto;width:90%;">
+              <input type="text" bindinput="titleInput" style="background-color:white;border-radius:2px;" value="{{dairyTitle}}" placeholder="请输入日记标题"></input>
+          </view>
+          <view class="modal-button" style="width:100%">
+              <view style="color:green;border-right:1px solid #E5E7ED;" bindtap="touchAddNew">确定</view>
+              <view bindtap="touchCancel">取消</view>
+          </view>
+      </view>
+  </view>
+
+  <!--点击录音按钮后弹出-->
+  <view class='popup-view' wx:if="{{show}}">
+    <view class='popup'>
+      <icon class='icondialogclose iconfont popup-icon' bindtap='cancel'></icon>
+      <view class="circle-box">
+
+        <image wx:if="{{imageShows==false}}" style='width:220rpx;height:220rpx' src="/images/diary/record2.png"></image>
+
+        <image wx:if="{{imageShows==true}}" style='width:240rpx;height:240rpx' src="https://file.baimipay.cn/voicePlayback.gif{{random}}"></image>
+
+      </view>
+      <view bindtap="confirm" class='modal-button'>
+
+        <text class="modal-button-text">说完了</text>
+      </view>
+    </view>
+  </view>
+<!--语言内容-->
+  <view class='yuyinbg' bindtap='play' wx:if='{{recordingDuration>0}}'>
+    <text>{{recordingDuration}}"</text>
+    <image src='{{imageShow}}'></image>
+  </view>
+</view>
+
+

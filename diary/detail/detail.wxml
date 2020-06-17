@@ -1,0 +1,6 @@
+<view class="time">{{diary.time}}</view>
+<view class="title">{{diary.title}}</view>
+<scroll-view scroll-y="true" class="content_box">
+	<text>{{diary.content}}</text>
+</scroll-view>
+<image src='/images/diary/delete.png' class='delete-icon' bindtap='delDiary'/>
