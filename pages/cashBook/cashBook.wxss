@@ -17,7 +17,7 @@
 }
 
 .counMonthButton {
-    font-weight: 600;
+    font-weight: bold;
     color: rgb(190, 190, 190);
     font-size: 13px;
     position: relative;
@@ -87,7 +87,7 @@
     position: relative;
     bottom: 26px;
     margin-top: -20px;
-    font-weight: 420;
+    font-weight:normal;
 }
 
 .comment {

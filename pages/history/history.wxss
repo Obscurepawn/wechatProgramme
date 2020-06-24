@@ -14,7 +14,7 @@
 .date .dateDetail {
   margin-left: 4.5px;
   font-size: 26px;
-  font-weight: 500;
+  font-weight: bolder;
   color: white;
 }
 
@@ -22,7 +22,7 @@
   margin-left: 5px;
   font-size: 12px;
   margin-top: 0px;
-  font-weight: 550;
+  font-weight: bolder;
   color: white;
 }
 
@@ -53,7 +53,7 @@
 
 .leftText {
   font-size: 40rpx;
-  font-weight: 600;
+  font-weight: bold;
 }
 
 .holiday {
@@ -66,7 +66,7 @@
 .content {
   margin-left: 15rpx;
   font-size: 35rpx;
-  font-weight: 600;
+  font-weight: bold;
 }
 
 /*左边时间线和右边事件年份的总框架*/
@@ -145,4 +145,158 @@
   color: #333;
   margin-left: 20rpx;
   padding-top: 3rpx;
+}
+
+/*
+
+*/
+
+view.loader {
+  font-family: Consolas, monaco, monospace;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ffffff;
+  color: #FF893A;
+}
+
+view.loader .loader-center {
+  width: 300px;
+  height: 100px;
+  line-height: 100px;
+  margin: 0 auto;
+  text-align: center;
+  font-size: 38px;
+  letter-spacing: -6px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-left: -150px;
+  margin-top: -50px;
+}
+
+view.loader .loader-center .chars .dots .char {
+  font-size: 150%;
+  display: inline-block;
+}
+
+/* animation starts here */
+
+.dots .dot {
+  position: relative;
+  top: 0;
+  left: 0;
+}
+
+.dot._dot-1 {
+  animation: dot_1 1s ease-in-out infinite;
+  animation-fill-mode: backwards;
+  animation-direction: alternate;
+}
+
+.dot._dot-2 {
+  animation: dot_2 1s ease-in-out infinite;
+  animation-fill-mode: backwards;
+  animation-direction: alternate;
+  animation-delay: 1s;
+}
+
+.dot._dot-3 {
+  animation: dot_3 1s ease-in-out infinite;
+  animation-fill-mode: backwards;
+  animation-direction: alternate;
+  animation-delay: 0.5s;
+}
+
+@keyframes dot_1 {
+  0% {
+    top: 0;
+    left: 0;
+  }
+  50% {
+    top: 30px;
+    left: 20px;
+  }
+  100% {
+    top: 0px;
+    left: 40px;
+  }
+}
+
+@keyframes dot_2 {
+  0% {
+    top: 0;
+    left: 0;
+  }
+  50% {
+    top: -30px;
+    left: 20px;
+  }
+  100% {
+    top: 0px;
+    left: 40px;
+  }
+}
+
+@keyframes dot_3 {
+  0% {
+    top: 0;
+    left: 0;
+  }
+  50% {
+    top: -30px;
+    left: -40px;
+  }
+  100% {
+    top: 0px;
+    left: -80px;
+  }
+}
+
+view .author {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0px;
+  font-size: 80%;
+  transform: rotate(-10deg) translate(50px, 20px);
+  padding: 5px 0;
+  text-align: center;
+  color: #eee;
+  opacity: 0.8;
+}
+
+view .author a {
+  color: #78ECB4;
+  text-decoration: none;
+}
+
+view .author a:hover {
+  color: #60D69D;
+}
+
+/*
+* Affiliate
+*/
+
+.affiliate-container .the-text {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.affiliate-container {
+  opacity: 0.6;
+  position: absolute;
+  right: -20px;
+  top: 0px;
+  transform: scale(.8);
+  transition: 0.2s all ease-in-out;
+  margin-top: 0;
+  justify-content: flex-end;
+}
+
+.affiliate-container:hover {
+  opacity: 0.8;
+  transform: scale(1);
 }

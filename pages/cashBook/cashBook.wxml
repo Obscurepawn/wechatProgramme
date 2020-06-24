@@ -11,8 +11,8 @@
 				<image id="invertedTriangle" src="/images/cashBook/invertedTriangle.png" mode="aspectFit|aspectFill|widthFix" lazy-load="false" binderror="" bindload=""></image>
 			</view>
 		  </picker>
-		<view style="color:white;position:absolute;top:0%;right:8%;font-size:13px;font-weight:600;white-space:pre-wrap" space="ensp">支出:{{expenditrue}}\n收入: {{income}}</view>
-		<view style="color:white;position:absolute;top:1.5%;right:3%;font-size:13px;font-weight:600;" space="ensp">〉</view> 
+		<view style="color:white;position:absolute;top:0%;right:8%;font-size:13px;font-weight:bolder;white-space:pre-wrap" space="ensp">支出:{{expenditrue}}\n收入: {{income}}</view>
+		<view style="color:white;position:absolute;top:1.5%;right:3%;font-size:13px;font-weight:bolder;" space="ensp">〉</view> 
 	</view>
 	<view>
 		<mp-searchbar style="z-index:9999" bindselectresult="selectResult" search="{{search}}" bindcancel="showAll" style="width:100%" ></mp-searchbar>

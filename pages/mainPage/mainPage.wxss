@@ -20,7 +20,7 @@
 
 .today-text {
   font-size: 45rpx;
-  font-weight: 650;
+  font-weight: bold;
   font-family: 'Courier New', Courier, monospace;
 }
 .today-chicken-text{
