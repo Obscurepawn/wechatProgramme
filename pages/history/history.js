@@ -42,7 +42,7 @@ Page({
       that.setData({
         loading: false
       })
-    }, 1500)
+    }, 2000)
     var date = new Date();
     var d = (date.getDate() < 10 ? '0' + (date.getDate()) : date.getDate());
     var m = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1);
