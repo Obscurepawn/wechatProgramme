@@ -9,11 +9,13 @@ Page({
 
   onLoad: function () {
     var logs = wx.getStorageSync("logs") || [];
-    this.setData({logs: logs.slice(0, 10)});
+    this.setData({ logs: logs.slice(0, 10) });
   },
   onChangeDate: function (event) {
     var value = event.detail.value;
-    this.setData({date:value});
+    this.setData({ 
+      date: value 
+    });
   },
   changeDateByTag: function (event) {
     var value = event.target.dataset.date;
@@ -33,8 +35,8 @@ Page({
       url: 'https://route.showapi.com/119-42',
       data: {
         date: date,
-        showapi_appid: "68354",
-        showapi_sign: "255dd762226b4cb689d9b5c244374e81",
+        showapi_appid: "276951",
+        showapi_sign: "10627ed5a2864819966b3186c65e4c6c",
       },
       success: function (res) {
         console.log("success");
@@ -61,7 +63,7 @@ Page({
         console.log(e);
         wx.hideLoading();
         wx.showToast({
-          title: '查询失败:'+e.errMsg,
+          title: '查询失败:' + e.errMsg,
           icon: "none"
         })
       }

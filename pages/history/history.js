@@ -34,6 +34,7 @@ Page({
 
 
   onLoad: function (query) {
+    console.log('query :>> ', query);
     let that = this;
     this.setData({
       loading: true
@@ -42,10 +43,10 @@ Page({
       that.setData({
         loading: false
       })
-    }, 2000)
+    }, 1500)
     var date = new Date();
-    var d = (date.getDate() < 10 ? '0' + (date.getDate()) : date.getDate());
-    var m = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1);
+    var d = Number(query.date.substring(2))
+    var m = Number(query.date.substring(0, 2));
     var y = date.getFullYear();
     let time = util.formatDate(new Date());
     let dateArray = util.getDates(7, time);
