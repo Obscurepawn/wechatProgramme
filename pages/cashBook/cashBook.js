@@ -391,6 +391,7 @@ Page({
         income += element.amount;
       }
     })
+    console.log('month compare:',Number(this.getMonth(this.data.groups[outsideIndex].date)),this.data.month);
     if (Number(this.getMonth(this.data.groups[outsideIndex].date)) === this.data.month) {
       if (this.data.groups[outsideIndex].length != 1) {
         this.setData({
@@ -506,8 +507,8 @@ Page({
 
   sumChange: function (e) {
     this.setData({
-      year: e.detail.value.substring(0, 4),
-      month: e.detail.value.substring(5),
+      year: Number(e.detail.value.substring(0, 4)),
+      month: Number(e.detail.value.substring(5)),
       countMonth: e.detail.value
     })
     this.getSum(this.data.groups, false);
