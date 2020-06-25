@@ -94,8 +94,8 @@
 		</view>
 	</view>
 	<view wx:if="{{(!showCashBook) && (!showDiary)}}" class="simple-color-egg" >
-		<image src="/images/mainPage/downimg.gif" style="width:500px;height:267px;" />
-		<text>感受时光静谧</text>
+		<image src="/images/mainPage/downimg.gif" style="width:500px;height:267px;border-radius:20px;overflow:hidden;" />
+		<text style="font-weight:bolder;">感受时光静谧</text>
 	</view>
 	<!-- <view class="simple-color-egg">
 		<image src="/images/mainPage/downimg.gif" style="width:500px;height:267px;" />
