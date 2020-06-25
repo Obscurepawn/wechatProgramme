@@ -290,7 +290,7 @@ Page({
             if (result.confirm) {
               this.cancelTheChoice();
               this.setData({
-                tab:-1
+                tab: -1
               })
             }
           },
@@ -391,7 +391,7 @@ Page({
         income += element.amount;
       }
     })
-    console.log('month compare:',Number(this.getMonth(this.data.groups[outsideIndex].date)),this.data.month);
+    console.log('month compare:', Number(this.getMonth(this.data.groups[outsideIndex].date)), this.data.month);
     if (Number(this.getMonth(this.data.groups[outsideIndex].date)) === this.data.month) {
       if (this.data.groups[outsideIndex].length != 1) {
         this.setData({
@@ -415,19 +415,26 @@ Page({
   },
 
   findKey: function (list, object) {
-    if (list.length == 0 && object.amount < 0) {
-      list.push({ "name": object.usefulness, "data": -object.amount });
-      return;
+    let isExist = false;
+    if (object.amount < 0) {
+      for (let index = 0; index < list.length; index++) {
+        const element = list[index];
+        if (element.name == object.usefulness) {
+          isExist = true;
+          break;
+        }
+      }
+      if (isExist == false) {
+        list.push({ "name": object.usefulness, "data": -object.amount });
+        return;
+      }
     }
     list.forEach(element => {
       if (element.name == object.usefulness && object.amount < 0) {
-        element.amount -= object.amount;
+        element.data -= object.amount;
         return;
       }
     })
-    if (object.amount < 0) {
-      list.push({ "name": object.usefulness, "data": -object.amount });
-    }
   },
 
   updateBill: function () {
@@ -781,7 +788,7 @@ Page({
   // expenditrue: undefined,
   // detail:[]
   modalConfirm(e) {
-    if (this.data.inputAmount===NaN || this.data.inputAmount === null || this.data.inputAmount === undefined) {
+    if (this.data.inputAmount === NaN || this.data.inputAmount === null || this.data.inputAmount === undefined) {
       wx.showToast({
         title: '金额必须填入一个数字',
         icon: 'none',
