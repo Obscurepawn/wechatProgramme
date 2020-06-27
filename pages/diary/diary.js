@@ -240,16 +240,17 @@ Page({
           list.push(temp);
           wx.setStorageSync('diaries', list)
         } else {
-          for (var i in list) {
+          let i = 0;
+          for (i = 0; i < list.length; i++) {
             if (list[i].date == temp.date) {
               list[i] = temp;
-              wx.setStorageSync('diaries', list)
               break;
             }
           }
           if (i >= list.length) {
             list.push(temp);
           }
+          wx.setStorageSync('diaries', list)
         }
         this.setData({
           modalShowStyle: "",
