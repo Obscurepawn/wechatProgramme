@@ -25,6 +25,10 @@
 			"disablePlugins": [],
 			"outputPath": ""
 		},
+<<<<<<< HEAD
+=======
+		"useIsolateContext": true,
+>>>>>>> 50b64e03c517ebb74762f8e324050d6f085615f0
 		"useCompilerModule": false,
 		"userConfirmedUseCompilerModuleSwitch": false
 	},
